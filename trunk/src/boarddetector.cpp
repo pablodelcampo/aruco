@@ -92,14 +92,22 @@ float BoardDetector::detect ( const vector<Marker> &detectedMarkers,const  Board
 */
 float BoardDetector::detect ( const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf, Board &Bdetected, Mat camMatrix,Mat distCoeff,float markerSizeMeters ) throw ( cv::Exception )
 {
-  if (BConf.size()==0) throw cv::Exception(8881,"BoardDetector::detect","Invalid BoardConfig that is empty",__FILE__,__LINE__);
-  if (BConf[0].size()<2) throw cv::Exception(8881,"BoardDetector::detect","Invalid BoardConfig that is empty 2",__FILE__,__LINE__);
+  if (BConf.size()==0)
+    throw cv::Exception(8881,"BoardDetector::detect","Invalid BoardConfig that is empty",__FILE__,__LINE__);
+  if (BConf[0].size()<2)
+    throw cv::Exception(8881,"BoardDetector::detect","Invalid BoardConfig that is empty 2",__FILE__,__LINE__);
+
   //compute the size of the markers in meters, which is used for some routines(mostly drawing)
-  float ssize;
-  if ( BConf.mInfoType==BoardConfiguration::PIX && markerSizeMeters>0 ) ssize=markerSizeMeters;
-  else if ( BConf.mInfoType==BoardConfiguration::METERS )
+  float ssize=0.f;
+  if (BConf.mInfoType==BoardConfiguration::PIX && markerSizeMeters>0)
+    ssize=markerSizeMeters;
+  else if (BConf.mInfoType==BoardConfiguration::METERS)
   {
-    ssize=cv::norm ( BConf[0][0]-BConf[0][1] );
+    ssize=cv::norm (BConf[0][0]-BConf[0][1]);
+  }
+  else
+  {
+    /// \todo throw exception
   }
 
   // cout<<"markerSizeMeters="<<markerSizeMeters<<endl;
@@ -144,8 +152,10 @@ float BoardDetector::detect ( const vector<Marker> &detectedMarkers,const  Board
 
     for ( size_t i=0; i<Bdetected.size(); i++ )
     {
-      int idx=Bdetected.conf.getIndexOfMarkerId(Bdetected[i].id);
-      assert(idx!=-1);
+//      int idx=Bdetected.conf.getIndexOfMarkerId(Bdetected[i].id);
+//      assert(idx!=-1);
+      Bdetected.conf.getIndexOfMarkerId(Bdetected[i].id);
+      /// \todo if the flow of code fails here, use the commented version
       for ( int p=0; p<4; p++ )
       {
         imagePoints.at<float> ( ( i*4 ) +p,0 ) =Bdetected[i][p].x;
