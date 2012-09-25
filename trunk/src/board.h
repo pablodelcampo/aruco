@@ -64,11 +64,15 @@ struct ARUCO_EXPORTS MarkerInfo:public vector<cv::Point3f>
  * In general, a board is a set of markers. So BoardConfiguration is only a list
  * of the id of the markers along with the position of their corners.
  *
- * The position of the corners can be specified either in pixels (in a non-specific size) or in meters.
- * The first is the typical case in which you generate the image of  board  and the print it. Since you do not know in advance the real
- * size of the markers, their corners are specified in pixels, and then, the translation to meters can be made once you know the real size.
+ * The position of the corners can be specified either in pixels (in a non-specific size) or
+ * in meters.
  *
- * On the other hand, you may want to have the information of your boards in meters. The BoardConfiguration allows you to do so.
+ * The first is the typical case in which you generate the image of  board  and the print it.
+ * Since you do not know in advance the real size of the markers, their corners are specified
+ * in pixels, and then, the translation to meters can be made once you know the real size.
+ *
+ * On the other hand, you may want to have the information of your boards in meters. The
+ * BoardConfiguration allows you to do so.
  *
  * The point is in the mInfoType variable. It can be either PIX or METERS according to your needs.
  *
@@ -90,23 +94,25 @@ class ARUCO_EXPORTS  BoardConfiguration: public vector<MarkerInfo>
       METERS=1
     };
 
-    //variable indicates if the data in MakersInfo is expressed in meters or in pixels so as to do conversion internally
-    int mInfoType;
-    /**
+    int mInfoType; ///< indicates the type of data in MakersInfo (to do conversion internally)
+
+    /*!
      */
     BoardConfiguration();
 
-    /**
+    /*!
     */
     BoardConfiguration(const BoardConfiguration  &T);
 
-    /**
+    /*!
     */
     BoardConfiguration & operator=(const BoardConfiguration  &T);
-    /**Saves the board info to a file
+
+    /*! @brief Saves the board info to a file.
     */
     void saveToFile(string sfile)throw (cv::Exception);
-    /**Reads board info from a file
+
+    /** @brief Reads board info from a file.
     */
     void readFromFile(string sfile)throw (cv::Exception);
     /**Indicates if the corners are expressed in meters
@@ -159,7 +165,8 @@ class ARUCO_EXPORTS Board:public vector<Marker>
     }
 
     /**Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
-    * Setting this matrix, the reference corrdinate system will be set in this board
+     * Setting this matrix, the reference corrdinate system will be set in this board
+     * \todo check if the method can be const
      */
     void glGetModelViewMatrix(double modelview_matrix[16])throw(cv::Exception);
 
@@ -172,6 +179,7 @@ class ARUCO_EXPORTS Board:public vector<Marker>
      * mySceneNode->setPosition( ogrePos  );
      * mySceneNode->setOrientation( ogreOrient  );
      * ...
+     * \todo check if the method can be const
      */
     void OgreGetPoseParameters(  double position[3], double orientation[4] )throw(cv::Exception);
 
@@ -182,8 +190,8 @@ class ARUCO_EXPORTS Board:public vector<Marker>
     /**Read  this from a file
      */
     void readFromFile(string filePath)throw(cv::Exception);
-
 };
+
 }
 
 #endif

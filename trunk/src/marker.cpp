@@ -33,8 +33,9 @@ or implied, of Rafael Muñoz Salinas.
 using namespace cv;
 namespace aruco
 {
-/**
- *
+
+/*!
+ *  
  */
 Marker::Marker()
 {
@@ -45,8 +46,9 @@ Marker::Marker()
   for (int i=0; i<3; i++)
     Tvec.at<float>(i,0)=Rvec.at<float>(i,0)=-999999;
 }
-/**
- *
+
+/*!
+ *  
  */
 Marker::Marker(const Marker &M):std::vector<cv::Point2f>(M)
 {
@@ -56,9 +58,9 @@ Marker::Marker(const Marker &M):std::vector<cv::Point2f>(M)
   ssize=M.ssize;
 }
 
-/**
- *
-*/
+/*!
+ *  
+ */
 Marker::Marker(const  std::vector<cv::Point2f> &corners,int _id):std::vector<cv::Point2f>(corners)
 {
   id=_id;
@@ -69,9 +71,9 @@ Marker::Marker(const  std::vector<cv::Point2f> &corners,int _id):std::vector<cv:
     Tvec.at<float>(i,0)=Rvec.at<float>(i,0)=-999999;
 }
 
-/**
- *
-*/
+/*!
+ *  
+ */
 void Marker::glGetModelViewMatrix(   double modelview_matrix[16])throw(cv::Exception)
 {
   //check if paremeters are valid
@@ -81,7 +83,11 @@ void Marker::glGetModelViewMatrix(   double modelview_matrix[16])throw(cv::Excep
     if (Tvec.at<float>(i,0)!=-999999) invalid|=false;
     if (Rvec.at<float>(i,0)!=-999999) invalid|=false;
   }
-  if (invalid) throw cv::Exception(9003,"extrinsic parameters are not set","Marker::getModelViewMatrix",__FILE__,__LINE__);
+
+  if (invalid)
+    throw cv::Exception(9003,"extrinsic parameters are not set","Marker::getModelViewMatrix",
+      __FILE__,__LINE__);
+
   Mat Rot(3,3,CV_32FC1),Jacob;
   Rodrigues(Rvec, Rot, Jacob);
 
@@ -123,14 +129,11 @@ void Marker::glGetModelViewMatrix(   double modelview_matrix[16])throw(cv::Excep
 
 }
 
-
-
-/****
- *
+/*!
+ *  
  */
 void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) throw(cv::Exception)
 {
-
   //check if paremeters are valid
   bool invalid=false;
   for (int i=0; i<3 && !invalid ; i++)
@@ -138,7 +141,10 @@ void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) th
     if (Tvec.at<float>(i,0)!=-999999) invalid|=false;
     if (Rvec.at<float>(i,0)!=-999999) invalid|=false;
   }
-  if (invalid) throw cv::Exception(9003,"extrinsic parameters are not set","Marker::getModelViewMatrix",__FILE__,__LINE__);
+
+  if (invalid)
+    throw cv::Exception(9003,"extrinsic parameters are not set","Marker::getModelViewMatrix",
+      __FILE__,__LINE__);
 
   // calculate position vector
   position[0] = -Tvec.ptr<float>(0)[0];
@@ -146,8 +152,8 @@ void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) th
   position[2] = +Tvec.ptr<float>(0)[2];
 
   // now calculare orientation quaternion
-  cv::Mat Rot(3,3,CV_32FC1);
-  cv::Rodrigues(Rvec, Rot);
+  Mat Rot(3,3,CV_32FC1);
+  Rodrigues(Rvec, Rot);
 
   // calculate axes for quaternion
   double stAxes[3][3];
@@ -213,22 +219,25 @@ void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) th
     *apkQuat[j] = (axes[j][i]+axes[i][j])*fRoot;
     *apkQuat[k] = (axes[k][i]+axes[i][k])*fRoot;
   }
-
-
 }
 
-
-
+/*!
+ *  
+ */
 void Marker::draw(Mat &in, Scalar color, int lineWidth ,bool writeId)const
 {
-  if (size()!=4) return;
-  cv::line( in,(*this)[0],(*this)[1],color,lineWidth,CV_AA);
-  cv::line( in,(*this)[1],(*this)[2],color,lineWidth,CV_AA);
-  cv::line( in,(*this)[2],(*this)[3],color,lineWidth,CV_AA);
-  cv::line( in,(*this)[3],(*this)[0],color,lineWidth,CV_AA);
-  cv::rectangle( in,(*this)[0]-Point2f(2,2),(*this)[0]+Point2f(2,2),Scalar(0,0,255,255),lineWidth,CV_AA);
-  cv::rectangle( in,(*this)[1]-Point2f(2,2),(*this)[1]+Point2f(2,2),Scalar(0,255,0,255),lineWidth,CV_AA);
-  cv::rectangle( in,(*this)[2]-Point2f(2,2),(*this)[2]+Point2f(2,2),Scalar(255,0,0,255),lineWidth,CV_AA);
+  if (size()!=4)
+    return;
+
+  line(in,(*this)[0],(*this)[1],color,lineWidth,CV_AA);
+  line(in,(*this)[1],(*this)[2],color,lineWidth,CV_AA);
+  line(in,(*this)[2],(*this)[3],color,lineWidth,CV_AA);
+  line(in,(*this)[3],(*this)[0],color,lineWidth,CV_AA);
+
+  rectangle(in,(*this)[0]-Point2f(2,2),(*this)[0]+Point2f(2,2),Scalar(0,0,255,255),lineWidth, CV_AA);
+  rectangle(in,(*this)[1]-Point2f(2,2),(*this)[1]+Point2f(2,2),Scalar(0,255,0,255),lineWidth, CV_AA);
+  rectangle(in,(*this)[2]-Point2f(2,2),(*this)[2]+Point2f(2,2),Scalar(255,0,0,255),lineWidth, CV_AA);
+
   if (writeId)
   {
     char cad[100];
@@ -242,29 +251,44 @@ void Marker::draw(Mat &in, Scalar color, int lineWidth ,bool writeId)const
     }
     cent.x/=4.;
     cent.y/=4.;
-    putText(in,cad, cent,FONT_HERSHEY_SIMPLEX, 0.5,  Scalar(255-color[0],255-color[1],255-color[2],255),2);
+    putText(in,cad, cent,FONT_HERSHEY_SIMPLEX, 0.5,
+      Scalar(255-color[0],255-color[1],255-color[2],255),2);
   }
 }
 
-/**
+/*!
+ *  
  */
-void Marker::calculateExtrinsics(float markerSize,const CameraParameters &CP,bool setYPerperdicular)throw(cv::Exception)
+void Marker::calculateExtrinsics(float markerSize,const CameraParameters &CP,
+  bool setYPerperdicular)throw(cv::Exception)
 {
-  if (!CP.isValid()) throw cv::Exception(9004,"!CP.isValid(): invalid camera parameters. It is not possible to calculate extrinsics","calculateExtrinsics",__FILE__,__LINE__);
+  if (!CP.isValid())
+    throw cv::Exception(9004,"!CP.isValid(): invalid camera parameters. It is not possible to "
+      "calculate extrinsics","calculateExtrinsics",__FILE__,__LINE__);
   calculateExtrinsics( markerSize,CP.CameraMatrix,CP.Distorsion,setYPerperdicular);
 }
 
-void print(cv::Point3f p,string cad)
-{
-  cout<<cad<<" "<<p.x<<" "<<p.y<< " "<<p.z<<endl;
-}
-/**
+//void print(cv::Point3f p,string cad)
+//{
+//  cout<<cad<<" "<<p.x<<" "<<p.y<< " "<<p.z<<endl;
+//}
+
+/*!
+ *  
  */
-void Marker::calculateExtrinsics(float markerSizeMeters,cv::Mat  camMatrix,cv::Mat distCoeff ,bool setYPerperdicular)throw(cv::Exception)
+void Marker::calculateExtrinsics(float markerSizeMeters, cv::Mat camMatrix, cv::Mat distCoeff,
+  bool setYPerperdicular)throw(cv::Exception)
 {
-  if (!isValid()) throw cv::Exception(9004,"!isValid(): invalid marker. It is not possible to calculate extrinsics","calculateExtrinsics",__FILE__,__LINE__);
-  if (markerSizeMeters<=0)throw cv::Exception(9004,"markerSize<=0: invalid markerSize","calculateExtrinsics",__FILE__,__LINE__);
-  if ( camMatrix.rows==0 || camMatrix.cols==0) throw cv::Exception(9004,"CameraMatrix is empty","calculateExtrinsics",__FILE__,__LINE__);
+  if (!isValid())
+    throw cv::Exception(9004,"!isValid(): invalid marker. Not possible to calculate extrinsics",
+      "calculateExtrinsics",__FILE__,__LINE__);
+
+  if (markerSizeMeters<=0)
+    throw cv::Exception(9004,"markerSize<=0: invalid markerSize","calculateExtrinsics",
+      __FILE__,__LINE__);
+
+  if (camMatrix.rows==0 || camMatrix.cols==0)
+    throw cv::Exception(9004,"CameraMatrix is empty","calculateExtrinsics",__FILE__,__LINE__);
 
   double halfSize=markerSizeMeters/2.;
   cv::Mat ObjPoints(4,3,CV_32FC1);
@@ -301,10 +325,9 @@ void Marker::calculateExtrinsics(float markerSizeMeters,cv::Mat  camMatrix,cv::M
 
 }
 
-
-/**
-*/
-
+/*!
+ *  
+ */
 void Marker::rotateXAxis(Mat &rotation)
 {
   cv::Mat R(3,3,CV_32F);
@@ -322,9 +345,8 @@ void Marker::rotateXAxis(Mat &rotation)
   Rodrigues(R,rotation);
 }
 
-
-
-/**
+/*!
+ *  
  */
 cv::Point2f Marker::getCenter()const
 {
@@ -339,7 +361,8 @@ cv::Point2f Marker::getCenter()const
   return cent;
 }
 
-/**
+/*!
+ *  
  */
 float Marker::getArea()const
 {
@@ -352,10 +375,10 @@ float Marker::getArea()const
   cv::Point2f v23=(*this)[3]-(*this)[2];
   float area2=fabs(v21.x*v23.y - v21.y*v23.x);
   return (area2+area1)/2.;
-
-
 }
-/**
+
+/*!
+ *  
  */
 float Marker::getPerimeter()const
 {
@@ -365,6 +388,5 @@ float Marker::getPerimeter()const
     sum+=norm( (*this)[i]-(*this)[(i+1)%4]);
   return sum;
 }
-
 
 }

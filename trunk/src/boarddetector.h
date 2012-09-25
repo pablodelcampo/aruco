@@ -40,7 +40,8 @@ namespace aruco
 /**\brief This class detects AR boards
  * Version 1.2
  * There are two modes for board detection.
- * First, the old way. (You first detect markers with MarkerDetector and then call to detect in this class.
+ * First, the old way. (You first detect markers with MarkerDetector and then call to detect
+ * in this class.
  *
  * Second: New mode, marker detection is included in the class
  * \code
@@ -70,29 +71,33 @@ class ARUCO_EXPORTS  BoardDetector
      */
     BoardDetector(bool  setYPerperdicular=true);
 
-
     /**
      * Use if you plan to let this class to perform marker detection too
      */
     void setParams(const BoardConfiguration &bc,const CameraParameters &cp, float markerSizeMeters=-1);
+
     void setParams(const BoardConfiguration &bc);
+
     /**
      * Detect markers, and then, look for the board indicated in setParams()
      * @return value indicating  the  likelihood of having found the marker
      */
     float  detect(const cv::Mat &im)throw (cv::Exception);
+
     /**Returns a reference to the board detected
      */
     Board & getDetectedBoard()
     {
       return _boardDetected;
     }
+
     /**Returns a reference to the internal marker detector
      */
     MarkerDetector &getMarkerDetector()
     {
       return _mdetector;
     }
+
     /**Returns the vector of markers detected
      */
     vector<Marker> &getDetectedMarkers()
@@ -114,9 +119,12 @@ class ARUCO_EXPORTS  BoardDetector
     * @param markerSizeMeters size of the marker sides expressed in meters
     * @return value indicating  the  likelihood of having found the marker
     */
-    float detect(const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf, Board &Bdetected, cv::Mat camMatrix=cv::Mat(),cv::Mat distCoeff=cv::Mat(), float markerSizeMeters=-1 )throw (cv::Exception);
-    float detect(const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf, Board &Bdetected,const CameraParameters &cp, float markerSizeMeters=-1 )throw (cv::Exception);
+    float detect(const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf,
+      Board &Bdetected, cv::Mat camMatrix=cv::Mat(),cv::Mat distCoeff=cv::Mat(),
+      float markerSizeMeters=-1 )throw (cv::Exception);
 
+    float detect(const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf,
+      Board &Bdetected,const CameraParameters &cp, float markerSizeMeters=-1 )throw (cv::Exception);
 
     /**
      * By default, the Y axis is set to point up. However this is not the default
@@ -127,9 +135,6 @@ class ARUCO_EXPORTS  BoardDetector
     {
       _setYPerperdicular=enable;
     }
-
-
-
 
   private:
     void rotateXAxis(cv::Mat &rotation);

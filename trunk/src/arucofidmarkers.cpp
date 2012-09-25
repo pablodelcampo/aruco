@@ -34,14 +34,9 @@ using namespace std;
 namespace aruco
 {
 
-/************************************
- *
- *
- *
- *
- ************************************/
-/**
-*/
+/*!
+ *  
+ */
 Mat FiducidalMarkers::createMarkerImage(int id,int size) throw (cv::Exception)
 {
   Mat marker(size,size, CV_8UC1);
@@ -67,8 +62,9 @@ Mat FiducidalMarkers::createMarkerImage(int id,int size) throw (cv::Exception)
 
   return marker;
 }
-/**
- *
+
+/*!
+ *  
  */
 cv::Mat FiducidalMarkers::getMarkerMat(int id) throw (cv::Exception)
 {
@@ -89,21 +85,18 @@ cv::Mat FiducidalMarkers::getMarkerMat(int id) throw (cv::Exception)
       }
     }
   }
-  else throw cv::Exception (9189,"Invalid marker id","aruco::fiducidal::createMarkerMat",__FILE__,__LINE__);
+  else
+    throw cv::Exception (9189,"Invalid marker id","aruco::fiducidal::createMarkerMat",
+      __FILE__,__LINE__);
   return marker;
 }
-/************************************
- *
- *
- *
- *
- ************************************/
 
-cv::Mat  FiducidalMarkers::createBoardImage( Size gridSize,int MarkerSize,int MarkerDistance,  BoardConfiguration& TInfo  ,vector<int> *excludedIds) throw (cv::Exception)
+/*!
+ *  
+ */
+cv::Mat FiducidalMarkers::createBoardImage(Size gridSize,int MarkerSize,int dist,
+  BoardConfiguration& TInfo  ,vector<int> *excludedIds) throw (cv::Exception)
 {
-
-
-
   srand(cv::getTickCount());
   int nMarkers=gridSize.height*gridSize.width;
   TInfo.resize(nMarkers);
@@ -111,8 +104,8 @@ cv::Mat  FiducidalMarkers::createBoardImage( Size gridSize,int MarkerSize,int Ma
   for (int i=0; i<nMarkers; i++)
     TInfo[i].id=ids[i];
 
-  int sizeY=gridSize.height*MarkerSize+(gridSize.height-1)*MarkerDistance;
-  int sizeX=gridSize.width*MarkerSize+(gridSize.width-1)*MarkerDistance;
+  int sizeY=gridSize.height*MarkerSize+(gridSize.height-1)*dist;
+  int sizeX=gridSize.width*MarkerSize+(gridSize.width-1)*dist;
   //find the center so that the ref systeem is in it
   int centerX=sizeX/2;
   int centerY=sizeY/2;
@@ -125,14 +118,15 @@ cv::Mat  FiducidalMarkers::createBoardImage( Size gridSize,int MarkerSize,int Ma
   for (int y=0; y<gridSize.height; y++)
     for (int x=0; x<gridSize.width; x++,idp++)
     {
-      Mat subrect(tableImage,Rect( x*(MarkerDistance+MarkerSize),y*(MarkerDistance+MarkerSize),MarkerSize,MarkerSize));
+      Mat subrect(tableImage,Rect(x*(dist+MarkerSize),y*(dist+MarkerSize),
+        MarkerSize,MarkerSize));
       Mat marker=createMarkerImage( TInfo[idp].id,MarkerSize);
       //set the location of the corners
       TInfo[idp].resize(4);
-      TInfo[idp][0]=cv::Point3f( x*(MarkerDistance+MarkerSize),y*(MarkerDistance+MarkerSize),0);
-      TInfo[idp][1]=cv::Point3f( x*(MarkerDistance+MarkerSize)+MarkerSize,y*(MarkerDistance+MarkerSize),0);
-      TInfo[idp][2]=cv::Point3f( x*(MarkerDistance+MarkerSize)+MarkerSize,y*(MarkerDistance+MarkerSize)+MarkerSize,0);
-      TInfo[idp][3]=cv::Point3f( x*(MarkerDistance+MarkerSize),y*(MarkerDistance+MarkerSize)+MarkerSize,0);
+      TInfo[idp][0]=cv::Point3f(x*(dist+MarkerSize),y*(dist+MarkerSize),0);
+      TInfo[idp][1]=cv::Point3f(x*(dist+MarkerSize)+MarkerSize,y*(dist+MarkerSize),0);
+      TInfo[idp][2]=cv::Point3f(x*(dist+MarkerSize)+MarkerSize,y*(dist+MarkerSize)+MarkerSize,0);
+      TInfo[idp][3]=cv::Point3f( x*(dist+MarkerSize),y*(dist+MarkerSize)+MarkerSize,0);
       for (int i=0; i<4; i++) TInfo[idp][i]-=cv::Point3f(centerX,centerY,0);
       marker.copyTo(subrect);
     }
@@ -140,16 +134,12 @@ cv::Mat  FiducidalMarkers::createBoardImage( Size gridSize,int MarkerSize,int Ma
   return tableImage;
 }
 
-/************************************
- *
- *
- *
- *
- ************************************/
-cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int MarkerSize,  BoardConfiguration& TInfo ,bool centerData ,vector<int> *excludedIds) throw (cv::Exception)
+/*!
+ *  
+ */
+cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int MarkerSize,
+  BoardConfiguration& TInfo ,bool centerData ,vector<int> *excludedIds) throw (cv::Exception)
 {
-
-
   srand(cv::getTickCount());
 
   //determine the total number of markers required
@@ -203,25 +193,18 @@ cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int Marker
   return tableImage;
 }
 
-
-
-/************************************
- *
- *
- *
- *
- ************************************/
-cv::Mat  FiducidalMarkers::createBoardImage_Frame( Size gridSize,int MarkerSize,int MarkerDistance, BoardConfiguration& TInfo ,bool centerData,vector<int> *excludedIds ) throw (cv::Exception)
+/*!
+ *  
+ */
+cv::Mat FiducidalMarkers::createBoardImage_Frame(Size gridSize,int MarkerSize,int dist,
+  BoardConfiguration& TInfo ,bool centerData,vector<int> *excludedIds ) throw (cv::Exception)
 {
-
-
-
   srand(cv::getTickCount());
   int nMarkers=2*gridSize.height*2*gridSize.width;
   vector<int> idsVector=getListOfValidMarkersIds_random(nMarkers,excludedIds);
 
-  int sizeY=gridSize.height*MarkerSize+MarkerDistance*(gridSize.height-1);
-  int sizeX=gridSize.width*MarkerSize+MarkerDistance*(gridSize.width-1);
+  int sizeY=gridSize.height*MarkerSize+dist*(gridSize.height-1);
+  int sizeX=gridSize.width*MarkerSize+dist*(gridSize.width-1);
   //find the center so that the ref systeem is in it
   int centerX=sizeX/2;
   int centerY=sizeY/2;
@@ -230,7 +213,7 @@ cv::Mat  FiducidalMarkers::createBoardImage_Frame( Size gridSize,int MarkerSize,
   tableImage.setTo(Scalar(255));
   TInfo.mInfoType=BoardConfiguration::PIX;
   int CurMarkerIdx=0;
-  int mSize=MarkerSize+MarkerDistance;
+  int mSize=MarkerSize+dist;
   for (int y=0; y<gridSize.height; y++)
   {
     for (int x=0; x<gridSize.width; x++)
@@ -259,12 +242,10 @@ cv::Mat  FiducidalMarkers::createBoardImage_Frame( Size gridSize,int MarkerSize,
 
   return tableImage;
 }
-/************************************
- *
- *
- *
- *
- ************************************/
+
+/*!
+ *  
+ */
 Mat FiducidalMarkers::rotate(const Mat  &in)
 {
   Mat out;
@@ -279,32 +260,17 @@ Mat FiducidalMarkers::rotate(const Mat  &in)
   return out;
 }
 
-
-/************************************
- *
- *
- *
- *
- ************************************/
+/*!
+ *  
+ */
 int FiducidalMarkers::hammDistMarker(Mat  bits)
 {
   int ids[4][5]=
   {
-    {
-      1,0,0,0,0
-    }
-    ,
-    {
-      1,0,1,1,1
-    }
-    ,
-    {
-      0,1,0,0,1
-    }
-    ,
-    {
-      0, 1, 1, 1, 0
-    }
+    {1,0,0,0,0},
+    {1,0,1,1,1},
+    {0,1,0,0,1},
+    {0,1,1,1,0}
   };
   int dist=0;
 
@@ -323,16 +289,12 @@ int FiducidalMarkers::hammDistMarker(Mat  bits)
     //do the and
     dist+=minSum;
   }
-
   return dist;
 }
 
-/************************************
- *
- *
- *
- *
- ************************************/
+/*!
+ *  
+ */
 int FiducidalMarkers::analyzeMarkerImage(Mat &grey,int &nRotations)
 {
 
@@ -417,34 +379,19 @@ int FiducidalMarkers::analyzeMarkerImage(Mat &grey,int &nRotations)
   }
 }
 
-
-/************************************
- *
- *
- *
- *
- ************************************/
+/*!
+ *  
+ */
 bool FiducidalMarkers::correctHammMarker(Mat &bits)
 {
   //detect this lines with errors
   bool errors[4];
   int ids[4][5]=
   {
-    {
-      0,0,0,0,0
-    }
-    ,
-    {
-      0,0,1,1,1
-    }
-    ,
-    {
-      1,1,0,0,1
-    }
-    ,
-    {
-      1, 1, 1, 1, 0
-    }
+    {0,0,0,0,0},
+    {0,0,1,1,1},
+    {1,1,0,0,1},
+    {1,1,1,1,0}
   };
 
   for (int y=0; y<5; y++)
@@ -466,12 +413,9 @@ bool FiducidalMarkers::correctHammMarker(Mat &bits)
   return true;
 }
 
-/************************************
- *
- *
- *
- *
- ************************************/
+/*!
+ *  
+ */
 int FiducidalMarkers::detect(const Mat &in,int &nRotations)
 {
   assert(in.rows==in.cols);
@@ -493,12 +437,17 @@ int FiducidalMarkers::detect(const Mat &in,int &nRotations)
       return -1;*/
 }
 
+/*!
+ *  
+ */
 vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int nMarkers,
   vector<int> *excluded) throw (cv::Exception)
 {
 
   if (excluded!=NULL)
-    if (nMarkers+excluded->size()>1024) throw cv::Exception(8888,"FiducidalMarkers::getListOfValidMarkersIds_random","Number of possible markers is exceeded",__FILE__,__LINE__);
+    if (nMarkers+excluded->size()>1024)
+      throw cv::Exception(8888,"FiducidalMarkers::getListOfValidMarkersIds_random",
+        "Number of possible markers is exceeded",__FILE__,__LINE__);
 
   vector<int> listOfMarkers(1024);
 //set a list with all ids

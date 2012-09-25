@@ -39,15 +39,18 @@ class ARUCO_EXPORTS FiducidalMarkers
 {
   public:
     /**
-    * \brief Creates an ar marker with the id specified using a modified version of the hamming code.
-    * There are two type of markers: a) These of 10 bits b) these of 3 bits. The latter are employed for applications
-    * that need few marker but they must be small.  The two type of markers are distinguished by their ids. While the first type
-    * of markers have ids in the interval [0-1023], the second type ids in the interval [2000-2006].
+    * \brief Creates an AR marker with the id specified using a modified version of the
+    * hamming code.
     *
+    * There are two type of markers: a) These of 10 bits b) these of 3 bits. The latter are
+    * employed for applications that need few marker but they must be small.  The two type of
+    * markers are distinguished by their ids. While the first type of markers have ids in the
+    * interval [0-1023], the second type ids in the interval [2000-2006].
     *
     * 10 bits markers
     * -----------------------
-    * There are a total of 5 rows of 5 cols. Each row encodes a total of 2 bits, so there are 2^10 bits:(0-1023).
+    * There are a total of 5 rows of 5 cols. Each row encodes a total of 2 bits, so there are
+    * 2^10 bits:(0-1023).
     *
     * The least significative bytes are first (from left-up to to right-bottom)
     *
@@ -61,51 +64,58 @@ class ARUCO_EXPORTS FiducidalMarkers
     * -# 4th row encodes 11: 0 1 1 1 0 : hex 0x0e
     * -# 5th row encodes 10: 0 1 0 0 1 : hex 0x09
     *
-    * Note that : The first bit, is the inverse of the hamming parity. This avoids the 0 0 0 0 0 to be valid
-    * These marker are detected by the function  getFiduciadlMarker_Aruco_Type1
+    * Note that : The first bit, is the inverse of the hamming parity. This avoids the
+    * 0 0 0 0 0 to be valid. These marker are detected by the function
+    * getFiduciadlMarker_Aruco_Type1
     */
     static cv::Mat createMarkerImage(int id,int size) throw (cv::Exception);
 
-    /** Detection of fiducidal aruco markers (10 bits)
-     * @param in input image with the patch that contains the possible marker
-     * @param nRotations number of 90deg rotations in clockwise direction needed to set the marker in correct position
-     * @return -1 if the image passed is a not a valid marker, and its id in case it really is a marker
+    /**@brief Detection of fiducidal aruco markers (10 bits).
+     * @param in input image with the patch that contains the possible marker.
+     * @param nRotations number of 90deg rotations in clockwise direction needed to set the
+     * marker in correct position.
+     * @return -1 if the image passed is a not a valid marker, and its id in case it really is a
+     * marker.
      */
     static int detect(const cv::Mat &in,int &nRotations);
 
-    /**Similar to createMarkerImage. Instead of returning a visible image, returns a 8UC1 matrix of 0s and 1s with the marker info
+    /**@brief Similar to createMarkerImage. Instead of returning a visible image, returns a
+     * 8UC1 matrix of 0s and 1s with the marker info
      */
     static cv::Mat getMarkerMat(int id) throw (cv::Exception);
-
 
     /**Creates a printable image of a board
      * @param gridSize grid layout (numer of sqaures in x and Y)
      * @param MarkerSize size of markers sides in pixels
-     * @param MarkerDistance distance between the markers
+     * @param dist distance between the markers
       * @param TInfo output
      * @param excludedIds set of ids excluded from the board
      */
-    static  cv::Mat createBoardImage( cv::Size  gridSize,int MarkerSize,int MarkerDistance,  BoardConfiguration& TInfo ,vector<int> *excludedIds=NULL ) throw (cv::Exception);
-
+    static cv::Mat createBoardImage(cv::Size gridSize,int MarkerSize,int dist,
+      BoardConfiguration& TInfo ,vector<int> *excludedIds=NULL ) throw (cv::Exception);
 
     /**Creates a printable image of a board in chessboard_like manner
      * @param gridSize grid layout (numer of sqaures in x and Y)
      * @param MarkerSize size of markers sides in pixels
       * @param TInfo output
-     * @param setDataCentered indicates if the center is set at the center of the board. Otherwise it is the left-upper corner
-     *
+     * @param setDataCentered indicates if the center is set at the center of the board. Otherwise
+     * it is the left-upper corner.
      */
-    static  cv::Mat  createBoardImage_ChessBoard( cv::Size gridSize,int MarkerSize, BoardConfiguration& TInfo ,bool setDataCentered=true ,vector<int> *excludedIds=NULL) throw (cv::Exception);
+    static cv::Mat createBoardImage_ChessBoard(cv::Size gridSize, int MarkerSize,
+      BoardConfiguration& TInfo, bool setDataCentered=true, vector<int> *excludedIds=NULL)
+      throw (cv::Exception);
 
     /**Creates a printable image of a board in a frame fashion
      * @param gridSize grid layout (numer of sqaures in x and Y)
      * @param MarkerSize size of markers sides in pixels
-     * @param MarkerDistance distance between the markers
+     * @param dist distance between the markers
       * @param TInfo output
-     * @param setDataCentered indicates if the center is set at the center of the board. Otherwise it is the left-upper corner
-     *
+     * @param setDataCentered indicates if the center is set at the center of the board.
+     * Otherwise it is the left-upper corner.
      */
-    static  cv::Mat  createBoardImage_Frame( cv::Size gridSize,int MarkerSize,int MarkerDistance,  BoardConfiguration& TInfo ,bool setDataCentered=true,vector<int> *excludedIds=NULL ) throw (cv::Exception);
+    static cv::Mat createBoardImage_Frame(cv::Size gridSize, int MarkerSize, int dist,
+      BoardConfiguration& TInfo ,bool setDataCentered=true,vector<int> *excludedIds=NULL)
+      throw (cv::Exception);
 
   private:
 

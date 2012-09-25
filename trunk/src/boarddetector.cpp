@@ -36,37 +36,40 @@ using namespace std;
 using namespace cv;
 namespace aruco
 {
-/**
-*/
+
+/*!
+ *  
+ */
 BoardDetector::BoardDetector(bool  setYPerperdicular)
 {
   _setYPerperdicular=setYPerperdicular;
   _areParamsSet=false;
 }
-/**
-   * Use if you plan to let this class to perform marker detection too
-   */
-void BoardDetector::setParams(const BoardConfiguration &bc,const CameraParameters &cp, float markerSizeMeters)
+
+/*!
+ *  
+ */
+void BoardDetector::setParams(const BoardConfiguration &bc,const CameraParameters &cp,
+  float markerSizeMeters)
 {
   _camParams=cp;
   _markerSize=markerSizeMeters;
   _bconf=bc;
   _areParamsSet=true;
 }
-/**
-*
-*
-*/
+
+/*!
+ *  
+ */
 void BoardDetector::setParams(const BoardConfiguration &bc)
 {
   _bconf=bc;
   _areParamsSet=true;
 }
 
-/**
-*
-*
-*/
+/*!
+ *  
+ */
 float  BoardDetector::detect(const cv::Mat &im)throw (cv::Exception)
 {
   _mdetector.detect(im,_vmarkers);
@@ -78,24 +81,28 @@ float  BoardDetector::detect(const cv::Mat &im)throw (cv::Exception)
   else res=detect(_vmarkers,_bconf,_boardDetected);
   return res;
 }
-/**
-*
-*
-*/
-float BoardDetector::detect ( const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf, Board &Bdetected,const CameraParameters &cp, float markerSizeMeters ) throw ( cv::Exception )
+
+/*!
+ *  
+ */
+float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardConfiguration &BConf,
+  Board &Bdetected,const CameraParameters &cp, float markerSizeMeters ) throw ( cv::Exception )
 {
   return detect ( detectedMarkers, BConf,Bdetected,cp.CameraMatrix,cp.Distorsion,markerSizeMeters );
 }
-/**
-*
-*
-*/
-float BoardDetector::detect ( const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf, Board &Bdetected, Mat camMatrix,Mat distCoeff,float markerSizeMeters ) throw ( cv::Exception )
+
+/*!
+ *  
+ */
+float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardConfiguration &BConf,
+  Board &Bdetected, Mat camMatrix,Mat distCoeff,float markerSizeMeters ) throw ( cv::Exception )
 {
   if (BConf.size()==0)
-    throw cv::Exception(8881,"BoardDetector::detect","Invalid BoardConfig that is empty",__FILE__,__LINE__);
+    throw cv::Exception(8881,"BoardDetector::detect","Invalid BoardConfig that is empty",
+      __FILE__,__LINE__);
   if (BConf[0].size()<2)
-    throw cv::Exception(8881,"BoardDetector::detect","Invalid BoardConfig that is empty 2",__FILE__,__LINE__);
+    throw cv::Exception(8881,"BoardDetector::detect","Invalid BoardConfig that is empty 2",
+      __FILE__,__LINE__);
 
   //compute the size of the markers in meters, which is used for some routines(mostly drawing)
   float ssize=0.f;
@@ -131,19 +138,22 @@ float BoardDetector::detect ( const vector<Marker> &detectedMarkers,const  Board
   {
     if ( camMatrix.rows!=0 )
     {
-      if ( markerSizeMeters>0 && BConf.mInfoType==BoardConfiguration::PIX ) hasEnoughInfoForRTvecCalculation=true;
-      else if ( BConf.mInfoType==BoardConfiguration::METERS ) hasEnoughInfoForRTvecCalculation=true;
+      if (markerSizeMeters>0 && BConf.mInfoType==BoardConfiguration::PIX)
+        hasEnoughInfoForRTvecCalculation=true;
+      else if (BConf.mInfoType==BoardConfiguration::METERS)
+        hasEnoughInfoForRTvecCalculation=true;
     }
   }
 
 //calculate extrinsic if there is information for that
   if ( hasEnoughInfoForRTvecCalculation )
   {
-
     //calculate the size of the markers in meters if expressed in pixels
     double marker_meter_per_pix=0;
-    if ( BConf.mInfoType==BoardConfiguration::PIX ) marker_meter_per_pix=markerSizeMeters /  cv::norm ( BConf[0][0]-BConf[0][1] );
-    else marker_meter_per_pix=1;//to avoind interferring the process below
+    if (BConf.mInfoType==BoardConfiguration::PIX)
+      marker_meter_per_pix=markerSizeMeters /  cv::norm ( BConf[0][0]-BConf[0][1] );
+    else
+      marker_meter_per_pix=1;//to avoind interferring the process below
 
     // now, create the matrices for finding the extrinsics
     Mat objPoints ( 4*Bdetected.size(),3,CV_32FC1 );
@@ -165,7 +175,8 @@ float BoardDetector::detect ( const vector<Marker> &detectedMarkers,const  Board
         objPoints.at<float> ( ( i*4 ) +p,0 ) = Minfo[p].x*marker_meter_per_pix;
         objPoints.at<float> ( ( i*4 ) +p,1 ) = Minfo[p].y*marker_meter_per_pix;
         objPoints.at<float> ( ( i*4 ) +p,2 ) = Minfo[p].z*marker_meter_per_pix;
-//    cout<<objPoints.at<float>( (i*4)+p,0)<<" "<<objPoints.at<float>( (i*4)+p,1)<<" "<<objPoints.at<float>( (i*4)+p,2)<<endl;
+//    cout<<objPoints.at<float>( (i*4)+p,0)<<" "<<objPoints.at<float>( (i*4)+p,1)<<" "
+//    <<objPoints.at<float>( (i*4)+p,2)<<endl;
       }
     }
     if (distCoeff.total()==0) distCoeff=cv::Mat::zeros(1,4,CV_32FC1 );
@@ -177,14 +188,19 @@ float BoardDetector::detect ( const vector<Marker> &detectedMarkers,const  Board
     //now, rotate 90 deg in X so that Y axis points up
     if (_setYPerperdicular)
       rotateXAxis ( Bdetected.Rvec );
-//         cout<<Bdetected.Rvec.at<float>(0,0)<<" "<<Bdetected.Rvec.at<float>(1,0)<<" "<<Bdetected.Rvec.at<float>(2,0)<<endl;
-//         cout<<Bdetected.Tvec.at<float>(0,0)<<" "<<Bdetected.Tvec.at<float>(1,0)<<" "<<Bdetected.Tvec.at<float>(2,0)<<endl;
+//    cout<<Bdetected.Rvec.at<float>(0,0)<<" "<<Bdetected.Rvec.at<float>(1,0)<<" "
+//      <<Bdetected.Rvec.at<float>(2,0)<<endl;
+//    cout<<Bdetected.Tvec.at<float>(0,0)<<" "<<Bdetected.Tvec.at<float>(1,0)<<" "
+//      <<Bdetected.Tvec.at<float>(2,0)<<endl;
   }
 
   float prob=float( Bdetected.size() ) /double ( Bdetected.conf.size() );
   return prob;
 }
 
+/*!
+ *  
+ */
 void BoardDetector::rotateXAxis ( Mat &rotation )
 {
   cv::Mat R ( 3,3,CV_32FC1 );
