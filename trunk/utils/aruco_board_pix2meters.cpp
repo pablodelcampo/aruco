@@ -26,7 +26,13 @@ authors and should not be interpreted as representing official policies, either 
 or implied, of Rafael Muñoz Salinas.
 ********************************/
 
+/// @file  aruco_board_pix2meters.cpp
+/// \todo Remove try & catch block
+/// \todo Use argtable2 for arguments
+
 //This program converts a boardconfiguration file expressed in pixel to another one expressed in meters
+
+
 #include <iostream>
 #include "board.h"
 using namespace std;

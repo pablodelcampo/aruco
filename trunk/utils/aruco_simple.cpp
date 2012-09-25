@@ -32,6 +32,10 @@ or implied, of Rafael Muñoz Salinas.
  *
  ************************************/
 
+/// @file aruco_simple.cpp
+/// \todo Remove try & catch block
+/// \todo Use argtable2 for arguments
+
 #include <iostream>
 #include "aruco.h"
 #include "cvdrawingutils.h"

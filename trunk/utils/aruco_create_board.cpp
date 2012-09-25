@@ -30,8 +30,14 @@ or implied, of Rafael Muñoz Salinas.
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 #include "arucofidmarkers.h"
+
 using namespace std;
 using namespace cv;
+
+/// @file aruco_create_board.cpp
+/// \todo Remove try & catch block
+/// \todo Use argtable2 for arguments
+
 int main(int argc,char **argv)
 {
   try

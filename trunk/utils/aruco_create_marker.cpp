@@ -32,6 +32,10 @@ or implied, of Rafael Muñoz Salinas.
 using namespace cv;
 using namespace std;
 
+/// @file aruco_create_marker.cpp
+/// \todo Remove try & catch block
+/// \todo Use argtable2 for arguments
+
 int main(int argc,char **argv)
 {
   try

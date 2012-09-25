@@ -25,6 +25,11 @@ The views and conclusions contained in the software and documentation are those 
 authors and should not be interpreted as representing official policies, either expressed
 or implied, of Rafael Muñoz Salinas.
 ********************************/
+
+/// @file aruco_test_board_stability.cpp
+/// \todo Remove try & catch block
+/// \todo Use argtable2 for arguments
+
 #include <iostream>
 #include <fstream>
 #include <sstream>

@@ -31,6 +31,11 @@ or implied, of Rafael Muñoz Salinas.
  *
  *
  *****/
+
+/// @file aruco_selectoptimalmarkers.cpp
+/// \todo Remove try & catch block
+/// \todo Use argtable2 for arguments
+
 #include <opencv2/opencv.hpp>
 #include "aruco.h"
 #include <iostream>
