@@ -99,13 +99,8 @@ ENDIF(MSVC)
 # ----------------------------------------------------------------------------
 #   Documentation
 # ----------------------------------------------------------------------------
-OPTION(INSTALL_DOC 	"Set to ON to build/install Documentation" OFF)
-IF (INSTALL_DOC)
-  FIND_PACKAGE(Doxygen REQUIRED)
-  MESSAGE( STATUS "INSTALL_DOC:         ${INSTALL_DOC} ")
-  INCLUDE("${PROJECT_SOURCE_DIR}/cmake/generateDoc.cmake")
-  GENERATE_DOCUMENTATION(${PROJECT_SOURCE_DIR}/cmake/dox.in)
-ENDIF()
+INCLUDE("${PROJECT_SOURCE_DIR}/cmake/generateDoc.cmake")
+GENERATE_DOCUMENTATION(${PROJECT_SOURCE_DIR}/cmake/dox.in)
 
 # ----------------------------------------------------------------------------
 #   Uninstall target, for "make uninstall"
