@@ -166,7 +166,7 @@ cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int Marker
   Mat tableImage(sizeY,sizeX,CV_8UC1);
   tableImage.setTo(Scalar(255));
   TInfo.mInfoType=BoardConfiguration::PIX;
-  int CurMarkerIdx=0;
+  unsigned int CurMarkerIdx=0;
   for (int y=0; y<gridSize.height; y++)
   {
 
@@ -178,7 +178,8 @@ cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int Marker
       toWrite=!toWrite;
       if (toWrite)
       {
-        if (CurMarkerIdx>=idsVector.size()) throw cv::Exception(999," FiducidalMarkers::createBoardImage_ChessBoard","INTERNAL ERROR. REWRITE THIS!!",__FILE__,__LINE__);
+        if (CurMarkerIdx>=idsVector.size())
+          throw cv::Exception(999," FiducidalMarkers::createBoardImage_ChessBoard","INTERNAL ERROR. REWRITE THIS!!",__FILE__,__LINE__);
         TInfo.push_back( MarkerInfo(idsVector[CurMarkerIdx++]));
 
         Mat subrect(tableImage,Rect( x*MarkerSize,y*MarkerSize,MarkerSize,MarkerSize));
@@ -492,7 +493,8 @@ int FiducidalMarkers::detect(const Mat &in,int &nRotations)
       return -1;*/
 }
 
-vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(int nMarkers,vector<int> *excluded) throw (cv::Exception)
+vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int nMarkers,
+  vector<int> *excluded) throw (cv::Exception)
 {
 
   if (excluded!=NULL)

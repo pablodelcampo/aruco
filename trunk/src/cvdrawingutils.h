@@ -44,9 +44,8 @@ class  ARUCO_EXPORTS CvDrawingUtils
     static void draw3dAxis(cv::Mat &Image,Board &m,const CameraParameters &CP);
 
     static void draw3dCube(cv::Mat &Image,Board &m,const CameraParameters &CP);
-
 };
-};
+}
 
 #endif
 

@@ -153,7 +153,7 @@ int main(int argc,char **argv)
  *
  ************************************/
 
-void vMouse(int b,int s,int x,int y)
+void vMouse(int b,int s,int ,int )
 {
   if (b==GLUT_LEFT_BUTTON && s==GLUT_DOWN)
   {

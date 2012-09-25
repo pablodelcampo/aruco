@@ -194,7 +194,7 @@ int main(int argc,char **argv)
  *
  ************************************/
 
-void cvTackBarEvents(int pos,void*)
+void cvTackBarEvents(int ,void*)
 {
   if (iThresParam1<3) iThresParam1=3;
   if (iThresParam1%2!=1) iThresParam1++;

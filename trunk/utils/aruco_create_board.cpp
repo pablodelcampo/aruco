@@ -49,7 +49,7 @@ int main(int argc,char **argv)
     }
     int pixSize=100;
     float interMarkerDistance=0.2;
-    bool isChessBoard=false;
+//    bool isChessBoard=false;
     int typeBoard=0;
     if (argc>=5) pixSize=atoi(argv[4]);
     if (argc>=6) typeBoard=atoi(argv[5]);

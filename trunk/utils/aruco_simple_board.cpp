@@ -73,7 +73,8 @@ int main(int argc,char **argv)
     cv::namedWindow("in",1);
     MDetector.detect(InImage,Markers);//detect markers without computing R and T information
     //Detection of the board
-    float probDetect=TheBoardDetector.detect( Markers, TheBoardConfig,TheBoardDetected, CamParam,MarkerSize);
+    TheBoardDetector.detect( Markers, TheBoardConfig,TheBoardDetected, CamParam,MarkerSize);
+//    float probDetect=TheBoardDetector.detect( Markers, TheBoardConfig,TheBoardDetected, CamParam,MarkerSize);
 
     //for each marker, draw info and its boundaries in the image
     for (unsigned int i=0; i<Markers.size(); i++)

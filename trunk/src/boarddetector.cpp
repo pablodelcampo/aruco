@@ -194,5 +194,4 @@ void BoardDetector::rotateXAxis ( Mat &rotation )
 }
 
 
-};
-
+}

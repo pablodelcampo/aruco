@@ -146,6 +146,6 @@ class ARUCO_EXPORTS  BoardDetector
 
 };
 
-};
+}
 #endif
 

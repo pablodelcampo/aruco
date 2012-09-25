@@ -452,7 +452,4 @@ void CameraParameters::OgreGetProjectionMatrix(cv::Size orgImgSize, cv::Size siz
   proj_matrix[15]=temp_matrix[15];
 }
 
-
-
-
-};
+}

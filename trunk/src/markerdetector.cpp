@@ -165,15 +165,15 @@ void MarkerDetector::detect ( const  cv::Mat &input,vector<Marker> &detectedMark
   {
     float red_den=pow ( 2.0f,pyrdown_level );
     float offInc= ( ( pyrdown_level/2. )-0.5 );
-    for ( unsigned int i=0; i<MarkerCanditates.size(); i++ )
+    for (unsigned int i=0; i<MarkerCanditates.size(); i++ )
     {
-      for ( int c=0; c<4; c++ )
+      for (unsigned int c=0; c<4; c++ )
       {
         MarkerCanditates[i][c].x=MarkerCanditates[i][c].x*red_den+offInc;
         MarkerCanditates[i][c].y=MarkerCanditates[i][c].y*red_den+offInc;
       }
       //do the same with the the contour points
-      for ( int c=0; c<MarkerCanditates[i].contour.size(); c++ )
+      for (unsigned int c=0; c<MarkerCanditates[i].contour.size(); c++ )
       {
         MarkerCanditates[i].contour[c].x=MarkerCanditates[i].contour[c].x*red_den+offInc;
         MarkerCanditates[i].contour[c].y=MarkerCanditates[i].contour[c].y*red_den+offInc;
@@ -268,12 +268,12 @@ void  MarkerDetector::detectRectangles ( const cv::Mat &thres,vector<std::vector
     MarkerCanditates[i]=candidates[i];
 }
 
-void MarkerDetector::detectRectangles(const cv::Mat &thresImg,vector<MarkerCandidate> & OutMarkerCanditates)
+void MarkerDetector::detectRectangles(const cv::Mat &thresImg, vector<MarkerCandidate> & OutMarkerCanditates)
 {
   vector<MarkerCandidate>  MarkerCanditates;
   //calcualte the min_max contour sizes
-  int minSize=_minSize*std::max(thresImg.cols,thresImg.rows)*4;
-  int maxSize=_maxSize*std::max(thresImg.cols,thresImg.rows)*4;
+  unsigned int minSize=_minSize*std::max(thresImg.cols,thresImg.rows)*4;
+  unsigned int maxSize=_maxSize*std::max(thresImg.cols,thresImg.rows)*4;
   std::vector<std::vector<cv::Point> > contours2;
   std::vector<cv::Vec4i> hierarchy2;
 
@@ -467,7 +467,8 @@ bool MarkerDetector::warp ( Mat &in,Mat &out,Size size, vector<Point2f> points )
   return true;
 }
 
-void findCornerPointsInContour(const vector<cv::Point2f>& points,const vector<cv::Point> &contour,vector<int> &idxs)
+void findCornerPointsInContour(const vector<cv::Point2f>& points,
+  const vector<cv::Point> &contour, vector<unsigned int> &idxs)
 {
   assert(points.size()==4);
   int idxSegments[4]={-1,-1,-1,-1};
@@ -491,13 +492,15 @@ void findCornerPointsInContour(const vector<cv::Point2f>& points,const vector<cv
       if (contour[i]==points2i[3]) idxSegments[3]=i;
   }
   idxs.resize(4);
-  for (int i=0; i<4; i++) idxs[i]=idxSegments[i];
+  for (int i=0; i<4; i++)
+    idxs[i]=idxSegments[i];
 }
 
-int findDeformedSidesIdx(const vector<cv::Point> &contour,const vector<int> &idxSegments)
+int findDeformedSidesIdx(const vector<cv::Point> &contour,const vector<unsigned int> &idxSegments)
 {
   float distSum[4]={0,0,0,0};
-  cv::Scalar colors[4]={cv::Scalar(0,0,255),cv::Scalar(255,0,0),cv::Scalar(0,255,0),cv::Scalar(111,111,0)};
+//  cv::Scalar colors[4]={cv::Scalar(0,0,255),cv::Scalar(255,0,0),
+//                        cv::Scalar(0,255,0),cv::Scalar(111,111,0)};
 
   for (int i=0; i<3; i++)
   {
@@ -574,7 +577,7 @@ bool MarkerDetector::warp_cylinder ( Mat &in,Mat &out,Size size, MarkerCandidate
 //     }
 //     mcand.draw(imC,cv::Scalar(0,255,0));
   //find the 4 different segments of the contour
-  vector<int> idxSegments;
+  vector<unsigned int> idxSegments;
   findCornerPointsInContour(mcand,mcand.contour,idxSegments);
   //let us rearrange the points so that the first corner is the one whith smaller idx
   int minIdx=0;
@@ -861,7 +864,7 @@ void MarkerDetector::interpolate2Dline( const std::vector< Point >& inPoints, Po
   if ( maxX-minX > maxY-minY )
   {
     // Ax + C = y
-    for (int i=0; i<inPoints.size(); i++)
+    for (unsigned int i=0; i<inPoints.size(); i++)
     {
 
       A.at<float>(i, 0) = inPoints[i].x;
@@ -878,7 +881,7 @@ void MarkerDetector::interpolate2Dline( const std::vector< Point >& inPoints, Po
   else
   {
     // By + C = x
-    for (int i=0; i<inPoints.size(); i++)
+    for (unsigned int i=0; i<inPoints.size(); i++)
     {
 
       A.at<float>(i, 0) = inPoints[i].y;
@@ -1029,5 +1032,4 @@ void MarkerDetector::setMinMaxSize(float min ,float max )throw(cv::Exception)
   _maxSize=max;
 }
 
-};
-
+}

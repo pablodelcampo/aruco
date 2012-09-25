@@ -79,12 +79,12 @@ void BoardConfiguration::saveToFile(cv::FileStorage &fs)throw (cv::Exception)
   fs<<"aruco_bc_nmarkers"<< ( int ) size();
   fs<<"aruco_bc_mInfoType"<< ( int ) mInfoType;
   fs<<"aruco_bc_markers"<<"[";
-  for ( size_t i=0; i<size(); i++ )
+  for (size_t i=0; i<size(); i++ )
   {
     fs << "{:" << "id" << at(i).id ;
 
     fs<<"corners"<< "[:";
-    for (int c=0; c<at(i).size(); c++)
+    for (size_t c=0; c<at(i).size(); c++)
       fs<<at(i)[c];
     fs<<"]";
     fs <<  "}";
@@ -311,11 +311,11 @@ void Board::saveToFile(string filePath)throw(cv::Exception)
   //now, the markers
   fs<<"aruco_bo_nmarkers"<< ( int )  size();
   fs<<"aruco_bo_markers"<< "[";
-  for ( size_t i=0; i<size(); i++ )
+  for (size_t i=0; i<size(); i++ )
   {
     fs << "{:" << "id" << at(i).id ;
     fs<<"corners"<< "[:";
-    for (int c=0; c<at(i).size(); c++)
+    for (size_t c=0; c<at(i).size(); c++)
       fs<<at(i)[c];
     fs<<"]";
     fs <<  "}";
@@ -381,4 +381,5 @@ void BoardConfiguration::getIdList(std::vector< int >& ids, bool append) const
   for (size_t i=0; i<size(); i++)
     ids.push_back(at(i).id);
 }
-};
+
+}
