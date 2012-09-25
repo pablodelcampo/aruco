@@ -32,10 +32,12 @@ or implied, of Rafael Muñoz Salinas.
 #include "exports.h"
 #include "marker.h"
 #include "board.h"
-namespace aruco {
+namespace aruco
+{
 
-class ARUCO_EXPORTS FiducidalMarkers {
-public:
+class ARUCO_EXPORTS FiducidalMarkers
+{
+  public:
     /**
     * \brief Creates an ar marker with the id specified using a modified version of the hamming code.
     * There are two type of markers: a) These of 10 bits b) these of 3 bits. The latter are employed for applications
@@ -80,7 +82,7 @@ public:
      * @param gridSize grid layout (numer of sqaures in x and Y)
      * @param MarkerSize size of markers sides in pixels
      * @param MarkerDistance distance between the markers
-      * @param TInfo output 
+      * @param TInfo output
      * @param excludedIds set of ids excluded from the board
      */
     static  cv::Mat createBoardImage( cv::Size  gridSize,int MarkerSize,int MarkerDistance,  BoardConfiguration& TInfo ,vector<int> *excludedIds=NULL ) throw (cv::Exception);
@@ -89,24 +91,24 @@ public:
     /**Creates a printable image of a board in chessboard_like manner
      * @param gridSize grid layout (numer of sqaures in x and Y)
      * @param MarkerSize size of markers sides in pixels
-      * @param TInfo output 
+      * @param TInfo output
      * @param setDataCentered indicates if the center is set at the center of the board. Otherwise it is the left-upper corner
-     * 
+     *
      */
     static  cv::Mat  createBoardImage_ChessBoard( cv::Size gridSize,int MarkerSize, BoardConfiguration& TInfo ,bool setDataCentered=true ,vector<int> *excludedIds=NULL) throw (cv::Exception);
 
-    /**Creates a printable image of a board in a frame fashion 
+    /**Creates a printable image of a board in a frame fashion
      * @param gridSize grid layout (numer of sqaures in x and Y)
      * @param MarkerSize size of markers sides in pixels
      * @param MarkerDistance distance between the markers
-      * @param TInfo output 
+      * @param TInfo output
      * @param setDataCentered indicates if the center is set at the center of the board. Otherwise it is the left-upper corner
-     * 
+     *
      */
     static  cv::Mat  createBoardImage_Frame( cv::Size gridSize,int MarkerSize,int MarkerDistance,  BoardConfiguration& TInfo ,bool setDataCentered=true,vector<int> *excludedIds=NULL ) throw (cv::Exception);
 
-private:
-  
+  private:
+
     static vector<int> getListOfValidMarkersIds_random(int nMarkers,vector<int> *excluded) throw (cv::Exception);
     static  cv::Mat rotate(const cv::Mat & in);
     static  int hammDistMarker(cv::Mat  bits);

@@ -43,28 +43,31 @@ namespace aruco
  */
 class ARUCO_EXPORTS  MarkerDetector
 {
-  //Represent a candidate to be a maker
-  class MarkerCandidate: public Marker{
+    //Represent a candidate to be a maker
+    class MarkerCandidate: public Marker
+    {
+      public:
+        MarkerCandidate() {}
+        MarkerCandidate(const Marker &M): Marker(M) {}
+        MarkerCandidate(const  MarkerCandidate &M): Marker(M)
+        {
+          contour=M.contour;
+          idx=M.idx;
+        }
+        MarkerCandidate & operator=(const  MarkerCandidate &M)
+        {
+          (*(Marker*)this)=(*(Marker*)&M);
+          contour=M.contour;
+          idx=M.idx;
+        }
+
+        vector<cv::Point> contour;//all the points of its contour
+        int idx;//index position in the global contour list
+    };
   public:
-    MarkerCandidate(){}
-    MarkerCandidate(const Marker &M): Marker(M){} 
-    MarkerCandidate(const  MarkerCandidate &M): Marker(M){
-      contour=M.contour;
-      idx=M.idx;
-    }
-    MarkerCandidate & operator=(const  MarkerCandidate &M){
-      (*(Marker*)this)=(*(Marker*)&M);
-      contour=M.contour;
-      idx=M.idx;
-    }
-    
-    vector<cv::Point> contour;//all the points of its contour
-    int idx;//index position in the global contour list
-  };
-public:
 
     /**
-     * See 
+     * See
      */
     MarkerDetector();
 
@@ -105,13 +108,15 @@ public:
 
     /**Sets the threshold method
      */
-    void setThresholdMethod(ThresholdMethods m) {
-        _thresMethod=m;
+    void setThresholdMethod(ThresholdMethods m)
+    {
+      _thresMethod=m;
     }
     /**Returns the current threshold method
      */
-    ThresholdMethods getThresholdMethod()const {
-        return _thresMethod;
+    ThresholdMethods getThresholdMethod()const
+    {
+      return _thresMethod;
     }
     /**
      * Set the parameters of the threshold method
@@ -119,9 +124,10 @@ public:
      *   @param param1: blockSize of the pixel neighborhood that is used to calculate a threshold value for the pixel
      *   @param param2: The constant subtracted from the mean or weighted mean
      */
-    void setThresholdParams(double param1,double param2) {
-        _thresParam1=param1;
-        _thresParam2=param2;
+    void setThresholdParams(double param1,double param2)
+    {
+      _thresParam1=param1;
+      _thresParam2=param2;
     }
     /**
      * Set the parameters of the threshold method
@@ -129,50 +135,61 @@ public:
      *   param1: blockSize of the pixel neighborhood that is used to calculate a threshold value for the pixel
      *   param2: The constant subtracted from the mean or weighted mean
      */
-    void getThresholdParams(double &param1,double &param2)const {
-        param1=_thresParam1;
-        param2=_thresParam2;
+    void getThresholdParams(double &param1,double &param2)const
+    {
+      param1=_thresParam1;
+      param2=_thresParam2;
     }
 
 
     /**Returns a reference to the internal image thresholded. It is for visualization purposes and to adjust manually
      * the parameters
      */
-    const cv::Mat & getThresholdedImage() {
-        return thres;
+    const cv::Mat & getThresholdedImage()
+    {
+      return thres;
     }
     /**Methods for corner refinement
      */
     enum CornerRefinementMethod {NONE,HARRIS,SUBPIX,LINES};
     /**
      */
-    void setCornerRefinementMethod(CornerRefinementMethod method) {
-        _cornerMethod=method;
+    void setCornerRefinementMethod(CornerRefinementMethod method)
+    {
+      _cornerMethod=method;
     }
     /**
      */
-    CornerRefinementMethod getCornerRefinementMethod()const {
-        return _cornerMethod;
+    CornerRefinementMethod getCornerRefinementMethod()const
+    {
+      return _cornerMethod;
     }
     /**Specifies the min and max sizes of the markers as a fraction of the image size. By size we mean the maximum
      * of cols and rows.
      * @param min size of the contour to consider a possible marker as valid (0,1]
      * @param max size of the contour to consider a possible marker as valid [0,1)
-     * 
+     *
      */
     void setMinMaxSize(float min=0.03,float max=0.5)throw(cv::Exception);
-    
+
     /**reads the min and max sizes employed
      * @param min output size of the contour to consider a possible marker as valid (0,1]
      * @param max output size of the contour to consider a possible marker as valid [0,1)
-     * 
+     *
      */
-    void getMinMaxSize(float &min,float &max){min=_minSize;max=_maxSize;}
-    
+    void getMinMaxSize(float &min,float &max)
+    {
+      min=_minSize;
+      max=_maxSize;
+    }
+
     /**Enables/Disables erosion process that is REQUIRED for chessboard like boards.
      * By default, this property is enabled
      */
-    void enableErosion(bool enable){_doErosion=enable;}
+    void enableErosion(bool enable)
+    {
+      _doErosion=enable;
+    }
 
     /**
      * Specifies a value to indicate the required speed for the internal processes. If you need maximum speed (at the cost of a lower detection rate),
@@ -184,8 +201,9 @@ public:
     void setDesiredSpeed(int val);
     /**
      */
-    int getDesiredSpeed()const {
-        return _speed;
+    int getDesiredSpeed()const
+    {
+      return _speed;
     }
 
     /**
@@ -203,17 +221,21 @@ public:
      * always which is the corner that acts as reference system. Second, the function must return -1 if the image does not contains one of your markers, and its id otherwise.
      *
      */
-    void setMakerDetectorFunction(int (* markerdetector_func)(const cv::Mat &in,int &nRotations) ) {
-        markerIdDetector_ptrfunc=markerdetector_func;
+    void setMakerDetectorFunction(int (* markerdetector_func)(const cv::Mat &in,int &nRotations) )
+    {
+      markerIdDetector_ptrfunc=markerdetector_func;
     }
 
-    /** Use an smaller version of the input image for marker detection. 
+    /** Use an smaller version of the input image for marker detection.
      * If your marker is small enough, you can employ an smaller image to perform the detection without noticeable reduction in the precision.
      * Internally, we are performing a pyrdown operation
-     * 
+     *
      * @param level number of times the image size is divided by 2. Internally, we are performing a pyrdown.
      */
-    void pyrDown(unsigned int level){pyrdown_level=level;}
+    void pyrDown(unsigned int level)
+    {
+      pyrdown_level=level;
+    }
 
     ///-------------------------------------------------
     /// Methods you may not need
@@ -232,8 +254,9 @@ public:
 
     /**Returns a list candidates to be markers (rectangles), for which no valid id was found after calling detectRectangles
      */
-    const vector<std::vector<cv::Point2f> > &getCandidates() {
-        return _candidates;
+    const vector<std::vector<cv::Point2f> > &getCandidates()
+    {
+      return _candidates;
     }
 
     /**Given the iput image with markers, creates an output image with it in the canonical position
@@ -244,17 +267,17 @@ public:
      * @return true if the operation succeed
      */
     bool warp(cv::Mat &in,cv::Mat &out,cv::Size size, std::vector<cv::Point2f> points)throw (cv::Exception);
-    
-    
-    
+
+
+
     /** Refine MarkerCandidate Corner using LINES method
      * @param candidate candidate to refine corners
      */
-    void refineCandidateLines(MarkerCandidate &candidate);    
-    
-    
+    void refineCandidateLines(MarkerCandidate &candidate);
+
+
     /**DEPRECATED!!! Use the member function in CameraParameters
-     * 
+     *
      * Given the intrinsic camera parameters returns the GL_PROJECTION matrix for opengl.
      * PLease NOTE that when using OpenGL, it is assumed no camera distorsion! So, if it is not true, you should have
      * undistor image
@@ -268,7 +291,7 @@ public:
      */
     static void glGetProjectionMatrix( CameraParameters &  CamMatrix,cv::Size orgImgSize, cv::Size size,double proj_matrix[16],double gnear,double gfar,bool invert=false   )throw(cv::Exception);
 
-private:
+  private:
 
     bool _enableCylinderWarp;
     bool warp_cylinder ( cv::Mat &in,cv::Mat &out,cv::Size size, MarkerCandidate& mc ) throw ( cv::Exception );
@@ -305,26 +328,26 @@ private:
      */
     int perimeter(std::vector<cv::Point2f> &a);
 
-    
+
 //     //GL routines
-// 
+//
 //     static void argConvGLcpara2( double cparam[3][4], int width, int height, double gnear, double gfar, double m[16], bool invert )throw(cv::Exception);
 //     static int  arParamDecompMat( double source[3][4], double cpara[3][4], double trans[3][4] )throw(cv::Exception);
 //     static double norm( double a, double b, double c );
 //     static double dot(  double a1, double a2, double a3,
 //                         double b1, double b2, double b3 );
-// 
+//
 
     //detection of the
     void findBestCornerInRegion_harris(const cv::Mat  & grey,vector<cv::Point2f> &  Corners,int blockSize);
-   
-    
+
+
     // auxiliar functions to perform LINES refinement
     void interpolate2Dline( const vector< cv::Point > &inPoints, cv::Point3f &outLine);
-    cv::Point2f getCrossPoint(const cv::Point3f& line1, const cv::Point3f& line2);      
-    
-    
-    /**Given a vector vinout with elements and a boolean vector indicating the lements from it to remove, 
+    cv::Point2f getCrossPoint(const cv::Point3f& line1, const cv::Point3f& line2);
+
+
+    /**Given a vector vinout with elements and a boolean vector indicating the lements from it to remove,
      * this function remove the elements
      * @param vinout
      * @param toRemove
@@ -332,12 +355,14 @@ private:
     template<typename T>
     void removeElements(vector<T> & vinout,const vector<bool> &toRemove)
     {
-       //remove the invalid ones by setting the valid in the positions left by the invalids
+      //remove the invalid ones by setting the valid in the positions left by the invalids
       size_t indexValid=0;
-      for (size_t i=0;i<toRemove.size();i++) {
-        if (!toRemove[i]) {
-            if (indexValid!=i) vinout[indexValid]=vinout[i];
-            indexValid++;
+      for (size_t i=0; i<toRemove.size(); i++)
+      {
+        if (!toRemove[i])
+        {
+          if (indexValid!=i) vinout[indexValid]=vinout[i];
+          indexValid++;
         }
       }
       vinout.resize(indexValid);

@@ -38,7 +38,7 @@ namespace aruco
 
 class ARUCO_EXPORTS  CameraParameters
 {
-public:
+  public:
 
     // 3x3 matrix (fx 0 cx, 0 fy cy, 0 0 1)
     cv::Mat  CameraMatrix;
@@ -68,8 +68,9 @@ public:
 
     /**Indicates whether this object is valid
      */
-    bool isValid()const {
-        return CameraMatrix.rows!=0 && CameraMatrix.cols!=0  && Distorsion.rows!=0 && Distorsion.cols!=0 && CamSize.width!=-1 && CamSize.height!=-1;
+    bool isValid()const
+    {
+      return CameraMatrix.rows!=0 && CameraMatrix.cols!=0  && Distorsion.rows!=0 && Distorsion.cols!=0 && CamSize.width!=-1 && CamSize.height!=-1;
     }
     /**Assign operator
     */
@@ -105,10 +106,10 @@ public:
     * @param invert: indicates if the output projection matrix has to yield a horizontally inverted image because image data has not been stored in the order of glDrawPixels: bottom-to-top.
     */
     void glGetProjectionMatrix( cv::Size orgImgSize, cv::Size size,double proj_matrix[16],double gnear,double gfar,bool invert=false   )throw(cv::Exception);
-    
+
     /**
      * setup camera for an Ogre project.
-     * 	Use:
+     *  Use:
      * ...
      * Ogre::Matrix4 PM(proj_matrix[0], proj_matrix[1], ... , proj_matrix[15]);
      * yourCamera->setCustomProjectionMatrix(true, PM);
@@ -117,9 +118,9 @@ public:
      * As in OpenGL, it assumes no camera distorsion
      */
     void OgreGetProjectionMatrix( cv::Size orgImgSize, cv::Size size,double proj_matrix[16],double gnear,double gfar,bool invert=false   )throw(cv::Exception);
-    
 
-private:
+
+  private:
     //GL routines
 
     static void argConvGLcpara2( double cparam[3][4], int width, int height, double gnear, double gfar, double m[16], bool invert )throw(cv::Exception);

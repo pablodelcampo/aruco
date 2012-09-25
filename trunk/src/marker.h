@@ -33,14 +33,15 @@ or implied, of Rafael Muñoz Salinas.
 #include "exports.h"
 #include "cameraparameters.h"
 using namespace std;
-namespace aruco {
+namespace aruco
+{
 /**\brief This class represents a marker. It is a vector of the fours corners ot the marker
  *
  */
 
 class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
 {
-public:
+  public:
     //id of  the marker
     int id;
     //size of the markers sides in meters
@@ -62,7 +63,10 @@ public:
     ~Marker() {}
     /**Indicates if this object is valid
      */
-    bool isValid()const{return id!=-1 && size()==4;}
+    bool isValid()const
+    {
+      return id!=-1 && size()==4;
+    }
 
     /**Draws this marker in the input image
      */
@@ -81,15 +85,15 @@ public:
      * @param setYPerperdicular If set the Y axis will be perpendicular to the surface. Otherwise, it will be the Z axis
      */
     void calculateExtrinsics(float markerSize,cv::Mat  CameraMatrix,cv::Mat Distorsion=cv::Mat(),bool setYPerperdicular=true)throw(cv::Exception);
-    
+
     /**Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
      * Setting this matrix, the reference coordinate system will be set in this marker
      */
     void glGetModelViewMatrix(  double modelview_matrix[16])throw(cv::Exception);
-    
+
     /**
      * Returns position vector and orientation quaternion for an Ogre scene node or entity.
-     * 	Use:
+     *  Use:
      * ...
      * Ogre::Vector3 ogrePos (position[0], position[1], position[2]);
      * Ogre::Quaternion  ogreOrient (orientation[0], orientation[1], orientation[2], orientation[3]);
@@ -97,13 +101,13 @@ public:
      * mySceneNode->setOrientation( ogreOrient  );
      * ...
      */
-    void OgreGetPoseParameters(  double position[3], double orientation[4] )throw(cv::Exception);    
-    
-  /**Returns the centroid of the marker
-      */
+    void OgreGetPoseParameters(  double position[3], double orientation[4] )throw(cv::Exception);
+
+    /**Returns the centroid of the marker
+        */
     cv::Point2f getCenter()const;
-     /**Returns the perimeter of the marker
-      */
+    /**Returns the perimeter of the marker
+     */
     float getPerimeter()const;
     /**Returns the area
      */
@@ -114,29 +118,29 @@ public:
      */
     friend bool operator<(const Marker &M1,const Marker&M2)
     {
-        return M1.id<M2.id;
+      return M1.id<M2.id;
     }
     /**
      */
     friend ostream & operator<<(ostream &str,const Marker &M)
     {
-        str<<M.id<<"=";
-        for (int i=0;i<4;i++)
-            str<<"("<<M[i].x<< ","<<M[i].y<<") ";
-        str<<"Txyz=";
-        for (int i=0;i<3;i++)
-            str<<M.Tvec.ptr<float>(0)[i]<<" ";
-        str<<"Rxyz=";
-        for (int i=0;i<3;i++)
-            str<<M.Rvec.ptr<float>(0)[i]<<" ";
+      str<<M.id<<"=";
+      for (int i=0; i<4; i++)
+        str<<"("<<M[i].x<< ","<<M[i].y<<") ";
+      str<<"Txyz=";
+      for (int i=0; i<3; i++)
+        str<<M.Tvec.ptr<float>(0)[i]<<" ";
+      str<<"Rxyz=";
+      for (int i=0; i<3; i++)
+        str<<M.Rvec.ptr<float>(0)[i]<<" ";
 
-        return str;
+      return str;
     }
-    
- 
-private:
-  void rotateXAxis(cv::Mat &rotation);
- 
+
+
+  private:
+    void rotateXAxis(cv::Mat &rotation);
+
 };
 
 }

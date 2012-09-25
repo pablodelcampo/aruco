@@ -33,20 +33,29 @@ or implied, of Rafael Muñoz Salinas.
 #include "exports.h"
 #include "marker.h"
 using namespace std;
-namespace aruco {
+namespace aruco
+{
 /**
  * 3d representation of a marker
  */
-struct ARUCO_EXPORTS MarkerInfo:public vector<cv::Point3f> {
-    MarkerInfo() {}
-    MarkerInfo(int _id) {id=_id; }
-    MarkerInfo(const MarkerInfo&MI): vector<cv::Point3f>(MI){id=MI.id; }
-    MarkerInfo & operator=(const MarkerInfo&MI){
-	vector<cv::Point3f> ::operator=(MI);
-	id=MI.id;
-	return *this;
-      }
-    int id;//maker id
+struct ARUCO_EXPORTS MarkerInfo:public vector<cv::Point3f>
+{
+  MarkerInfo() {}
+  MarkerInfo(int _id)
+  {
+    id=_id;
+  }
+  MarkerInfo(const MarkerInfo&MI): vector<cv::Point3f>(MI)
+  {
+    id=MI.id;
+  }
+  MarkerInfo & operator=(const MarkerInfo&MI)
+  {
+    vector<cv::Point3f> ::operator=(MI);
+    id=MI.id;
+    return *this;
+  }
+  int id;//maker id
 };
 
 /**\brief This class defines a board with several markers.
@@ -69,7 +78,7 @@ struct ARUCO_EXPORTS MarkerInfo:public vector<cv::Point3f> {
 class ARUCO_EXPORTS  BoardConfiguration: public vector<MarkerInfo>
 {
     friend class Board;
-public:
+  public:
     enum MarkerInfoType {NONE=-1,PIX=0,METERS=1};//indicates if the data in MakersInfo is expressed in meters or in pixels so as to do conversion internally
     //variable indicates if the data in MakersInfo is expressed in meters or in pixels so as to do conversion internally
     int mInfoType;
@@ -92,13 +101,15 @@ public:
     void readFromFile(string sfile)throw (cv::Exception);
     /**Indicates if the corners are expressed in meters
      */
-    bool isExpressedInMeters()const {
-        return mInfoType==METERS;
+    bool isExpressedInMeters()const
+    {
+      return mInfoType==METERS;
     }
     /**Indicates if the corners are expressed in meters
      */
-    bool isExpressedInPixels()const {
-        return mInfoType==PIX;
+    bool isExpressedInPixels()const
+    {
+      return mInfoType==PIX;
     }
     /**Returns the index of the marker with id indicated, if is in the list
      */
@@ -106,10 +117,10 @@ public:
     /**Returns the Info of the marker with id specified. If not in the set, throws exception
      */
     const MarkerInfo& getMarkerInfo(int id)const throw (cv::Exception);
-    /**Set in the list passed the set of the ids 
+    /**Set in the list passed the set of the ids
      */
     void getIdList(vector<int> &ids,bool append=true)const;
-private:
+  private:
     /**Saves the board info to a file
     */
     void saveToFile(cv::FileStorage &fs)throw (cv::Exception);
@@ -123,7 +134,7 @@ private:
 class ARUCO_EXPORTS Board:public vector<Marker>
 {
 
-public:
+  public:
     BoardConfiguration conf;
     //matrices of rotation and translation respect to the camera
     cv::Mat Rvec,Tvec;
@@ -131,10 +142,10 @@ public:
     */
     Board()
     {
-        Rvec.create(3,1,CV_32FC1);
-        Tvec.create(3,1,CV_32FC1);
-        for (int i=0;i<3;i++)
-            Tvec.at<float>(i,0)=Rvec.at<float>(i,0)=-999999;
+      Rvec.create(3,1,CV_32FC1);
+      Tvec.create(3,1,CV_32FC1);
+      for (int i=0; i<3; i++)
+        Tvec.at<float>(i,0)=Rvec.at<float>(i,0)=-999999;
     }
 
     /**Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
@@ -144,7 +155,7 @@ public:
 
     /**
      * Returns position vector and orientation quaternion for an Ogre scene node or entity.
-     * 	Use:
+     *  Use:
      * ...
      * Ogre::Vector3 ogrePos (position[0], position[1], position[2]);
      * Ogre::Quaternion  ogreOrient (orientation[0], orientation[1], orientation[2], orientation[3]);
