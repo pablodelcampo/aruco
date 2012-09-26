@@ -34,18 +34,18 @@ namespace aruco
 /*!
  *
  */
-BoardConfiguration::BoardConfiguration()
+BoardConfiguration::BoardConfiguration() : mInfoType(NONE)
 {
-  mInfoType=NONE;
+  //mInfoType=NONE;
 }
 
 /*!
  *
  */
-BoardConfiguration::BoardConfiguration ( const BoardConfiguration  &T ): vector<MarkerInfo>(T)
+BoardConfiguration::BoardConfiguration ( const BoardConfiguration  &T ): vector<MarkerInfo>(T), mInfoType(T.mInfoType)
 {
 //     MarkersInfo=T.MarkersInfo;
-  mInfoType=T.mInfoType;
+//  mInfoType=T.mInfoType;
 }
 
 /*!

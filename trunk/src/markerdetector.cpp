@@ -42,19 +42,19 @@ namespace aruco
 /*!
  *
  */
-MarkerDetector::MarkerDetector()
+MarkerDetector::MarkerDetector() : _enableCylinderWarp(false), _thresMethod(ADPT_THRES), _thresParam1(7), _thresParam2(7), _cornerMethod(LINES), _minSize(0.04), _maxSize(0.5), _speed(0), _markerWarpSize(56), _doErosion(false), pyrdown_level(0), markerIdDetector_ptrfunc(aruco::FiducidalMarkers::detect)
 {
-  _doErosion=false;
-  _enableCylinderWarp=false;
-  _thresMethod=ADPT_THRES;
-  _thresParam1=_thresParam2=7;
-  _cornerMethod=LINES;
-  _markerWarpSize=56;
-  _speed=0;
-  markerIdDetector_ptrfunc=aruco::FiducidalMarkers::detect;
-  pyrdown_level=0; // no image reduction
-  _minSize=0.04;
-  _maxSize=0.5;
+//  _doErosion=false;
+//  _enableCylinderWarp=false;
+//  _thresMethod=ADPT_THRES;
+//  _thresParam1=_thresParam2=7;
+//  _cornerMethod=LINES;
+//  _markerWarpSize=56;
+//  _speed=0;
+//  markerIdDetector_ptrfunc=aruco::FiducidalMarkers::detect;
+//  pyrdown_level=0; // no image reduction
+//  _minSize=0.04;
+//  _maxSize=0.5;
 }
 
 /*!

@@ -35,11 +35,11 @@ namespace aruco
 {
 
 
-CameraParameters::CameraParameters()
+CameraParameters::CameraParameters() : CameraMatrix(cv::Mat()),Distorsion(cv::Mat()),CamSize(cv::Size(-1,-1))
 {
-  CameraMatrix=cv::Mat();
-  Distorsion=cv::Mat();
-  CamSize=cv::Size(-1,-1);
+  //CameraMatrix=cv::Mat();
+  //Distorsion=cv::Mat();
+  //CamSize=cv::Size(-1,-1);
 }
 
 CameraParameters::CameraParameters(cv::Mat cameraMatrix,cv::Mat distorsionCoeff,cv::Size size)
@@ -48,11 +48,11 @@ throw(cv::Exception)
   setParams(cameraMatrix,distorsionCoeff,size);
 }
 
-CameraParameters::CameraParameters(const CameraParameters &CI)
+CameraParameters::CameraParameters(const CameraParameters &CI) : CamSize(CI.CamSize)
 {
   CI.CameraMatrix.copyTo(CameraMatrix);
   CI.Distorsion.copyTo(Distorsion);
-  CamSize=CI.CamSize;
+  //CamSize=CI.CamSize;
 }
 
 CameraParameters & CameraParameters::operator=(const CameraParameters &CI)

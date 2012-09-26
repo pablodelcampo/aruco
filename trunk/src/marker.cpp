@@ -37,10 +37,10 @@ namespace aruco
 /*!
  *
  */
-Marker::Marker()
+Marker::Marker() : id(-1), ssize(-1)
 {
-  id=-1;
-  ssize=-1;
+//  id=-1;
+//  ssize=-1;
   Rvec.create(3,1,CV_32FC1);
   Tvec.create(3,1,CV_32FC1);
   for (int i=0; i<3; i++)

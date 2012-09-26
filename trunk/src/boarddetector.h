@@ -133,7 +133,7 @@ class ARUCO_EXPORTS  BoardDetector
      */
     void setYPerperdicular(bool enable)
     {
-      _setYPerperdicular=enable;
+         _setYPerperdicular=enable;
     }
 
   private:

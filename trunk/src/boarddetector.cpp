@@ -39,10 +39,10 @@ namespace aruco
 /*!
  *
  */
-BoardDetector::BoardDetector(bool  setYPerperdicular)
+BoardDetector::BoardDetector(bool  setYPerperdicular) : _setYPerperdicular(setYPerperdicular), _areParamsSet(false)
 {
-  _setYPerperdicular=setYPerperdicular;
-  _areParamsSet=false;
+//  _setYPerperdicular=setYPerperdicular;
+//  _areParamsSet=false;
 }
 
 /*!
