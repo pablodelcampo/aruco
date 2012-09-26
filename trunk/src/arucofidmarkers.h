@@ -92,7 +92,7 @@ class ARUCO_EXPORTS FiducidalMarkers
      * @param excludedIds set of ids excluded from the board
      */
     static cv::Mat createBoardImage(cv::Size gridSize,int MarkerSize,int dist,
-      BoardConfiguration& TInfo ,vector<int> *excludedIds=NULL ) throw (cv::Exception);
+      BoardConfiguration& TInfo ,std::vector<int> *excludedIds=NULL ) throw (cv::Exception);
 
     /**Creates a printable image of a board in chessboard_like manner
      * @param gridSize grid layout (numer of sqaures in x and Y)
@@ -102,7 +102,7 @@ class ARUCO_EXPORTS FiducidalMarkers
      * it is the left-upper corner.
      */
     static cv::Mat createBoardImage_ChessBoard(cv::Size gridSize, int MarkerSize,
-      BoardConfiguration& TInfo, bool setDataCentered=true, vector<int> *excludedIds=NULL)
+      BoardConfiguration& TInfo, bool setDataCentered=true, std::vector<int> *excludedIds=NULL)
       throw (cv::Exception);
 
     /**Creates a printable image of a board in a frame fashion
@@ -114,13 +114,13 @@ class ARUCO_EXPORTS FiducidalMarkers
      * Otherwise it is the left-upper corner.
      */
     static cv::Mat createBoardImage_Frame(cv::Size gridSize, int MarkerSize, int dist,
-      BoardConfiguration& TInfo ,bool setDataCentered=true,vector<int> *excludedIds=NULL)
+      BoardConfiguration& TInfo ,bool setDataCentered=true,std::vector<int> *excludedIds=NULL)
       throw (cv::Exception);
 
   private:
 
-    static vector<int> getListOfValidMarkersIds_random(unsigned int nMarkers,
-      vector<int> *excluded) throw (cv::Exception);
+    static std::vector<int> getListOfValidMarkersIds_random(unsigned int nMarkers,
+      std::vector<int> *excluded) throw (cv::Exception);
     static  cv::Mat rotate(const cv::Mat & in);
     static  int hammDistMarker(cv::Mat  bits);
     static  int analyzeMarkerImage(cv::Mat &grey,int &nRotations);

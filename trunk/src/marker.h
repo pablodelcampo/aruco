@@ -32,7 +32,7 @@ or implied, of Rafael Muñoz Salinas.
 #include <opencv2/opencv.hpp>
 #include "exports.h"
 #include "cameraparameters.h"
-using namespace std;
+//using namespace std;
 namespace aruco
 {
 
@@ -133,7 +133,7 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
 
     /** \todo move this code to .cpp file
      */
-    friend ostream & operator<<(ostream &str,const Marker &M)
+    friend std::ostream & operator<<(std::ostream &str,const Marker &M)
     {
       str<<M.id<<"=";
       for (int i=0; i<4; i++)

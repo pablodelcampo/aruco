@@ -41,6 +41,7 @@ or implied, of Rafael Muñoz Salinas.
 #include "cvdrawingutils.h"
 using namespace cv;
 using namespace aruco;
+using namespace std;
 int main(int argc,char **argv)
 {
   try

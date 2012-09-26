@@ -35,7 +35,7 @@ namespace aruco
 {
 
 /*!
- *  
+ *
  */
 Marker::Marker()
 {
@@ -48,7 +48,7 @@ Marker::Marker()
 }
 
 /*!
- *  
+ *
  */
 Marker::Marker(const Marker &M):std::vector<cv::Point2f>(M)
 {
@@ -59,7 +59,7 @@ Marker::Marker(const Marker &M):std::vector<cv::Point2f>(M)
 }
 
 /*!
- *  
+ *
  */
 Marker::Marker(const  std::vector<cv::Point2f> &corners,int _id):std::vector<cv::Point2f>(corners)
 {
@@ -72,7 +72,7 @@ Marker::Marker(const  std::vector<cv::Point2f> &corners,int _id):std::vector<cv:
 }
 
 /*!
- *  
+ *
  */
 void Marker::glGetModelViewMatrix(   double modelview_matrix[16])throw(cv::Exception)
 {
@@ -130,7 +130,7 @@ void Marker::glGetModelViewMatrix(   double modelview_matrix[16])throw(cv::Excep
 }
 
 /*!
- *  
+ *
  */
 void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) throw(cv::Exception)
 {
@@ -222,7 +222,7 @@ void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) th
 }
 
 /*!
- *  
+ *
  */
 void Marker::draw(Mat &in, Scalar color, int lineWidth ,bool writeId)const
 {
@@ -257,7 +257,7 @@ void Marker::draw(Mat &in, Scalar color, int lineWidth ,bool writeId)const
 }
 
 /*!
- *  
+ *
  */
 void Marker::calculateExtrinsics(float markerSize,const CameraParameters &CP,
   bool setYPerperdicular)throw(cv::Exception)
@@ -274,7 +274,7 @@ void Marker::calculateExtrinsics(float markerSize,const CameraParameters &CP,
 //}
 
 /*!
- *  
+ *
  */
 void Marker::calculateExtrinsics(float markerSizeMeters, cv::Mat camMatrix, cv::Mat distCoeff,
   bool setYPerperdicular)throw(cv::Exception)
@@ -321,12 +321,12 @@ void Marker::calculateExtrinsics(float markerSizeMeters, cv::Mat camMatrix, cv::
   //rotate the X axis so that Y is perpendicular to the marker plane
   if (setYPerperdicular) rotateXAxis(Rvec);
   ssize=markerSizeMeters;
-  cout<<(*this)<<endl;
+  std::cout<<(*this)<<std::endl;
 
 }
 
 /*!
- *  
+ *
  */
 void Marker::rotateXAxis(Mat &rotation)
 {
@@ -346,7 +346,7 @@ void Marker::rotateXAxis(Mat &rotation)
 }
 
 /*!
- *  
+ *
  */
 cv::Point2f Marker::getCenter()const
 {
@@ -362,7 +362,7 @@ cv::Point2f Marker::getCenter()const
 }
 
 /*!
- *  
+ *
  */
 float Marker::getArea()const
 {
@@ -378,7 +378,7 @@ float Marker::getArea()const
 }
 
 /*!
- *  
+ *
  */
 float Marker::getPerimeter()const
 {

@@ -30,7 +30,7 @@ or implied, of Rafael Muñoz Salinas.
 #include "exports.h"
 #include <opencv2/opencv.hpp>
 #include <string>
-using namespace std;
+//using namespace std;
 namespace aruco
 {
 
@@ -82,15 +82,15 @@ class ARUCO_EXPORTS  CameraParameters
 
     /**Reads the camera parameters from a file generated using saveToFile.
      */
-    void readFromFile(string path)throw(cv::Exception);
+    void readFromFile(std::string path)throw(cv::Exception);
 
     /**Saves this to a file
      */
-    void saveToFile(string path,bool inXML=true)throw(cv::Exception);
+    void saveToFile(std::string path,bool inXML=true)throw(cv::Exception);
 
     /**Reads from a YAML file generated with the opencv2.2 calibration utility
      */
-    void readFromXMLFile(string filePath)throw(cv::Exception);
+    void readFromXMLFile(std::string filePath)throw(cv::Exception);
 
     /**Adjust the parameters to the size of the image indicated
      */

@@ -35,7 +35,7 @@ namespace aruco
 {
 
 /*!
- *  
+ *
  */
 Mat FiducidalMarkers::createMarkerImage(int id,int size) throw (cv::Exception)
 {
@@ -64,7 +64,7 @@ Mat FiducidalMarkers::createMarkerImage(int id,int size) throw (cv::Exception)
 }
 
 /*!
- *  
+ *
  */
 cv::Mat FiducidalMarkers::getMarkerMat(int id) throw (cv::Exception)
 {
@@ -92,7 +92,7 @@ cv::Mat FiducidalMarkers::getMarkerMat(int id) throw (cv::Exception)
 }
 
 /*!
- *  
+ *
  */
 cv::Mat FiducidalMarkers::createBoardImage(Size gridSize,int MarkerSize,int dist,
   BoardConfiguration& TInfo  ,vector<int> *excludedIds) throw (cv::Exception)
@@ -135,7 +135,7 @@ cv::Mat FiducidalMarkers::createBoardImage(Size gridSize,int MarkerSize,int dist
 }
 
 /*!
- *  
+ *
  */
 cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int MarkerSize,
   BoardConfiguration& TInfo ,bool centerData ,vector<int> *excludedIds) throw (cv::Exception)
@@ -194,7 +194,7 @@ cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int Marker
 }
 
 /*!
- *  
+ *
  */
 cv::Mat FiducidalMarkers::createBoardImage_Frame(Size gridSize,int MarkerSize,int dist,
   BoardConfiguration& TInfo ,bool centerData,vector<int> *excludedIds ) throw (cv::Exception)
@@ -244,7 +244,7 @@ cv::Mat FiducidalMarkers::createBoardImage_Frame(Size gridSize,int MarkerSize,in
 }
 
 /*!
- *  
+ *
  */
 Mat FiducidalMarkers::rotate(const Mat  &in)
 {
@@ -261,7 +261,7 @@ Mat FiducidalMarkers::rotate(const Mat  &in)
 }
 
 /*!
- *  
+ *
  */
 int FiducidalMarkers::hammDistMarker(Mat  bits)
 {
@@ -293,7 +293,7 @@ int FiducidalMarkers::hammDistMarker(Mat  bits)
 }
 
 /*!
- *  
+ *
  */
 int FiducidalMarkers::analyzeMarkerImage(Mat &grey,int &nRotations)
 {
@@ -380,7 +380,7 @@ int FiducidalMarkers::analyzeMarkerImage(Mat &grey,int &nRotations)
 }
 
 /*!
- *  
+ *
  */
 //bool FiducidalMarkers::correctHammMarker(Mat &bits)
 //{
@@ -417,7 +417,7 @@ int FiducidalMarkers::analyzeMarkerImage(Mat &grey,int &nRotations)
 //}
 
 /*!
- *  
+ *
  */
 int FiducidalMarkers::detect(const Mat &in,int &nRotations)
 {
@@ -441,10 +441,10 @@ int FiducidalMarkers::detect(const Mat &in,int &nRotations)
 }
 
 /*!
- *  
+ *
  */
-vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int nMarkers,
-  vector<int> *excluded) throw (cv::Exception)
+std::vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int nMarkers,
+  std::vector<int> *excluded) throw (cv::Exception)
 {
 
   if (excluded!=NULL)
@@ -452,7 +452,7 @@ vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int nMark
       throw cv::Exception(8888,"FiducidalMarkers::getListOfValidMarkersIds_random",
         "Number of possible markers is exceeded",__FILE__,__LINE__);
 
-  vector<int> listOfMarkers(1024);
+  std::vector<int> listOfMarkers(1024);
 //set a list with all ids
   for (int i=0; i<1024; i++) listOfMarkers[i]=i;
 
@@ -463,7 +463,7 @@ vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int nMark
   random_shuffle(listOfMarkers.begin(),listOfMarkers.end());
 //now, take the first  nMarkers elements with value !=-1
   int i=0;
-  vector<int> retList;
+  std::vector<int> retList;
   while (retList.size()<nMarkers)
   {
     if (listOfMarkers[i]!=-1)

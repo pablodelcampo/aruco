@@ -52,6 +52,7 @@ or implied, of Rafael Muñoz Salinas.
 #include "common.h"
 using namespace cv;
 using namespace aruco;
+using namespace std;
 
 string TheInputVideo,TheIntrinsicFile,TheBoardConfigFile;
 bool The3DInfoAvailable=false;

@@ -33,7 +33,7 @@ or implied, of Rafael Muñoz Salinas.
 #include "cameraparameters.h"
 #include "exports.h"
 #include "marker.h"
-using namespace std;
+//using namespace std;
 
 namespace aruco
 {
@@ -275,12 +275,12 @@ class ARUCO_EXPORTS  MarkerDetector
     * Detection of candidates to be markers, i.e., rectangles.
     * This function returns in candidates all the rectangles found in a thresolded image
     */
-    void detectRectangles(const cv::Mat &thresImg,vector<std::vector<cv::Point2f> > & candidates);
+    void detectRectangles(const cv::Mat &thresImg,std::vector<std::vector<cv::Point2f> > & candidates);
 
     /**Returns a list candidates to be markers (rectangles), for which no valid id was found
      * after calling detectRectangles
      */
-    const vector<std::vector<cv::Point2f> > &getCandidates()
+    const std::vector<std::vector<cv::Point2f> > &getCandidates()
     {
       return _candidates;
     }
@@ -331,7 +331,7 @@ class ARUCO_EXPORTS  MarkerDetector
     * Detection of candidates to be markers, i.e., rectangles.
     * This function returns in candidates all the rectangles found in a thresolded image
     */
-    void detectRectangles(const cv::Mat &thresImg,vector<MarkerCandidate> & candidates);
+    void detectRectangles(const cv::Mat &thresImg,std::vector<MarkerCandidate> & candidates);
 
     ThresholdMethods _thresMethod;                 //Current threshold method
     double _thresParam1,_thresParam2;              //Threshold parameters
@@ -340,7 +340,7 @@ class ARUCO_EXPORTS  MarkerDetector
     int _speed;                                    //Speed control
     int _markerWarpSize;
     bool _doErosion;
-    vector<std::vector<cv::Point2f> > _candidates; // candidates to be markers. This is a vector
+    std::vector<std::vector<cv::Point2f> > _candidates; // candidates to be markers. This is a vector
                                                   //with a set of rectangles that have no valid id
     int pyrdown_level;                             //level of image reduction
     cv::Mat grey,thres,thres2,reduced;             //Images
@@ -365,11 +365,11 @@ class ARUCO_EXPORTS  MarkerDetector
 //
 
     //detection of the
-    void findBestCornerInRegion_harris(const cv::Mat & grey, vector<cv::Point2f> &Corners,
+    void findBestCornerInRegion_harris(const cv::Mat & grey, std::vector<cv::Point2f> &Corners,
       int blockSize);
 
     // auxiliar functions to perform LINES refinement
-    void interpolate2Dline( const vector< cv::Point > &inPoints, cv::Point3f &outLine);
+    void interpolate2Dline( const std::vector< cv::Point > &inPoints, cv::Point3f &outLine);
     cv::Point2f getCrossPoint(const cv::Point3f& line1, const cv::Point3f& line2);
 
     /**Given a vector vinout with elements and a boolean vector indicating the lements from it
@@ -378,7 +378,7 @@ class ARUCO_EXPORTS  MarkerDetector
      * @param toRemove
      */
     template<typename T>
-    void removeElements(vector<T> & vinout,const vector<bool> &toRemove)
+    void removeElements(std::vector<T> & vinout,const std::vector<bool> &toRemove)
     {
       //remove the invalid ones by setting the valid in the positions left by the invalids
       size_t indexValid=0;

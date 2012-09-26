@@ -32,26 +32,26 @@ or implied, of Rafael Muñoz Salinas.
 #include <vector>
 #include "exports.h"
 #include "marker.h"
-using namespace std;
+//using namespace std;
 namespace aruco
 {
 /**
  * 3d representation of a marker
  */
-struct ARUCO_EXPORTS MarkerInfo:public vector<cv::Point3f>
+struct ARUCO_EXPORTS MarkerInfo:public std::vector<cv::Point3f>
 {
   MarkerInfo() {}
   MarkerInfo(int _id)
   {
     id=_id;
   }
-  MarkerInfo(const MarkerInfo&MI): vector<cv::Point3f>(MI)
+  MarkerInfo(const MarkerInfo&MI): std::vector<cv::Point3f>(MI)
   {
     id=MI.id;
   }
   MarkerInfo & operator=(const MarkerInfo&MI)
   {
-    vector<cv::Point3f> ::operator=(MI);
+    std::vector<cv::Point3f> ::operator=(MI);
     id=MI.id;
     return *this;
   }
@@ -79,7 +79,7 @@ struct ARUCO_EXPORTS MarkerInfo:public vector<cv::Point3f>
 */
 
 
-class ARUCO_EXPORTS  BoardConfiguration: public vector<MarkerInfo>
+class ARUCO_EXPORTS  BoardConfiguration: public std::vector<MarkerInfo>
 {
   friend class Board;
   public:
@@ -110,11 +110,11 @@ class ARUCO_EXPORTS  BoardConfiguration: public vector<MarkerInfo>
 
     /*! @brief Saves the board info to a file.
     */
-    void saveToFile(string sfile)throw (cv::Exception);
+    void saveToFile(std::string sfile)throw (cv::Exception);
 
     /** @brief Reads board info from a file.
     */
-    void readFromFile(string sfile)throw (cv::Exception);
+    void readFromFile(std::string sfile)throw (cv::Exception);
     /**Indicates if the corners are expressed in meters
      */
     bool isExpressedInMeters()const
@@ -147,7 +147,7 @@ class ARUCO_EXPORTS  BoardConfiguration: public vector<MarkerInfo>
 
 /**
 */
-class ARUCO_EXPORTS Board:public vector<Marker>
+class ARUCO_EXPORTS Board:public std::vector<Marker>
 {
 
   public:
@@ -186,10 +186,10 @@ class ARUCO_EXPORTS Board:public vector<Marker>
 
     /**Save this from a file
      */
-    void saveToFile(string filePath)throw(cv::Exception);
+    void saveToFile(std::string filePath)throw(cv::Exception);
     /**Read  this from a file
      */
-    void readFromFile(string filePath)throw(cv::Exception);
+    void readFromFile(std::string filePath)throw(cv::Exception);
 };
 
 }

@@ -32,7 +32,7 @@ or implied, of Rafael Muñoz Salinas.
 #include "board.h"
 #include "cameraparameters.h"
 #include "markerdetector.h"
-using namespace std;
+//using namespace std;
 
 namespace aruco
 {
@@ -100,7 +100,7 @@ class ARUCO_EXPORTS  BoardDetector
 
     /**Returns the vector of markers detected
      */
-    vector<Marker> &getDetectedMarkers()
+    std::vector<Marker> &getDetectedMarkers()
     {
       return _vmarkers;
     }
@@ -119,11 +119,11 @@ class ARUCO_EXPORTS  BoardDetector
     * @param markerSizeMeters size of the marker sides expressed in meters
     * @return value indicating  the  likelihood of having found the marker
     */
-    float detect(const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf,
+    float detect(const std::vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf,
       Board &Bdetected, cv::Mat camMatrix=cv::Mat(),cv::Mat distCoeff=cv::Mat(),
       float markerSizeMeters=-1 )throw (cv::Exception);
 
-    float detect(const vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf,
+    float detect(const std::vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf,
       Board &Bdetected,const CameraParameters &cp, float markerSizeMeters=-1 )throw (cv::Exception);
 
     /**
@@ -147,7 +147,7 @@ class ARUCO_EXPORTS  BoardDetector
     float _markerSize;
     CameraParameters _camParams;
     MarkerDetector _mdetector;//internal markerdetector
-    vector<Marker> _vmarkers;//markers detected in the call to : float  detect(const cv::Mat &im);
+    std::vector<Marker> _vmarkers;//markers detected in the call to : float  detect(const cv::Mat &im);
 
 };
 
