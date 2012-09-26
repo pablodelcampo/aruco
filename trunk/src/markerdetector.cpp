@@ -133,8 +133,10 @@ void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarke
     }
     int red_den=pow ( 2.0f,pyrdown_level );
     imgToBeThresHolded=reduced;
-    ThresParam1/=float ( red_den );
-    ThresParam2/=float ( red_den );
+    //ThresParam1/=float ( red_den );
+    //ThresParam2/=float ( red_den );
+    ThresParam1/=static_cast<float>( red_den );
+    ThresParam2/=static_cast<float>( red_den );
   }
 
   ///Do threshold the image and detect contours
@@ -231,7 +233,8 @@ void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarke
   //indicated earlier, detect and remove these cases
   vector<bool> toRemove ( detectedMarkers.size(),false );
 
-  for ( int i=0; i<int ( detectedMarkers.size() )-1; i++ )
+  //for ( int i=0; i<int ( detectedMarkers.size() )-1; i++ )
+  for ( int i=0; i<static_cast<int>( detectedMarkers.size() )-1; i++ )
   {
     if ( detectedMarkers[i].id==detectedMarkers[i+1].id && !toRemove[i+1] )
     {
@@ -292,7 +295,8 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
     if ( minSize< contours2[i].size() &&contours2[i].size()<maxSize  )
     {
       //approximate to a poligon
-      approxPolyDP (  contours2[i]  ,approxCurve , double ( contours2[i].size() ) *0.05 , true );
+      //approxPolyDP (  contours2[i]  ,approxCurve , double ( contours2[i].size() ) *0.05 , true );
+      approxPolyDP (  contours2[i]  ,approxCurve , static_cast<double>( contours2[i].size() ) *0.05 , true );
       //        drawApproxCurve(copy,approxCurve,Scalar(0,0,255));
       //check that the poligon has 4 points
       if ( approxCurve.size() ==4 )
@@ -310,9 +314,12 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
           for ( int j=0; j<4; j++ )
           {
             /// \todo Luis: replace std::sqrt to sqrtf
-            float d= std::sqrt((float)
-              (approxCurve[j].x-approxCurve[(j+1)%4].x) * (approxCurve[j].x-approxCurve[(j+1)%4].x)+
-              (approxCurve[j].y-approxCurve[(j+1)%4].y) * (approxCurve[j].y-approxCurve[(j+1)%4].y));
+//            float d= std::sqrt((float)
+//              (approxCurve[j].x-approxCurve[(j+1)%4].x) * (approxCurve[j].x-approxCurve[(j+1)%4].x)+
+//              (approxCurve[j].y-approxCurve[(j+1)%4].y) * (approxCurve[j].y-approxCurve[(j+1)%4].y));
+              float d= std::sqrt(static_cast<float>
+                (approxCurve[j].x-approxCurve[(j+1)%4].x) * (approxCurve[j].x-approxCurve[(j+1)%4].x)+
+                (approxCurve[j].y-approxCurve[(j+1)%4].y) * (approxCurve[j].y-approxCurve[(j+1)%4].y));
 
             //    norm(Mat(approxCurve[i]),Mat(approxCurve[(i+1)%4]));
             if ( d<minDist )
@@ -443,9 +450,10 @@ void MarkerDetector::thresHold (int method, const Mat &grey, Mat &out, double pa
 //ensure that _thresParam1%2==1
     if (param1<3)
       param1=3;
-    else if (((int)param1)%2!=1)
-      param1= ( int ) ( param1+1 );
-
+    else if ((static_cast<int>(param1))%2!=1)
+    //else if (((int)param1)%2!=1)
+      //param1= ( int ) ( param1+1 );
+      param1= static_cast<int>( param1+1 );
     cv::adaptiveThreshold ( grey,out,255,ADAPTIVE_THRESH_MEAN_C,THRESH_BINARY_INV,param1,param2 );
     break;
   case CANNY:
@@ -552,16 +560,23 @@ int findDeformedSidesIdx(const vector<cv::Point> &contour,const vector<unsigned 
   //for the last one
   cv::Point p1=contour[ idxSegments[0]];
   cv::Point p2=contour[ idxSegments[3]];
-  float inv_den=1./ std::sqrt(float(( p2.x-p1.x)*(p2.x-p1.x)+ (p2.y-p1.y)*(p2.y-p1.y)));
+  float inv_den=1./ std::sqrt(static_cast<float>(( p2.x-p1.x)*(p2.x-p1.x)+ (p2.y-p1.y)*(p2.y-p1.y)));
+//  float inv_den=1./ std::sqrt(float(( p2.x-p1.x)*(p2.x-p1.x)+ (p2.y-p1.y)*(p2.y-p1.y)));
   //   d=|v^^·r|=(|(x_2-x_1)(y_1-y_0)-(x_1-x_0)(y_2-y_1)|)/(sqrt((x_2-x_1)^2+(y_2-y_1)^2)).
   for (size_t j=0; j<idxSegments[0]; j++)
-    distSum[3]+=std::fabs(float((p2.x-p1.x)*(p1.y-contour[j].y)-(p1.x-contour[j].x)*(p2.y-p1.y)))*
-      inv_den;
+//    distSum[3]+=std::fabs(float((p2.x-p1.x)*(p1.y-contour[j].y)-(p1.x-contour[j].x)*(p2.y-p1.y)))*
+//      inv_den;
+      distSum[3]+=std::fabs(static_cast<float>((p2.x-p1.x)*(p1.y-contour[j].y)-(p1.x-contour[j].x)*(p2.y-p1.y)))*
+        inv_den;
   for (size_t j=idxSegments[3]; j<contour.size(); j++)
-    distSum[3]+=std::fabs(float((p2.x-p1.x)*(p1.y-contour[j].y)-(p1.x-contour[j].x)*(p2.y-p1.y)))*
-      inv_den;
+//    distSum[3]+=std::fabs(float((p2.x-p1.x)*(p1.y-contour[j].y)-(p1.x-contour[j].x)*(p2.y-p1.y)))*
+//      inv_den;
+      distSum[3]+=std::fabs(static_cast<float>((p2.x-p1.x)*(p1.y-contour[j].y)-(p1.x-contour[j].x)*(p2.y-p1.y)))*
+        inv_den;
 
-  distSum[3]/=float(  idxSegments[0]+  (contour.size()-idxSegments[3]));
+//  distSum[3]/=float(  idxSegments[0]+  (contour.size()-idxSegments[3]));
+  distSum[3]/=static_cast<float>(  idxSegments[0]+  (contour.size()-idxSegments[3]));
+
   //now, get the maximum
   /*    for (int i=0;i<4;i++)
           cout<<"DD="<<distSum[i]<<endl;*/
@@ -851,9 +866,11 @@ void MarkerDetector::refineCandidateLines(MarkerDetector::MarkerCandidate& candi
   contourLines.resize(4);
   for (unsigned int l=0; l<4; l++)
   {
-    for (int j=(int)cornerIndex[l]; j!=(int)cornerIndex[(l+1)%4]; j+=inc)
+    //for (int j=(int)cornerIndex[l]; j!=(int)cornerIndex[(l+1)%4]; j+=inc)
+    for (int j=static_cast<int>(cornerIndex[l]); j!=static_cast<int>(cornerIndex[(l+1)%4]); j+=inc)
     {
-      if (j==(int)candidate.contour.size() && !inverse) j=0;
+//      if (j==(int)candidate.contour.size() && !inverse) j=0;
+      if (j==static_cast<int>(candidate.contour.size()) && !inverse) j=0;
       else if (j==0 && inverse) j=candidate.contour.size()-1;
       contourLines[l].push_back(candidate.contour[j]);
       if (j==(int)cornerIndex[(l+1)%4]) break; // this has to be added because of the previous ifs
