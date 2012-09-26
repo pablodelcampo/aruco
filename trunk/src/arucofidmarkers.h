@@ -124,7 +124,9 @@ class ARUCO_EXPORTS FiducidalMarkers
     static  cv::Mat rotate(const cv::Mat & in);
     static  int hammDistMarker(cv::Mat  bits);
     static  int analyzeMarkerImage(cv::Mat &grey,int &nRotations);
-    static  bool correctHammMarker(cv::Mat &bits);
+
+    /// @bug This function is not used
+    //static  bool correctHammMarker(cv::Mat &bits);
 };
 
 }

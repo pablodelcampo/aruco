@@ -635,7 +635,7 @@ bool MarkerDetector::warp_cylinder(Mat &in, Mat &out, Size size, MarkerCandidate
 
   //instead of removing perspective distortion  of the rectangular region
   //given by the rectangle, we enlarge it a bit to include the deformed parts
-  cv::Point2f center=mcand.getCenter();
+  //cv::Point2f center=mcand.getCenter();
   Point2f enlargedRegion[4];
   for (int i=0; i<4; i++) enlargedRegion[i]=mcand[i];
   if (defrmdSide==0)
