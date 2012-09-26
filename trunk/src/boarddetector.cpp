@@ -32,13 +32,12 @@ or implied, of Rafael Muñoz Salinas.
 #include <ctime>
 #include <cassert>
 #include <fstream>
-using namespace std;
 using namespace cv;
 namespace aruco
 {
 
 /*!
- *  
+ *
  */
 BoardDetector::BoardDetector(bool  setYPerperdicular)
 {
@@ -47,7 +46,7 @@ BoardDetector::BoardDetector(bool  setYPerperdicular)
 }
 
 /*!
- *  
+ *
  */
 void BoardDetector::setParams(const BoardConfiguration &bc,const CameraParameters &cp,
   float markerSizeMeters)
@@ -59,7 +58,7 @@ void BoardDetector::setParams(const BoardConfiguration &bc,const CameraParameter
 }
 
 /*!
- *  
+ *
  */
 void BoardDetector::setParams(const BoardConfiguration &bc)
 {
@@ -68,7 +67,7 @@ void BoardDetector::setParams(const BoardConfiguration &bc)
 }
 
 /*!
- *  
+ *
  */
 float  BoardDetector::detect(const cv::Mat &im)throw (cv::Exception)
 {
@@ -83,7 +82,7 @@ float  BoardDetector::detect(const cv::Mat &im)throw (cv::Exception)
 }
 
 /*!
- *  
+ *
  */
 float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardConfiguration &BConf,
   Board &Bdetected,const CameraParameters &cp, float markerSizeMeters ) throw ( cv::Exception )
@@ -92,7 +91,7 @@ float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardC
 }
 
 /*!
- *  
+ *
  */
 float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardConfiguration &BConf,
   Board &Bdetected, Mat camMatrix,Mat distCoeff,float markerSizeMeters ) throw ( cv::Exception )
@@ -199,7 +198,7 @@ float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardC
 }
 
 /*!
- *  
+ *
  */
 void BoardDetector::rotateXAxis ( Mat &rotation )
 {

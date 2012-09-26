@@ -30,7 +30,7 @@ or implied, of Rafael Muñoz Salinas.
 #include "aruco.h"
 #include "arucofidmarkers.h"
 using namespace cv;
-using namespace std;
+
 
 /// @file aruco_create_marker.cpp
 /// \todo Remove try & catch block
@@ -44,7 +44,7 @@ int main(int argc,char **argv)
     {
 
       //You can also use ids 2000-2007 but it is not safe since there are a lot of false positives.
-      cerr<<"Usage: <makerid(0:1023)> outfile.jpg sizeInPixels"<<endl;
+      std::cerr<<"Usage: <makerid(0:1023)> outfile.jpg sizeInPixels"<<std::endl;
       return -1;
     }
     Mat marker=aruco::FiducidalMarkers::createMarkerImage(atoi(argv[1]),atoi(argv[3]));
@@ -53,7 +53,7 @@ int main(int argc,char **argv)
   }
   catch (std::exception &ex)
   {
-    cout<<ex.what()<<endl;
+    std::cout<<ex.what()<<std::endl;
   }
 
 }

@@ -44,7 +44,6 @@ or implied, of Rafael Muñoz Salinas.
 #include "aruco.h"
 using namespace cv;
 using namespace aruco;
-using namespace std;
 
 string TheInputVideo;
 string TheIntrinsicFile;
@@ -76,8 +75,8 @@ bool readArguments ( int argc,char **argv )
 {
   if (argc!=4)
   {
-    cerr<<"Invalid number of arguments"<<endl;
-    cerr<<"Usage: (in.avi|live)  intrinsics.yml   size "<<endl;
+    std::cerr<<"Invalid number of arguments"<<std::endl;
+    std::cerr<<"Usage: (in.avi|live)  intrinsics.yml   size "<<std::endl;
     return false;
   }
   TheInputVideo=argv[1];
@@ -104,7 +103,7 @@ int main(int argc,char **argv)
     else TheVideoCapturer.open(TheInputVideo);
     if (!TheVideoCapturer.isOpened())
     {
-      cerr<<"Could not open video"<<endl;
+      std::cerr<<"Could not open video"<<std::endl;
       return -1;
 
     }
@@ -134,7 +133,7 @@ int main(int argc,char **argv)
   catch (std::exception &ex)
 
   {
-    cout<<"Exception :"<<ex.what()<<endl;
+    std::cout<<"Exception :"<<ex.what()<<std::endl;
   }
 
 }

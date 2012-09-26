@@ -52,7 +52,6 @@ or implied, of Rafael Muñoz Salinas.
 #include "common.h"
 using namespace cv;
 using namespace aruco;
-using namespace std;
 
 string TheInputVideo,TheIntrinsicFile,TheBoardConfigFile;
 bool The3DInfoAvailable=false;
@@ -63,7 +62,7 @@ VideoCapture TheVideoCapturer;
 vector<Marker> TheMarkers;
 //board
 BoardDetector TheBoardDetector;
-pair<Board,float> TheBoardDetected; //the board and its probabilit
+std::pair<Board,float> TheBoardDetected; //the board and its probabilit
 BoardConfiguration TheBoardConfig;
 Mat TheInputImage,TheUndInputImage,TheResizedImage;
 CameraParameters TheCameraParams;
@@ -86,8 +85,8 @@ bool readArguments ( int argc,char **argv )
 
   if (argc!=5)
   {
-    cerr<<"Invalid number of arguments"<<endl;
-    cerr<<"Usage: (in.avi|live) boardConfig.yml  intrinsics.yml   size "<<endl;
+    std::cerr<<"Invalid number of arguments"<<std::endl;
+    std::cerr<<"Usage: (in.avi|live) boardConfig.yml  intrinsics.yml   size "<<std::endl;
     return false;
   }
   TheInputVideo=argv[1];
@@ -118,7 +117,7 @@ int main(int argc,char **argv)
     else TheVideoCapturer.open(TheInputVideo);
     if (!TheVideoCapturer.isOpened())
     {
-      cerr<<"Could not open video"<<endl;
+      std::cerr<<"Could not open video"<<std::endl;
       return -1;
 
     }
@@ -148,7 +147,7 @@ int main(int argc,char **argv)
   catch (std::exception &ex)
 
   {
-    cout<<"Exception :"<<ex.what()<<endl;
+    std::cout<<"Exception :"<<ex.what()<<std::endl;
   }
 
 }

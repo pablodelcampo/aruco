@@ -41,14 +41,14 @@ or implied, of Rafael Muñoz Salinas.
 #include "cvdrawingutils.h"
 using namespace cv;
 using namespace aruco;
-using namespace std;
+
 int main(int argc,char **argv)
 {
   try
   {
     if (argc<2)
     {
-      cerr<<"Usage: (in.jpg|in.avi) [cameraParams.yml] [markerSize] [outImage]"<<endl;
+      std::cerr<<"Usage: (in.jpg|in.avi) [cameraParams.yml] [markerSize] [outImage]"<<std::endl;
       exit(0);
     }
 
@@ -74,7 +74,7 @@ int main(int argc,char **argv)
     //if empty, exit
     if (InImage.total()==0)
     {
-      cerr<<"Could not open input"<<endl;
+      std::cerr<<"Could not open input"<<std::endl;
       return 0;
     }
 
@@ -95,7 +95,7 @@ int main(int argc,char **argv)
     //for each marker, draw info and its boundaries in the image
     for (unsigned int i=0; i<Markers.size(); i++)
     {
-      cout<<Markers[i]<<endl;
+      std::cout<<Markers[i]<<std::endl;
       Markers[i].draw(InImage,Scalar(0,0,255),2);
     }
     //draw a 3d cube in each marker if there is 3d info
@@ -116,6 +116,6 @@ int main(int argc,char **argv)
   catch (std::exception &ex)
 
   {
-    cout<<"Exception :"<<ex.what()<<endl;
+    std::cout<<"Exception :"<<ex.what()<<std::endl;
   }
 }

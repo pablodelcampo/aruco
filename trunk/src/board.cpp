@@ -27,13 +27,12 @@ or implied, of Rafael Muñoz Salinas.
 ********************************/
 #include "board.h"
 #include <fstream>
-using namespace std;
 using namespace cv;
 namespace aruco
 {
 
 /*!
- *  
+ *
  */
 BoardConfiguration::BoardConfiguration()
 {
@@ -41,7 +40,7 @@ BoardConfiguration::BoardConfiguration()
 }
 
 /*!
- *  
+ *
  */
 BoardConfiguration::BoardConfiguration ( const BoardConfiguration  &T ): vector<MarkerInfo>(T)
 {
@@ -50,7 +49,7 @@ BoardConfiguration::BoardConfiguration ( const BoardConfiguration  &T ): vector<
 }
 
 /*!
- *  
+ *
  */
 BoardConfiguration & BoardConfiguration ::operator=(const BoardConfiguration  &T)
 {
@@ -61,7 +60,7 @@ BoardConfiguration & BoardConfiguration ::operator=(const BoardConfiguration  &T
 }
 
 /*!
- *  
+ *
  */
 void BoardConfiguration::saveToFile ( string sfile ) throw ( cv::Exception )
 {
@@ -72,7 +71,7 @@ void BoardConfiguration::saveToFile ( string sfile ) throw ( cv::Exception )
 }
 
 /*!
- *  
+ *
  */
 void BoardConfiguration::saveToFile(cv::FileStorage &fs)throw (cv::Exception)
 {
@@ -93,7 +92,7 @@ void BoardConfiguration::saveToFile(cv::FileStorage &fs)throw (cv::Exception)
 }
 
 /*!
- *  
+ *
  */
 void BoardConfiguration::readFromFile ( string sfile ) throw ( cv::Exception )
 {
@@ -104,7 +103,7 @@ void BoardConfiguration::readFromFile ( string sfile ) throw ( cv::Exception )
 
 
 /*!
- *  
+ *
  */
 void BoardConfiguration::readFromFile(cv::FileStorage &fs)throw (cv::Exception)
 {
@@ -136,7 +135,7 @@ void BoardConfiguration::readFromFile(cv::FileStorage &fs)throw (cv::Exception)
 }
 
 /*!
- *  
+ *
  */
 int BoardConfiguration::getIndexOfMarkerId(int id)const
 {
@@ -147,7 +146,7 @@ int BoardConfiguration::getIndexOfMarkerId(int id)const
 }
 
 /*!
- *  
+ *
  */
 const MarkerInfo& BoardConfiguration::getMarkerInfo(int id)const throw (cv::Exception)
 {
@@ -158,7 +157,7 @@ const MarkerInfo& BoardConfiguration::getMarkerInfo(int id)const throw (cv::Exce
 }
 
 /*!
- *  
+ *
  */
 void Board::glGetModelViewMatrix ( double modelview_matrix[16] ) throw ( cv::Exception )
 {
@@ -215,7 +214,7 @@ void Board::glGetModelViewMatrix ( double modelview_matrix[16] ) throw ( cv::Exc
 }
 
 /*!
- *  
+ *
  */
 void Board::OgreGetPoseParameters (double position[3], double orientation[4]) throw (cv::Exception)
 {
@@ -310,7 +309,7 @@ void Board::OgreGetPoseParameters (double position[3], double orientation[4]) th
 }
 
 /*!
- *  
+ *
  */
 void Board::saveToFile(string filePath)throw(cv::Exception)
 {
@@ -336,7 +335,7 @@ void Board::saveToFile(string filePath)throw(cv::Exception)
 }
 
 /*!
- *  
+ *
  */
 void Board::readFromFile(string filePath)throw(cv::Exception)
 {
@@ -377,7 +376,7 @@ void Board::readFromFile(string filePath)throw(cv::Exception)
 }
 
 /*!
- *  
+ *
  */
 void BoardConfiguration::getIdList(std::vector< int >& ids, bool append) const
 {

@@ -26,20 +26,21 @@ authors and should not be interpreted as representing official policies, either 
 or implied, of Rafael Muñoz Salinas.
 ********************************/
 #include "markerdetector.h"
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+//#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
+//#include <opencv/highgui.h>
+#include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <fstream>
 #include "arucofidmarkers.h"
 #include <valarray>
-using namespace std;
 using namespace cv;
 
 namespace aruco
 {
 
 /*!
- *  
+ *
  */
 MarkerDetector::MarkerDetector()
 {
@@ -57,7 +58,7 @@ MarkerDetector::MarkerDetector()
 }
 
 /*!
- *  
+ *
  */
 MarkerDetector::~MarkerDetector()
 {
@@ -65,7 +66,7 @@ MarkerDetector::~MarkerDetector()
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::setDesiredSpeed ( int val )
 {
@@ -91,7 +92,7 @@ void MarkerDetector::setDesiredSpeed ( int val )
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::detect (const cv::Mat &input, std::vector<Marker> &detectedMarkers,
   CameraParameters camParams ,float markerSizeMeters ,bool setYPerperdicular)
@@ -102,7 +103,7 @@ void MarkerDetector::detect (const cv::Mat &input, std::vector<Marker> &detected
 }
 
 /*!
- * Main detection function. Performs all steps 
+ * Main detection function. Performs all steps
  */
 void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarkers, Mat camMatrix,
   Mat distCoeff ,float markerSizeMeters ,bool setYPerperdicular) throw (cv::Exception)
@@ -179,7 +180,7 @@ void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarke
     if (_enableCylinderWarp)
       resW=warp_cylinder(grey, canonicalMarker, Size(_markerWarpSize, _markerWarpSize),
         MarkerCanditates[i] );
-    else 
+    else
       resW=warp(grey, canonicalMarker, Size(_markerWarpSize,_markerWarpSize), MarkerCanditates[i]);
     if (resW)
     {
@@ -254,7 +255,7 @@ void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarke
 }
 
 /*!
- * Crucial step. Detects the rectangular regions of the thresholded image 
+ * Crucial step. Detects the rectangular regions of the thresholded image
  */
 void MarkerDetector::detectRectangles(const cv::Mat &thres,
   vector<std::vector<cv::Point2f> > &MarkerCanditates )
@@ -268,7 +269,7 @@ void MarkerDetector::detectRectangles(const cv::Mat &thres,
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
   vector<MarkerCandidate> & OutMarkerCanditates)
@@ -277,8 +278,8 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
   //calculate the min_max contour sizes
   unsigned int minSize=_minSize*std::max(thresImg.cols,thresImg.rows)*4;
   unsigned int maxSize=_maxSize*std::max(thresImg.cols,thresImg.rows)*4;
-  std::vector<std::vector<cv::Point> > contours2;
-  std::vector<cv::Vec4i> hierarchy2;
+  vector<vector<cv::Point> > contours2;
+  vector<cv::Vec4i> hierarchy2;
 
   thresImg.copyTo ( thres2 );
   cv::findContours ( thres2 , contours2, hierarchy2,CV_RETR_TREE, CV_CHAIN_APPROX_NONE );
@@ -336,7 +337,7 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
 //      imshow("input",input);
 //              waitKey(0);
   ///sort the points in anti-clockwise order
-  valarray<bool> swapped(false,MarkerCanditates.size());//used later
+  std::valarray<bool> swapped(false,MarkerCanditates.size());//used later
   for ( unsigned int i=0; i<MarkerCanditates.size(); i++ )
   {
 
@@ -350,7 +351,7 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
 
     if ( o  < 0.0 )    //if the third point is in the left side, then sort in anti-clockwise order
     {
-      swap ( MarkerCanditates[i][1],MarkerCanditates[i][3] );
+      std::swap ( MarkerCanditates[i][1],MarkerCanditates[i][3] );
       swapped[i]=true;
       //sort the contour points
 //        reverse(MarkerCanditates[i].contour.begin(),MarkerCanditates[i].contour.end());//????
@@ -361,7 +362,7 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
   /// remove these elements whise corners are too close to each other
   //first detect candidates
 
-  vector<pair<int,int>  > TooNearCandidates;
+  vector<std::pair<int,int>  > TooNearCandidates;
   for ( unsigned int i=0; i<MarkerCanditates.size(); i++ )
   {
     //  cout<<"Marker i="<<i<<MarkerCanditates[i]<<endl;
@@ -382,13 +383,13 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
       /// \bug Luis : must 10 depend of image size ?¿?¿
       if (dist< 10) //if distance is too small
       {
-        TooNearCandidates.push_back ( pair<int,int> ( i,j ) );
+        TooNearCandidates.push_back ( std::pair<int,int> ( i,j ) );
       }
     }
   }
 
   //mark for removal the element of  the pair with smaller perimeter
-  valarray<bool> toRemove ( false,MarkerCanditates.size() );
+  std::valarray<bool> toRemove ( false,MarkerCanditates.size() );
   for ( unsigned int i=0; i<TooNearCandidates.size(); i++ )
   {
     if (perimeter(MarkerCanditates[TooNearCandidates[i].first ]) >
@@ -419,7 +420,7 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::thresHold (int method, const Mat &grey, Mat &out, double param1, double param2)
   throw ( cv::Exception )
@@ -465,7 +466,7 @@ void MarkerDetector::thresHold (int method, const Mat &grey, Mat &out, double pa
 }
 
 /*!
- *  
+ *
  */
 bool MarkerDetector::warp(Mat &in, Mat &out, Size size, vector<Point2f> points)
   throw (cv::Exception)
@@ -488,7 +489,7 @@ bool MarkerDetector::warp(Mat &in, Mat &out, Size size, vector<Point2f> points)
 }
 
 /*!
- *  
+ *
  */
 void findCornerPointsInContour(const vector<cv::Point2f>& points,
   const vector<cv::Point> &contour, vector<unsigned int> &idxs)
@@ -520,7 +521,7 @@ void findCornerPointsInContour(const vector<cv::Point2f>& points,
 }
 
 /*!
- *  
+ *
  */
 int findDeformedSidesIdx(const vector<cv::Point> &contour,const vector<unsigned int> &idxSegments)
 {
@@ -571,7 +572,7 @@ int findDeformedSidesIdx(const vector<cv::Point> &contour,const vector<unsigned 
 }
 
 /*!
- *  
+ *
  */
 void setPointIntoImage(cv::Point2f &p,cv::Size s)
 {
@@ -586,7 +587,7 @@ void setPointIntoImage(cv::Point2f &p,cv::Size s)
 }
 
 /*!
- *  
+ *
  */
 void setPointIntoImage(cv::Point  &p,cv::Size s)
 {
@@ -601,7 +602,7 @@ void setPointIntoImage(cv::Point  &p,cv::Size s)
 }
 
 /*!
- *  
+ *
  */
 bool MarkerDetector::warp_cylinder(Mat &in, Mat &out, Size size, MarkerCandidate& mcand)
   throw (cv::Exception)
@@ -685,7 +686,7 @@ bool MarkerDetector::warp_cylinder(Mat &in, Mat &out, Size size, MarkerCandidate
   pointsRes[2]= Point2f ( enlargedSize.width-1,enlargedSize.height-1 );
   pointsRes[3]= Point2f ( 0,enlargedSize.height-1 );
   //rotate to ensure that deformed sides are in the horizontal axis when warping
-  if (defrmdSide==0) rotate(pointsRes,pointsRes+1,pointsRes+4);
+  if (defrmdSide==0) std::rotate(pointsRes,pointsRes+1,pointsRes+4);
   cv::Mat imAux,imAux2(enlargedSize,CV_8UC1);
   Mat M=getPerspectiveTransform ( enlargedRegion,pointsRes );
   cv::warpPerspective ( in, imAux,  M, enlargedSize,cv::INTER_NEAREST);
@@ -753,7 +754,7 @@ bool MarkerDetector::warp_cylinder(Mat &in, Mat &out, Size size, MarkerCandidate
 }
 
 /*!
- *  
+ *
  */
 bool MarkerDetector::isInto ( Mat &contour,vector<Point2f> &b )
 {
@@ -764,7 +765,7 @@ bool MarkerDetector::isInto ( Mat &contour,vector<Point2f> &b )
 }
 
 /*!
- *  
+ *
  */
 int MarkerDetector:: perimeter ( vector<Point2f> &a )
 {
@@ -778,7 +779,7 @@ int MarkerDetector:: perimeter ( vector<Point2f> &a )
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::findBestCornerInRegion_harris (const cv::Mat & grey,
   vector<cv::Point2f> &Corners,int blockSize )
@@ -814,7 +815,7 @@ void MarkerDetector::findBestCornerInRegion_harris (const cv::Mat & grey,
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::refineCandidateLines(MarkerDetector::MarkerCandidate& candidate)
 {
@@ -877,7 +878,7 @@ void MarkerDetector::refineCandidateLines(MarkerDetector::MarkerCandidate& candi
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::interpolate2Dline( const std::vector< Point >& inPoints, Point3f& outLine)
 {
@@ -933,7 +934,7 @@ void MarkerDetector::interpolate2Dline( const std::vector< Point >& inPoints, Po
 }
 
 /*!
- *  
+ *
  */
 Point2f MarkerDetector::getCrossPoint(const cv::Point3f& line1, const cv::Point3f& line2)
 {
@@ -958,7 +959,7 @@ Point2f MarkerDetector::getCrossPoint(const cv::Point3f& line1, const cv::Point3
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::drawAllContours ( Mat input, std::vector<std::vector<cv::Point> > &contours )
 {
@@ -966,7 +967,7 @@ void MarkerDetector::drawAllContours ( Mat input, std::vector<std::vector<cv::Po
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector:: drawContour ( Mat &in,vector<Point>  &contour,Scalar color )
 {
@@ -977,7 +978,7 @@ void MarkerDetector:: drawContour ( Mat &in,vector<Point>  &contour,Scalar color
 }
 
 /*!
- *  
+ *
  */
 void  MarkerDetector:: drawApproxCurve ( Mat &in,vector<Point>  &contour,Scalar color )
 {
@@ -988,7 +989,7 @@ void  MarkerDetector:: drawApproxCurve ( Mat &in,vector<Point>  &contour,Scalar 
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::draw ( Mat out,const vector<Marker> &markers )
 {
@@ -1027,19 +1028,19 @@ void MarkerDetector::warpPerspective(const cv::Mat &in,cv::Mat & out, const cv::
 */
 
 /*!
- *  
+ *
  */
 void MarkerDetector::glGetProjectionMatrix (CameraParameters &CamMatrix, cv::Size orgImgSize,
   cv::Size size, double proj_matrix[16], double gnear, double gfar, bool invert)
   throw (cv::Exception )
 {
-  cerr<<"MarkerDetector::glGetProjectionMatrix . This a deprecated function. "
-    "Use CameraParameters::glGetProjectionMatrix instead. "<<__FILE__<<" "<<__LINE__<<endl;
+  std::cerr<<"MarkerDetector::glGetProjectionMatrix . This a deprecated function. "
+    "Use CameraParameters::glGetProjectionMatrix instead. "<<__FILE__<<" "<<__LINE__<<std::endl;
   CamMatrix.glGetProjectionMatrix ( orgImgSize,size,proj_matrix,gnear,gfar,invert );
 }
 
 /*!
- *  
+ *
  */
 void MarkerDetector::setMinMaxSize(float min ,float max )throw(cv::Exception)
 {

@@ -37,7 +37,6 @@ or implied, of Rafael Muñoz Salinas.
 #include "cvdrawingutils.h"
 using namespace cv;
 using namespace aruco;
-using namespace std;
 
 string TheInputVideo;
 string TheIntrinsicFile;
@@ -51,7 +50,7 @@ CameraParameters TheCameraParameters;
 void cvTackBarEvents(int pos,void*);
 bool readCameraParameters(string TheIntrinsicFile,CameraParameters &CP,Size size);
 
-pair<double,double> AvrgTime(0,0) ;//determines the average time required for detection
+std::pair<double,double> AvrgTime(0,0) ;//determines the average time required for detection
 double ThresParam1,ThresParam2;
 int iThresParam1,iThresParam2;
 int waitTime=0;
@@ -66,8 +65,8 @@ bool readArguments ( int argc,char **argv )
 {
   if (argc<2)
   {
-    cerr<<"Invalid number of arguments"<<endl;
-    cerr<<"Usage: (in.avi|live) [intrinsics.yml] [size]"<<endl;
+    std::cerr<<"Invalid number of arguments"<<std::endl;
+    std::cerr<<"Usage: (in.avi|live) [intrinsics.yml] [size]"<<std::endl;
     return false;
   }
   TheInputVideo=argv[1];
@@ -77,7 +76,7 @@ bool readArguments ( int argc,char **argv )
     TheMarkerSize=atof(argv[3]);
 
   if (argc==3)
-    cerr<<"NOTE: You need makersize to see 3d info!!!!"<<endl;
+    std::cerr<<"NOTE: You need makersize to see 3d info!!!!"<<std::endl;
   return true;
 }
 /************************************
@@ -106,7 +105,7 @@ int main(int argc,char **argv)
     //check video is open
     if (!TheVideoCapturer.isOpened())
     {
-      cerr<<"Could not open video"<<endl;
+      std::cerr<<"Could not open video"<<std::endl;
       return -1;
 
     }
@@ -151,13 +150,13 @@ int main(int argc,char **argv)
       //chekc the speed by calculating the mean speed of all iterations
       AvrgTime.first+=((double)getTickCount()-tick)/getTickFrequency();
       AvrgTime.second++;
-      cout<<"Time detection="<<1000*AvrgTime.first/AvrgTime.second<<" milliseconds"<<endl;
+      std::cout<<"Time detection="<<1000*AvrgTime.first/AvrgTime.second<<" milliseconds"<<std::endl;
 
       //print marker info and draw the markers in image
       TheInputImage.copyTo(TheInputImageCopy);
       for (unsigned int i=0; i<TheMarkers.size(); i++)
       {
-        cout<<TheMarkers[i]<<endl;
+        std::cout<<TheMarkers[i]<<std::endl;
         TheMarkers[i].draw(TheInputImageCopy,Scalar(0,0,255),1);
       }
       //print other rectangles that contains no valid markers
@@ -176,7 +175,7 @@ int main(int argc,char **argv)
           CvDrawingUtils::draw3dAxis(TheInputImageCopy,TheMarkers[i],TheCameraParameters);
         }
       //DONE! Easy, right?
-      cout<<endl<<endl<<endl;
+      std::cout<<std::endl<<std::endl<<std::endl;
       //show input with augmented information and  the thresholded image
       cv::imshow("in",TheInputImageCopy);
       cv::imshow("thres",MDetector.getThresholdedImage());
@@ -189,7 +188,7 @@ int main(int argc,char **argv)
   catch (std::exception &ex)
 
   {
-    cout<<"Exception :"<<ex.what()<<endl;
+    std::cout<<"Exception :"<<ex.what()<<std::endl;
   }
 
 }

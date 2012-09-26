@@ -50,7 +50,7 @@ Marker::Marker()
 /*!
  *
  */
-Marker::Marker(const Marker &M):std::vector<cv::Point2f>(M)
+Marker::Marker(const Marker &M):vector<cv::Point2f>(M)
 {
   M.Rvec.copyTo(Rvec);
   M.Tvec.copyTo(Tvec);
@@ -61,7 +61,7 @@ Marker::Marker(const Marker &M):std::vector<cv::Point2f>(M)
 /*!
  *
  */
-Marker::Marker(const  std::vector<cv::Point2f> &corners,int _id):std::vector<cv::Point2f>(corners)
+Marker::Marker(const  vector<cv::Point2f> &corners,int _id):vector<cv::Point2f>(corners)
 {
   id=_id;
   ssize=-1;

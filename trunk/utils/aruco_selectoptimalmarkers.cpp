@@ -41,7 +41,6 @@ or implied, of Rafael Muñoz Salinas.
 #include <iostream>
 #include "arucofidmarkers.h"
 using namespace cv;
-using namespace std;
 
 int HammDist_(const cv::Mat &m1,const cv::Mat & m2)
 {
@@ -111,7 +110,7 @@ int main(int argc,char **argv)
     {
 
       //You can also use ids 2000-2007 but it is not safe since there are a lot of false positives.
-      cerr<<"Usage: nofMarkers outbasename size [minimum_entropy(9,25)]"<<endl;
+      std::cerr<<"Usage: nofMarkers outbasename size [minimum_entropy(9,25)]"<<std::endl;
       return -1;
     }
 
@@ -126,13 +125,13 @@ int main(int argc,char **argv)
       markers.push_back(aruco::FiducidalMarkers::getMarkerMat(i) );
       ventropy.push_back(entropy( aruco::FiducidalMarkers::getMarkerMat(i) ));
     }
-    cout<<"Calculating distance matrix"<<endl;
+    std::cout<<"Calculating distance matrix"<<std::endl;
     //create a matrix with all distances
     cv::Mat distances=cv::Mat::zeros(1024,1024,CV_32SC1);
     for (int i=0; i<1024; i++)
       for (int j=i+1; j<1024; j++)
         distances.at<int>(i,j)=distances.at<int>(j,i)= HammDist (  markers[i],markers[j]);
-    cout<<"done"<<endl;
+    std::cout<<"done"<<std::endl;
     //
     int nMarkers=atoi(argv[1]);
     //select the first marker
@@ -153,7 +152,7 @@ int main(int argc,char **argv)
     for (size_t i=0; i<ventropy.size(); i++)
       if (ventropy[i]<minimimEntropy) usedMarkers[i]=true;
 
-    cout<<"Max Entroy in ="<<bestEntr<<" "<<ventropy[bestEntr]<<endl;
+    std::cout<<"Max Entroy in ="<<bestEntr<<" "<<ventropy[bestEntr]<<std::endl;
     //add new markers according to the distance added to the global
     for (int i=1; i<nMarkers; i++)
     {
@@ -183,7 +182,7 @@ int main(int argc,char **argv)
       }
       else
       {
-        cerr<<"COUDL NOT ADD ANY MARKER"<<endl;
+        std::cerr<<"COUDL NOT ADD ANY MARKER"<<std::endl;
         exit(0);
       }
 //             char c;cin>>c;
@@ -195,11 +194,11 @@ int main(int argc,char **argv)
       char name[1024];
       sprintf(name,"%s%d.png",argv[2],selectedMarkers[i]);
 //    cout<<"name="<<name<<endl;
-      cout<<selectedMarkers[i]<<" "<<flush;
+      std::cout<<selectedMarkers[i]<<" "<<std::flush;
       Mat markerImage=aruco::FiducidalMarkers::createMarkerImage(selectedMarkers[i],atoi(argv[3]));
       imwrite(name,markerImage);
     }
-    cout<<endl;
+    std::cout<<std::endl;
     //print the minimim distance between any two  elements
     int minDist=std::numeric_limits<int>::max();
     for (size_t i=0; i<selectedMarkers.size()-1; i++)
@@ -211,12 +210,12 @@ int main(int argc,char **argv)
       }
 
 
-    cout<<"Min Dist="<<minDist<<endl;
+    std::cout<<"Min Dist="<<minDist<<std::endl;
 
   }
   catch (std::exception &ex)
   {
-    cout<<ex.what()<<endl;
+    std::cout<<ex.what()<<std::endl;
   }
 
 }

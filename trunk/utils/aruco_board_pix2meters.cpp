@@ -35,7 +35,6 @@ or implied, of Rafael Muñoz Salinas.
 
 #include <iostream>
 #include "board.h"
-using namespace std;
 using namespace aruco;
 int main(int argc,char **argv)
 {
@@ -44,19 +43,19 @@ int main(int argc,char **argv)
 
     if (argc<4)
     {
-      cerr<<"Usage:  in_boardConfiguration.yml markerSize_meters out_boardConfiguration.yml"<<endl;
+      std::cerr<<"Usage:  in_boardConfiguration.yml markerSize_meters out_boardConfiguration.yml"<<std::endl;
       return -1;
     }
     aruco::BoardConfiguration BInfo;
     BInfo.readFromFile(argv[1]);
     if (BInfo.size()==0)
     {
-      cerr<<"Invalid bord with no markers"<<endl;
+      std::cerr<<"Invalid bord with no markers"<<std::endl;
       return -1;
     }
     if (!BInfo.isExpressedInPixels())
     {
-      cerr<<"The board is not expressed in pixels"<<endl;
+      std::cerr<<"The board is not expressed in pixels"<<std::endl;
       return -1;
     }
 //first, we are assuming all markers are equally sized. So, lets get the size in pixels
@@ -66,7 +65,7 @@ int main(int argc,char **argv)
 //now, get the size of a pixel, and change scale
     float markerSize_meters=atof(argv[2]);
     float pixSize= markerSize_meters/float(markerSizePix);
-    cout<<markerSize_meters<<" "<<float(markerSizePix)<<" "<<pixSize<<endl;
+    std::cout<<markerSize_meters<<" "<<float(markerSizePix)<<" "<<pixSize<<std::endl;
     for (size_t i=0; i<BInfo.size(); i++)
       for (int c=0; c<4; c++)
       {
@@ -77,7 +76,7 @@ int main(int argc,char **argv)
   }
   catch (std::exception &ex)
   {
-    cout<<ex.what()<<endl;
+    std::cout<<ex.what()<<std::endl;
   }
 }
 

@@ -27,8 +27,9 @@ or implied, of Rafael Muñoz Salinas.
 ********************************/
 #ifndef _COMMON_ARUCO_
 #define _COMMON_ARUCO_
-#include <opencv/cv.h>
-using namespace cv;
+//#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
+//using namespace cv;
 /**This function reads the matrix intrinsics and the distorsion coefficients from a file.
  * The format of the file is
  * \code
@@ -43,7 +44,7 @@ using namespace cv;
  * @return true if params are readed properly
  */
 
-bool readIntrinsicFile(string TheIntrinsicFile,Mat & TheIntriscCameraMatrix,Mat &TheDistorsionCameraParams,Size size)
+bool readIntrinsicFile(cv::string TheIntrinsicFile,cv::Mat & TheIntriscCameraMatrix,cv::Mat &TheDistorsionCameraParams,cv::Size size)
 {
     //open file
     std::ifstream InFile(TheIntrinsicFile.c_str());
@@ -57,7 +58,7 @@ bool readIntrinsicFile(string TheIntrinsicFile,Mat & TheIntriscCameraMatrix,Mat 
     InLine<<line;
     //Create the matrices
     TheDistorsionCameraParams.create(4,1,CV_32FC1);
-    TheIntriscCameraMatrix=Mat::eye(3,3,CV_32FC1);
+    TheIntriscCameraMatrix=cv::Mat::eye(3,3,CV_32FC1);
 
 
     //read intrinsic matrix

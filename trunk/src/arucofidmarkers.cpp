@@ -30,7 +30,6 @@ or implied, of Rafael Muñoz Salinas.
 #include "arucofidmarkers.h"
 #include <opencv2/imgproc/imgproc.hpp>
 using namespace cv;
-using namespace std;
 namespace aruco
 {
 
@@ -345,7 +344,7 @@ int FiducidalMarkers::analyzeMarkerImage(Mat &grey,int &nRotations)
   Rotations[0]=_bits;
   int dists[4];
   dists[0]=hammDistMarker( Rotations[0]) ;
-  pair<int,int> minDist( dists[0],0);
+  std::pair<int,int> minDist( dists[0],0);
   for (int i=1; i<4; i++)
   {
     //rotate
@@ -443,8 +442,8 @@ int FiducidalMarkers::detect(const Mat &in,int &nRotations)
 /*!
  *
  */
-std::vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int nMarkers,
-  std::vector<int> *excluded) throw (cv::Exception)
+vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int nMarkers,
+vector<int> *excluded) throw (cv::Exception)
 {
 
   if (excluded!=NULL)
@@ -452,7 +451,7 @@ std::vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int 
       throw cv::Exception(8888,"FiducidalMarkers::getListOfValidMarkersIds_random",
         "Number of possible markers is exceeded",__FILE__,__LINE__);
 
-  std::vector<int> listOfMarkers(1024);
+  vector<int> listOfMarkers(1024);
 //set a list with all ids
   for (int i=0; i<1024; i++) listOfMarkers[i]=i;
 
@@ -463,7 +462,7 @@ std::vector<int> FiducidalMarkers::getListOfValidMarkersIds_random(unsigned int 
   random_shuffle(listOfMarkers.begin(),listOfMarkers.end());
 //now, take the first  nMarkers elements with value !=-1
   int i=0;
-  std::vector<int> retList;
+  vector<int> retList;
   while (retList.size()<nMarkers)
   {
     if (listOfMarkers[i]!=-1)

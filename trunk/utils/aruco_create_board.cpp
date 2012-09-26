@@ -27,11 +27,12 @@ or implied, of Rafael Muñoz Salinas.
 ********************************/
 #include "board.h"
 #include <cstdio>
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+//#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
+//#include <opencv/highgui.h>
+#include <opencv2/highgui/highgui.hpp>
 #include "arucofidmarkers.h"
 
-using namespace std;
 using namespace cv;
 
 /// @file aruco_create_board.cpp
@@ -44,13 +45,13 @@ int main(int argc,char **argv)
   {
     if (argc<4)
     {
-      cerr<<"Usage: X:Y boardImage.png boardConfiguration.yml [pixSize] [Type(0: panel,1: chessboard, 2: frame)] [interMarkerDistance(0,1)]"<<endl;
+      std::cerr<<"Usage: X:Y boardImage.png boardConfiguration.yml [pixSize] [Type(0: panel,1: chessboard, 2: frame)] [interMarkerDistance(0,1)]"<<std::endl;
       return -1;
     }
     int XSize,YSize;
     if (sscanf(argv[1],"%d:%d",&XSize,&YSize)!=2)
     {
-      cerr<<"Incorrect X:Y specification"<<endl;
+      std::cerr<<"Incorrect X:Y specification"<<std::endl;
       return -1;
     }
     int pixSize=100;
@@ -71,7 +72,7 @@ int main(int argc,char **argv)
 
     else
     {
-      cerr<<"Incorrect board type"<<typeBoard<<endl;
+      std::cerr<<"Incorrect board type"<<typeBoard<<std::endl;
       return -1;
     }
 
@@ -81,7 +82,7 @@ int main(int argc,char **argv)
   }
   catch (std::exception &ex)
   {
-    cout<<ex.what()<<endl;
+    std::cout<<ex.what()<<std::endl;
   }
 
 }

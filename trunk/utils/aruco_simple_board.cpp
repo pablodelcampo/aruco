@@ -33,14 +33,15 @@ or implied, of Rafael Muñoz Salinas.
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+//#include <opencv/cv.h>
+#include <opencv2/opencv.hpp>
+//#include <opencv/highgui.h>
+#include <opencv2/highgui/highgui.hpp>
 #include "aruco.h"
 #include "boarddetector.h"
 #include "cvdrawingutils.h"
 using namespace cv;
 using namespace aruco;
-using namespace std;
 /************************************
  *
  *
@@ -53,7 +54,7 @@ int main(int argc,char **argv)
   {
     if (argc<3)
     {
-      cerr<<"Usage: image  boardConfig.yml [cameraParams.yml] [markerSize]  [outImage]"<<endl;
+      std::cerr<<"Usage: image  boardConfig.yml [cameraParams.yml] [markerSize]  [outImage]"<<std::endl;
       exit(0);
     }
     aruco::CameraParameters CamParam;
@@ -85,7 +86,7 @@ int main(int argc,char **argv)
     //for each marker, draw info and its boundaries in the image
     for (unsigned int i=0; i<Markers.size(); i++)
     {
-      cout<<Markers[i]<<endl;
+      std::cout<<Markers[i]<<std::endl;
       Markers[i].draw(InImage,Scalar(0,0,255),2);
     }
 
@@ -98,7 +99,7 @@ int main(int argc,char **argv)
         CvDrawingUtils::draw3dAxis(InImage,Markers[i],CamParam);
       }
       CvDrawingUtils::draw3dAxis(InImage,TheBoardDetected,CamParam);
-      cout<<TheBoardDetected.Rvec<<" "<<TheBoardDetected.Tvec<<endl;
+      std::cout<<TheBoardDetected.Rvec<<" "<<TheBoardDetected.Tvec<<std::endl;
     }
     //draw board axis
 
@@ -111,7 +112,7 @@ int main(int argc,char **argv)
   catch (std::exception &ex)
 
   {
-    cout<<"Exception :"<<ex.what()<<endl;
+    std::cout<<"Exception :"<<ex.what()<<std::endl;
   }
 
 }

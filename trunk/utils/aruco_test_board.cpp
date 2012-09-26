@@ -37,7 +37,6 @@ or implied, of Rafael Muñoz Salinas.
 #include "aruco.h"
 using namespace cv;
 using namespace aruco;
-using namespace std;
 
 string TheInputVideo;
 string TheIntrinsicFile;
@@ -54,7 +53,7 @@ string TheOutVideoFilePath;
 cv::VideoWriter VWriter;
 
 void cvTackBarEvents(int pos,void*);
-pair<double,double> AvrgTime(0,0) ;//determines the average time required for detection
+std::pair<double,double> AvrgTime(0,0) ;//determines the average time required for detection
 double ThresParam1,ThresParam2;
 int iThresParam1,iThresParam2;
 int waitTime=0;
@@ -74,8 +73,8 @@ bool readArguments ( int argc,char **argv )
 
   if (argc<3)
   {
-    cerr<<"Invalid number of arguments"<<endl;
-    cerr<<"Usage: (in.avi|live) boardConfig.yml [intrinsics.yml] [size] [out]"<<endl;
+    std::cerr<<"Invalid number of arguments"<<std::endl;
+    std::cerr<<"Usage: (in.avi|live) boardConfig.yml [intrinsics.yml] [size] [out]"<<std::endl;
     return false;
   }
   TheInputVideo=argv[1];
@@ -89,7 +88,7 @@ bool readArguments ( int argc,char **argv )
 
 
   if (argc==4)
-    cerr<<"NOTE: You need makersize to see 3d info!!!!"<<endl;
+    std::cerr<<"NOTE: You need makersize to see 3d info!!!!"<<std::endl;
 
   return true;
 }
@@ -135,7 +134,7 @@ int main(int argc,char **argv)
     //check video is open
     if (!TheVideoCapturer.isOpened())
     {
-      cerr<<"Could not open video"<<endl;
+      std::cerr<<"Could not open video"<<std::endl;
       return -1;
 
     }
@@ -179,7 +178,7 @@ int main(int argc,char **argv)
       //chekc the speed by calculating the mean speed of all iterations
       AvrgTime.first+=((double)getTickCount()-tick)/getTickFrequency();
       AvrgTime.second++;
-      cout<<"Time detection="<<1000*AvrgTime.first/AvrgTime.second<<" milliseconds"<<endl;
+      std::cout<<"Time detection="<<1000*AvrgTime.first/AvrgTime.second<<" milliseconds"<<std::endl;
       //print marker borders
       for (unsigned int i=0; i<TheBoardDetector.getDetectedMarkers().size(); i++)
         TheBoardDetector.getDetectedMarkers()[i].draw(TheInputImageCopy,Scalar(0,0,255),1);
@@ -224,7 +223,7 @@ int main(int argc,char **argv)
   catch (std::exception &ex)
 
   {
-    cout<<"Exception :"<<ex.what()<<endl;
+    std::cout<<"Exception :"<<ex.what()<<std::endl;
   }
 
 }
