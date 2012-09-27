@@ -12,7 +12,7 @@ LIST(GET PROJECT_VERSION_PARTS 2 PROJECT_VERSION_PATCH)
 SET(PROJECT_SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
 
 
-#------------------------------------------------------
+#-----------------------------------------------------
 # Build type
 #------------------------------------------------------
 
