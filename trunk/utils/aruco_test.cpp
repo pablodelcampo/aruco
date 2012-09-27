@@ -50,7 +50,6 @@ CameraParameters TheCameraParameters;
 void cvTackBarEvents(int pos,void*);
 bool readCameraParameters(string TheIntrinsicFile,CameraParameters &CP,Size size);
 
-std::pair<double,double> AvrgTime(0,0) ;//determines the average time required for detection
 double ThresParam1,ThresParam2;
 int iThresParam1,iThresParam2;
 int waitTime=0;
@@ -150,9 +149,8 @@ int main(int argc,char **argv)
       MDetector.detect(TheInputImage,TheMarkers,TheCameraParameters,TheMarkerSize);
       //chekc the speed by calculating the mean speed of all iterations
 //      AvrgTime.first+=((double)getTickCount()-tick)/getTickFrequency();
-      AvrgTime.first+=(static_cast<double>(getTickCount())-tick)/getTickFrequency();
-      AvrgTime.second++;
-      std::cout<<"Time detection="<<1000*AvrgTime.first/AvrgTime.second<<" milliseconds"<<std::endl;
+      tick=(static_cast<double>(getTickCount())-tick)/getTickFrequency();
+      std::cout<<"\rTime detection="<<1000*tick<<" milliseconds"<<std::flush;
 
       //print marker info and draw the markers in image
       TheInputImage.copyTo(TheInputImageCopy);

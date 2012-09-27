@@ -53,7 +53,6 @@ string TheOutVideoFilePath;
 cv::VideoWriter VWriter;
 
 void cvTackBarEvents(int pos,void*);
-std::pair<double,double> AvrgTime(0,0) ;//determines the average time required for detection
 double ThresParam1,ThresParam2;
 int iThresParam1,iThresParam2;
 int waitTime=0;
@@ -177,10 +176,8 @@ int main(int argc,char **argv)
       //Detection of the board
       float probDetect=TheBoardDetector.detect(TheInputImage);
       //chekc the speed by calculating the mean speed of all iterations
-//      AvrgTime.first+=((double)getTickCount()-tick)/getTickFrequency();
-      AvrgTime.first+=(static_cast<double>(getTickCount())-tick)/getTickFrequency();
-      AvrgTime.second++;
-      std::cout<<"Time detection="<<1000*AvrgTime.first/AvrgTime.second<<" milliseconds"<<std::endl;
+      tick=(static_cast<double>(getTickCount())-tick)/getTickFrequency();
+      std::cout<<"\rTime detection="<<1000*tick<<" milliseconds"<<std::flush;
       //print marker borders
       for (unsigned int i=0; i<TheBoardDetector.getDetectedMarkers().size(); i++)
         TheBoardDetector.getDetectedMarkers()[i].draw(TheInputImageCopy,Scalar(0,0,255),1);
