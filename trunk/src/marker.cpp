@@ -356,8 +356,10 @@ cv::Point2f Marker::getCenter()const
     cent.x+=(*this)[i].x;
     cent.y+=(*this)[i].y;
   }
-  cent.x/=float(size());
-  cent.y/=float(size());
+//  cent.x/=float(size());
+//  cent.y/=float(size());
+  cent.x/=static_cast<float>(size());
+  cent.y/=static_cast<float>(size());
   return cent;
 }
 

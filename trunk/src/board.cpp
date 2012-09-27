@@ -75,8 +75,10 @@ void BoardConfiguration::saveToFile ( string sfile ) throw ( cv::Exception )
  */
 void BoardConfiguration::saveToFile(cv::FileStorage &fs)throw (cv::Exception)
 {
-  fs<<"aruco_bc_nmarkers"<< ( int ) size();
-  fs<<"aruco_bc_mInfoType"<< ( int ) mInfoType;
+//  fs<<"aruco_bc_nmarkers"<< ( int ) size();
+//  fs<<"aruco_bc_mInfoType"<< ( int ) mInfoType;
+  fs<<"aruco_bc_nmarkers"<< static_cast<int>(size());
+  fs<<"aruco_bc_mInfoType"<< static_cast<int>(mInfoType);
   fs<<"aruco_bc_markers"<<"[";
   for (size_t i=0; i<size(); i++ )
   {

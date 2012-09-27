@@ -181,8 +181,10 @@ void CameraParameters::resize(cv::Size size)throw(cv::Exception)
     return;
   //now, read the camera size
   //resize the camera parameters to fit this image size
-  float AxFactor= float(size.width)/ float(CamSize.width);
-  float AyFactor= float(size.height)/ float(CamSize.height);
+//  float AxFactor= float(size.width)/ float(CamSize.width);
+//  float AyFactor= float(size.height)/ float(CamSize.height);
+  float AxFactor= static_cast<float>(size.width)/ static_cast<float>(CamSize.width);
+  float AyFactor= static_cast<float>(size.height)/ static_cast<float>(CamSize.height);
   CameraMatrix.at<float>(0,0)*=AxFactor;
   CameraMatrix.at<float>(0,2)*=AxFactor;
   CameraMatrix.at<float>(1,1)*=AyFactor;
@@ -240,8 +242,10 @@ void CameraParameters::glGetProjectionMatrix(cv::Size orgImgSize, cv::Size size,
       __FILE__,__LINE__);
 
   //Deterime the rsized info
-  double Ax=double(size.width)/double(orgImgSize.width);
-  double Ay=double(size.height)/double(orgImgSize.height);
+//  double Ax=double(size.width)/double(orgImgSize.width);
+//  double Ay=double(size.height)/double(orgImgSize.height);
+  double Ax=static_cast<double>(size.width)/static_cast<double>(orgImgSize.width);
+  double Ay=static_cast<double>(size.height)/static_cast<double>(orgImgSize.height);
   double _fx=CameraMatrix.at<float>(0,0)*Ax;
   double _cx=CameraMatrix.at<float>(0,2)*Ax;
   double _fy=CameraMatrix.at<float>(1,1)*Ay;
