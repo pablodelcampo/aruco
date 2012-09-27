@@ -36,9 +36,9 @@ or implied, of Rafael Muñoz Salinas.
 /// \todo Remove try & catch block
 /// \todo Use argtable2 for arguments
 
-#include <iostream>
+//#include <iostream>
 #include "aruco.h"
-#include "cvdrawingutils.h"
+//#include "cvdrawingutils.h"
 using namespace cv;
 using namespace aruco;
 

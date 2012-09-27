@@ -33,7 +33,7 @@ or implied, of Rafael Muñoz Salinas.
 //This program converts a boardconfiguration file expressed in pixel to another one expressed in meters
 
 
-#include <iostream>
+//#include <iostream>
 #include "board.h"
 using namespace aruco;
 int main(int argc,char **argv)

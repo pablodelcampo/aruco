@@ -27,11 +27,11 @@ or implied, of Rafael Muñoz Salinas.
 ********************************/
 #ifndef _ARUCO_MarkerDetector_H
 #define _ARUCO_MarkerDetector_H
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 #include <cstdio>
-#include <iostream>
-#include "cameraparameters.h"
-#include "exports.h"
+//#include <iostream>
+//#include "cameraparameters.h"
+//#include "exports.h"
 #include "marker.h"
 //using namespace std;
 

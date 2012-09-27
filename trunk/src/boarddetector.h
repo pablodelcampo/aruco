@@ -27,10 +27,11 @@ or implied, of Rafael Muñoz Salinas.
 ********************************/
 #ifndef _Aruco_BoardDetector_H
 #define _Aruco_BoardDetector_H
-#include <opencv2/opencv.hpp>
-#include "exports.h"
+//#include <opencv2/opencv.hpp>
+#include "opencv2/highgui/highgui.hpp"
+//#include "exports.h"
 #include "board.h"
-#include "cameraparameters.h"
+//#include "cameraparameters.h"
 #include "markerdetector.h"
 //using namespace std;
 

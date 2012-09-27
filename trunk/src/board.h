@@ -27,10 +27,10 @@ or implied, of Rafael Muñoz Salinas.
 ********************************/
 #ifndef _Aruco_board_h
 #define _Aruco_board_h
-#include <opencv2/opencv.hpp>
-#include <string>
-#include <vector>
-#include "exports.h"
+//#include <opencv2/opencv.hpp>
+//#include <string>
+//#include <vector>
+//#include "exports.h"
 #include "marker.h"
 //using namespace std;
 namespace aruco

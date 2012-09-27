@@ -30,10 +30,10 @@ or implied, of Rafael Muñoz Salinas.
 /// \todo Remove try & catch block
 /// \todo Use argtable2 for arguments
 
-#include <iostream>
+//#include <iostream>
 #include <fstream>
 #include <sstream>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 #include "aruco.h"
 using namespace cv;
 using namespace aruco;

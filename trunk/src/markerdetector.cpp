@@ -27,10 +27,10 @@ or implied, of Rafael Muñoz Salinas.
 ********************************/
 #include "markerdetector.h"
 //#include <opencv/cv.h>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 //#include <opencv/highgui.h>
-#include <opencv2/highgui/highgui.hpp>
-#include <iostream>
+//#include <opencv2/highgui/highgui.hpp>
+//#include <iostream>
 #include <fstream>
 #include "arucofidmarkers.h"
 #include <valarray>

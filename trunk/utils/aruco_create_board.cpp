@@ -25,10 +25,10 @@ The views and conclusions contained in the software and documentation are those 
 authors and should not be interpreted as representing official policies, either expressed
 or implied, of Rafael Muñoz Salinas.
 ********************************/
-#include "board.h"
+//#include "board.h"
 #include <cstdio>
 //#include <opencv/cv.h>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 //#include <opencv/highgui.h>
 #include <opencv2/highgui/highgui.hpp>
 #include "arucofidmarkers.h"

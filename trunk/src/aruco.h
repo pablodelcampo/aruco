@@ -128,7 +128,7 @@ For testing the applications, the library provides videos and the corresponding 
 
 */
 
-#include "markerdetector.h"
+//#include "markerdetector.h"
 #include "boarddetector.h"
 #include "cvdrawingutils.h"
 
