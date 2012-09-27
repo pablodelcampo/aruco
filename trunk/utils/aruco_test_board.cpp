@@ -176,9 +176,8 @@ int main(int argc,char **argv)
       //Detection of the board
       float probDetect=TheBoardDetector.detect(TheInputImage);
       //chekc the speed by calculating the mean speed of all iterations
-      AvrgTime.first+=((double)getTickCount()-tick)/getTickFrequency();
-      AvrgTime.second++;
-      cout<<"Time detection="<<1000*AvrgTime.first/AvrgTime.second<<" milliseconds"<<endl;
+      tick =((double)getTickCount()-tick)/getTickFrequency();
+      cout<<"\rTime detection="<<1000*tick<<" milliseconds"<<flush;
       //print marker borders
       for (unsigned int i=0; i<TheBoardDetector.getDetectedMarkers().size(); i++)
         TheBoardDetector.getDetectedMarkers()[i].draw(TheInputImageCopy,Scalar(0,0,255),1);
