@@ -75,7 +75,7 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
 
     /**Draws this marker in the input image
      */
-    void draw(cv::Mat &in, cv::Scalar color, int lineWidth=1,bool writeId=true)const;
+     void draw(cv::Mat &in, cv::Scalar color, int lineWidth=1,bool writeId=true)const;
 
     /**Calculates the extrinsics (Rvec and Tvec) of the marker with respect to the camera
      * @param markerSize size of the marker side expressed in meters
@@ -83,7 +83,9 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
      * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
      * Otherwise, it will be the Z axis
      */
-    void calculateExtrinsics(float markerSize,const CameraParameters &CP,
+//    void calculateExtrinsics(float markerSize,const CameraParameters &CP,
+//      bool setYPerperdicular=true)throw(cv::Exception);
+    void calculateExtrinsics(const float markerSize,const CameraParameters &CP,
       bool setYPerperdicular=true)throw(cv::Exception);
 
     /**Calculates the extrinsics (Rvec and Tvec) of the marker with respect to the camera
@@ -93,8 +95,12 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
      * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
      * Otherwise, it will be the Z axis
      */
-    void calculateExtrinsics(float markerSize, cv::Mat CameraMatrix, cv::Mat Distorsion=cv::Mat(),
+
+//    void calculateExtrinsics(float markerSize, cv::Mat CameraMatrix, cv::Mat Distorsion=cv::Mat(),
+//      bool setYPerperdicular=true)throw(cv::Exception);
+    void calculateExtrinsics(const float markerSize, const cv::Mat &CameraMatrix,const cv::Mat &Distorsion=cv::Mat(),
       bool setYPerperdicular=true)throw(cv::Exception);
+
 
     /**Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
      * Setting this matrix, the reference coordinate system will be set in this marker

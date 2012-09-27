@@ -259,7 +259,9 @@ void Marker::draw(Mat &in, Scalar color, int lineWidth ,bool writeId)const
 /*!
  *
  */
-void Marker::calculateExtrinsics(float markerSize,const CameraParameters &CP,
+//void Marker::calculateExtrinsics(float markerSize,const CameraParameters &CP,
+//  bool setYPerperdicular)throw(cv::Exception)
+void Marker::calculateExtrinsics(const float markerSize,const CameraParameters &CP,
   bool setYPerperdicular)throw(cv::Exception)
 {
   if (!CP.isValid())
@@ -276,7 +278,9 @@ void Marker::calculateExtrinsics(float markerSize,const CameraParameters &CP,
 /*!
  *
  */
-void Marker::calculateExtrinsics(float markerSizeMeters, cv::Mat camMatrix, cv::Mat distCoeff,
+//void Marker::calculateExtrinsics(float markerSizeMeters, cv::Mat camMatrix, cv::Mat distCoeff,
+//  bool setYPerperdicular)throw(cv::Exception)
+void Marker::calculateExtrinsics(const float markerSizeMeters,const Mat &camMatrix,const cv::Mat &distCoeff,
   bool setYPerperdicular)throw(cv::Exception)
 {
   if (!isValid())

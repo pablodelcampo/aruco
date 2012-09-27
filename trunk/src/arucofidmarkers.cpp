@@ -28,7 +28,7 @@ or implied, of Rafael Muñoz Salinas.
 
 */
 #include "arucofidmarkers.h"
-//#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 using namespace cv;
 namespace aruco
 {
