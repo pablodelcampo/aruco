@@ -144,11 +144,13 @@ int main(int argc,char **argv)
       //copy image
 
       index++; //number of images captured
-      double tick = (double)getTickCount();//for checking the speed
+//      double tick = (double)getTickCount();//for checking the speed
+      double tick = static_cast<double>(getTickCount());//for checking the speed
       //Detection of markers in the image passed
       MDetector.detect(TheInputImage,TheMarkers,TheCameraParameters,TheMarkerSize);
       //chekc the speed by calculating the mean speed of all iterations
-      AvrgTime.first+=((double)getTickCount()-tick)/getTickFrequency();
+//      AvrgTime.first+=((double)getTickCount()-tick)/getTickFrequency();
+      AvrgTime.first+=(static_cast<double>(getTickCount())-tick)/getTickFrequency();
       AvrgTime.second++;
       std::cout<<"Time detection="<<1000*AvrgTime.first/AvrgTime.second<<" milliseconds"<<std::endl;
 

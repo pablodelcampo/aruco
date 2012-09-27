@@ -64,8 +64,10 @@ int main(int argc,char **argv)
     BInfo.mInfoType=BoardConfiguration::METERS;
 //now, get the size of a pixel, and change scale
     float markerSize_meters=atof(argv[2]);
-    float pixSize= markerSize_meters/float(markerSizePix);
-    std::cout<<markerSize_meters<<" "<<float(markerSizePix)<<" "<<pixSize<<std::endl;
+//    float pixSize= markerSize_meters/float(markerSizePix);
+    float pixSize= markerSize_meters/static_cast<float>(markerSizePix);
+//    std::cout<<markerSize_meters<<" "<<float(markerSizePix)<<" "<<pixSize<<std::endl;
+    std::cout<<markerSize_meters<<" "<<static_cast<float>(markerSizePix)<<" "<<pixSize<<std::endl;
     for (size_t i=0; i<BInfo.size(); i++)
       for (int c=0; c<4; c++)
       {
