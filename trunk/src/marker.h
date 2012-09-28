@@ -43,12 +43,6 @@ namespace aruco
 class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
 {
   public:
-    //id of  the marker
-    int id;
-    //size of the markers sides in meters
-    float ssize;
-    //matrices of rotation and translation respect to the camera
-    cv::Mat Rvec,Tvec;
 
     /**
      */
@@ -66,6 +60,42 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
      */
     ~Marker() {}
 
+    /// @brief Returns the valor of id (id of  the marker)
+    const int & getid() const
+    {
+        return id;
+    }
+
+    /// @brief Returns the valor of ssize (size of the markers sides in meters)
+    const float & getssize() const
+    {
+        return ssize;
+    }
+
+    /// @brief Returns the matrix Rvec (matrix of rotation respect to the camera)
+    const cv::Mat & getRvec() const
+    {
+        return Rvec;
+    }
+
+    /// @brief Returns the matrix Tvec (matrix of translation respect to the camera)
+    const cv::Mat & getTvec() const
+    {
+        return Tvec;
+    }
+
+    /// @brief Modify the valor of ssize (size of the markers sides in meters)
+    void setssize(const float &siz)
+    {
+        ssize = siz;
+    }
+
+    /// @brief Modify the valor of id (id of  the marker)
+    void setid(const int &ide)
+    {
+        id = ide;
+    }
+
     /**Indicates if this object is valid
      */
     bool isValid()const
@@ -73,33 +103,38 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
       return id!=-1 && size()==4;
     }
 
-    /**Draws this marker in the input image
+    /** @brief Draws this marker in the input image
+     *@param[in] in Input image
+     *@param[in] color color of the lines of the marker
+     *@param[in] lineWidht width of the lines (by default is 1)
+     *@param[in] writeId if is true the id number of the marker will be show (by default is
+     *true)
      */
-     void draw(cv::Mat &in, cv::Scalar color, int lineWidth=1,bool writeId=true)const;
+     void draw(cv::Mat &in,const cv::Scalar color,const int lineWidth=1,const bool writeId=true)const;
 
-    /**Calculates the extrinsics (Rvec and Tvec) of the marker with respect to the camera
-     * @param markerSize size of the marker side expressed in meters
-     * @param CP parmeters of the camera
-     * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
+    /** @brief Calculates the extrinsics (Rvec and Tvec) of the marker with respect to the camera
+     * @param[in] markerSize size of the marker side expressed in meters
+     * @param[in] CP parameters of the camera
+     * @param[in] setYPerperdicular If set the Y axis will be perpendicular to the surface.
      * Otherwise, it will be the Z axis
      */
 //    void calculateExtrinsics(float markerSize,const CameraParameters &CP,
 //      bool setYPerperdicular=true)throw(cv::Exception);
     void calculateExtrinsics(const float markerSize,const CameraParameters &CP,
-      bool setYPerperdicular=true)throw(cv::Exception);
+     const bool setYPerperdicular=true)throw(cv::Exception);
 
-    /**Calculates the extrinsics (Rvec and Tvec) of the marker with respect to the camera
-     * @param markerSize size of the marker side expressed in meters
-     * @param CameraMatrix matrix with camera parameters (fx,fy,cx,cy)
-     * @param Distorsion matrix with distorsion parameters (k1,k2,p1,p2)
-     * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
+    /** @brief Calculates the extrinsics (Rvec and Tvec) of the marker with respect to the camera
+     * @param[in] markerSize size of the marker side expressed in meters
+     * @param[in] CameraMatrix matrix with camera parameters (fx,fy,cx,cy)
+     * @param[in] Distorsion matrix with distorsion parameters (k1,k2,p1,p2)
+     * @param[in] setYPerperdicular If set the Y axis will be perpendicular to the surface.
      * Otherwise, it will be the Z axis
      */
 
 //    void calculateExtrinsics(float markerSize, cv::Mat CameraMatrix, cv::Mat Distorsion=cv::Mat(),
 //      bool setYPerperdicular=true)throw(cv::Exception);
     void calculateExtrinsics(const float markerSize, const cv::Mat &CameraMatrix,const cv::Mat &Distorsion=cv::Mat(),
-      bool setYPerperdicular=true)throw(cv::Exception);
+    const bool setYPerperdicular=true)throw(cv::Exception);
 
 
     /**Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
@@ -108,11 +143,12 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
     void glGetModelViewMatrix(double modelview_matrix[16])throw(cv::Exception);
 
     /**
-     * Returns position vector and orientation quaternion for an Ogre scene node or entity.
-     *  Use:
+     * @brief Returns position vector and orientation quaternion for an Ogre scene node or entity.
+     *
+     *Use:
      * ...
-     * Ogre::Vector3 ogrePos (position[0], position[1], position[2]);
-     * Ogre::Quaternion  ogreOrient (orientation[0], orientation[1], orientation[2],orientation[3]);
+     * @param [out] Ogre::Vector3 ogrePos (position[0], position[1], position[2]);
+     * @param [out] Ogre::Quaternion  ogreOrient (orientation[0], orientation[1], orientation[2],orientation[3]);
      * mySceneNode->setPosition( ogrePos  );
      * mySceneNode->setOrientation( ogreOrient  );
      * ...
@@ -157,6 +193,12 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
 
   private:
     void rotateXAxis(cv::Mat &rotation);
+    //id of  the marker
+    int id;
+    //size of the markers sides in meters
+    float ssize;
+    //matrices of rotation and translation respect to the camera
+    cv::Mat Rvec,Tvec;
 
 };
 

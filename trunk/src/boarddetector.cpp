@@ -121,15 +121,15 @@ float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardC
   ///find among detected markers these that belong to the board configuration
   for ( unsigned int i=0; i<detectedMarkers.size(); i++ )
   {
-    int idx=BConf.getIndexOfMarkerId(detectedMarkers[i].id);
+      int idx=BConf.getIndexOfMarkerId(detectedMarkers[i].getid());
     if (idx!=-1)
     {
       Bdetected.push_back ( detectedMarkers[i] );
-      Bdetected.back().ssize=ssize;
+      Bdetected.back().setssize(ssize);
     }
   }
   //copy configuration
-  Bdetected.conf=BConf;
+  Bdetected.setBoardConf(BConf);
 //
 
   bool hasEnoughInfoForRTvecCalculation=false;
@@ -163,13 +163,13 @@ float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardC
     {
 //      int idx=Bdetected.conf.getIndexOfMarkerId(Bdetected[i].id);
 //      assert(idx!=-1);
-      Bdetected.conf.getIndexOfMarkerId(Bdetected[i].id);
+        Bdetected.getBoardConf().getIndexOfMarkerId(Bdetected[i].getid());
       /// \todo if the flow of code fails here, use the commented version
       for ( int p=0; p<4; p++ )
       {
         imagePoints.at<float> ( ( i*4 ) +p,0 ) =Bdetected[i][p].x;
         imagePoints.at<float> ( ( i*4 ) +p,1 ) =Bdetected[i][p].y;
-        const aruco::MarkerInfo &Minfo=Bdetected.conf.getMarkerInfo( Bdetected[i].id);
+        const aruco::MarkerInfo &Minfo=Bdetected.getBoardConf().getMarkerInfo( Bdetected[i].getid());
 
         objPoints.at<float> ( ( i*4 ) +p,0 ) = Minfo[p].x*marker_meter_per_pix;
         objPoints.at<float> ( ( i*4 ) +p,1 ) = Minfo[p].y*marker_meter_per_pix;
@@ -182,11 +182,11 @@ float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardC
 
     cv::Mat rvec,tvec;
     cv::solvePnP(objPoints,imagePoints,camMatrix,distCoeff,rvec,tvec );
-    rvec.convertTo(Bdetected.Rvec,CV_32FC1);
-    tvec.convertTo(Bdetected.Tvec,CV_32FC1);
+    rvec.convertTo(Bdetected.getRvec(),CV_32FC1);
+    tvec.convertTo(Bdetected.getTvec(),CV_32FC1);
     //now, rotate 90 deg in X so that Y axis points up
     if (_setYPerperdicular)
-      rotateXAxis ( Bdetected.Rvec );
+        rotateXAxis (Bdetected.getRvec() );
 //    cout<<Bdetected.Rvec.at<float>(0,0)<<" "<<Bdetected.Rvec.at<float>(1,0)<<" "
 //      <<Bdetected.Rvec.at<float>(2,0)<<endl;
 //    cout<<Bdetected.Tvec.at<float>(0,0)<<" "<<Bdetected.Tvec.at<float>(1,0)<<" "
@@ -194,7 +194,7 @@ float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardC
   }
 
 //  float prob=float( Bdetected.size() ) /double ( Bdetected.conf.size() );
-  float prob=static_cast<float>( Bdetected.size() ) /static_cast<double>( Bdetected.conf.size() );
+  float prob=static_cast<float>( Bdetected.size() ) /static_cast<double>(                   Bdetected.getBoardConf().size() );
   return prob;
 }
 

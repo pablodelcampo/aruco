@@ -36,7 +36,9 @@ or implied, of Rafael Muñoz Salinas.
 namespace aruco
 {
 /**
- * 3d representation of a marker
+ * @brief 3d representation of a marker.
+ *
+ * Example of detailed description.
  */
 struct ARUCO_EXPORTS MarkerInfo:public std::vector<cv::Point3f>
 {
@@ -110,7 +112,7 @@ class ARUCO_EXPORTS  BoardConfiguration: public std::vector<MarkerInfo>
 
     /*! @brief Saves the board info to a file.
     */
-    void saveToFile(std::string sfile)throw (cv::Exception);
+    void saveToFile(std::string sfile) const throw (cv::Exception);
 
     /** @brief Reads board info from a file.
     */
@@ -133,29 +135,26 @@ class ARUCO_EXPORTS  BoardConfiguration: public std::vector<MarkerInfo>
     /**Returns the Info of the marker with id specified. If not in the set, throws exception
      */
     const MarkerInfo& getMarkerInfo(int id)const throw (cv::Exception);
-    /**Set in the list passed the set of the ids
+
+    /**@brief Set in the list passed the set of the ids.
+     * @param[out] ids Output vector with ids.
      */
     void getIdList(vector<int> &ids,bool append=true)const;
   private:
     /**Saves the board info to a file
     */
-    void saveToFile(cv::FileStorage &fs)throw (cv::Exception);
+    void saveToFile(cv::FileStorage &fs) const throw (cv::Exception);
     /**Reads board info from a file
     */
     void readFromFile(cv::FileStorage &fs)throw (cv::Exception);
 };
 
-/**
+/** @brief Represetation of a board with several Marker (s)
 */
 class ARUCO_EXPORTS Board:public std::vector<Marker>
 {
-
   public:
-    BoardConfiguration conf;
-    //matrices of rotation and translation respect to the camera
-    cv::Mat Rvec,Tvec;
-    /**
-    */
+    /// @brief Constructor
     Board()
     {
       Rvec.create(3,1,CV_32FC1);
@@ -164,18 +163,51 @@ class ARUCO_EXPORTS Board:public std::vector<Marker>
         Tvec.at<float>(i,0)=Rvec.at<float>(i,0)=-999999;
     }
 
-    /**Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
-     * Setting this matrix, the reference corrdinate system will be set in this board
-     * \todo check if the method can be const
+   /////////////// ACCESSORS //////////////////////
+
+    const cv::Mat & getRvec() const
+    {
+        return Rvec;
+    }
+
+    cv::Mat & getRvec()
+    {
+        return Rvec;
+    }
+
+    const cv::Mat & getTvec() const
+    {
+        return Tvec;
+    }
+
+    cv::Mat & getTvec()
+    {
+        return Tvec;
+    }
+
+    const BoardConfiguration & getBoardConf() const
+    {
+        return conf;
+    }
+
+    /**Save this from a file
      */
-    void glGetModelViewMatrix(double modelview_matrix[16])throw(cv::Exception);
+    void saveToFile(std::string filePath) const throw(cv::Exception);
+
+    /////////////// MUTATORS //////////////////////
+
+    void setBoardConf(const BoardConfiguration &bc)
+    {
+        conf = bc;
+    }
 
     /**
      * Returns position vector and orientation quaternion for an Ogre scene node or entity.
      *  Use:
      * ...
      * Ogre::Vector3 ogrePos (position[0], position[1], position[2]);
-     * Ogre::Quaternion  ogreOrient (orientation[0], orientation[1], orientation[2], orientation[3]);
+     * Ogre::Quaternion  ogreOrient (orientation[0], orientation[1], orientation[2],
+     * orientation[3]);
      * mySceneNode->setPosition( ogrePos  );
      * mySceneNode->setOrientation( ogreOrient  );
      * ...
@@ -183,13 +215,21 @@ class ARUCO_EXPORTS Board:public std::vector<Marker>
      */
     void OgreGetPoseParameters(  double position[3], double orientation[4] )throw(cv::Exception);
 
-
-    /**Save this from a file
+    /** @brief Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
+     *
+     * Setting this matrix, the reference corrdinate system will be set in this board
+     * \todo check if the method can be const
      */
-    void saveToFile(std::string filePath)throw(cv::Exception);
+    void glGetModelViewMatrix(double modelview_matrix[16])throw(cv::Exception);
+
     /**Read  this from a file
      */
     void readFromFile(std::string filePath)throw(cv::Exception);
+
+  private:
+    BoardConfiguration conf;
+    //matrices of rotation and translation respect to the camera
+    cv::Mat Rvec,Tvec;
 };
 
 }

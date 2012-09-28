@@ -37,7 +37,7 @@ namespace aruco
 void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Marker &m,const CameraParameters &CP)
 {
 
-  float size=m.ssize*3;
+  float size=m.getssize()*3;
   Mat objectPoints (4,3,CV_32FC1);
   objectPoints.at<float>(0,0)=0;
   objectPoints.at<float>(0,1)=0;
@@ -53,7 +53,7 @@ void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Marker &m,const CameraParameters 
   objectPoints.at<float>(3,2)=size;
 
   vector<Point2f> imagePoints;
-  cv::projectPoints( objectPoints, m.Rvec,m.Tvec, CP.CameraMatrix,CP.Distorsion,   imagePoints);
+  cv::projectPoints( objectPoints, m.getRvec(),m.getTvec(), CP.CameraMatrix,CP.Distorsion,   imagePoints);
 //draw lines of different colours
   cv::line(Image,imagePoints[0],imagePoints[1],Scalar(0,0,255,255),1,CV_AA);
   cv::line(Image,imagePoints[0],imagePoints[2],Scalar(0,255,0,255),1,CV_AA);
@@ -71,7 +71,7 @@ void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Marker &m,const CameraParameters 
 void CvDrawingUtils::draw3dCube(cv::Mat &Image,Marker &m,const CameraParameters &CP)
 {
   Mat objectPoints (8,3,CV_32FC1);
-  double halfSize=m.ssize/2;
+  double halfSize=m.getssize()/2;
   objectPoints.at<float>(0,0)=-halfSize;
   objectPoints.at<float>(0,1)=0;
   objectPoints.at<float>(0,2)=-halfSize;
@@ -86,20 +86,20 @@ void CvDrawingUtils::draw3dCube(cv::Mat &Image,Marker &m,const CameraParameters 
   objectPoints.at<float>(3,2)=halfSize;
 
   objectPoints.at<float>(4,0)=-halfSize;
-  objectPoints.at<float>(4,1)=m.ssize;
+  objectPoints.at<float>(4,1)=m.getssize();
   objectPoints.at<float>(4,2)=-halfSize;
   objectPoints.at<float>(5,0)=halfSize;
-  objectPoints.at<float>(5,1)=m.ssize;
+  objectPoints.at<float>(5,1)=m.getssize();
   objectPoints.at<float>(5,2)=-halfSize;
   objectPoints.at<float>(6,0)=halfSize;
-  objectPoints.at<float>(6,1)=m.ssize;
+  objectPoints.at<float>(6,1)=m.getssize();
   objectPoints.at<float>(6,2)=halfSize;
   objectPoints.at<float>(7,0)=-halfSize;
-  objectPoints.at<float>(7,1)=m.ssize;
+  objectPoints.at<float>(7,1)=m.getssize();
   objectPoints.at<float>(7,2)=halfSize;
 
   vector<Point2f> imagePoints;
-  projectPoints( objectPoints, m.Rvec,m.Tvec,  CP.CameraMatrix,CP.Distorsion,   imagePoints);
+  projectPoints( objectPoints, m.getRvec(),m.getTvec(),  CP.CameraMatrix,CP.Distorsion,   imagePoints);
 //draw lines of different colours
   for (int i=0; i<4; i++)
     cv::line(Image,imagePoints[i],imagePoints[(i+1)%4],Scalar(0,0,255,255),1,CV_AA);
@@ -124,18 +124,18 @@ void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Board &B,const CameraParameters &
   objectPoints.at<float>(0,0)=0;
   objectPoints.at<float>(0,1)=0;
   objectPoints.at<float>(0,2)=0;
-  objectPoints.at<float>(1,0)=2*B[0].ssize;
+  objectPoints.at<float>(1,0)=2*B[0].getssize();
   objectPoints.at<float>(1,1)=0;
   objectPoints.at<float>(1,2)=0;
   objectPoints.at<float>(2,0)=0;
-  objectPoints.at<float>(2,1)=2*B[0].ssize;
+  objectPoints.at<float>(2,1)=2*B[0].getssize();
   objectPoints.at<float>(2,2)=0;
   objectPoints.at<float>(3,0)=0;
   objectPoints.at<float>(3,1)=0;
-  objectPoints.at<float>(3,2)=2*B[0].ssize;
+  objectPoints.at<float>(3,2)=2*B[0].getssize();
 
   vector<Point2f> imagePoints;
-  projectPoints( objectPoints, B.Rvec,B.Tvec, CP.CameraMatrix, CP.Distorsion,   imagePoints);
+  projectPoints( objectPoints, B.getRvec(),B.getTvec(), CP.CameraMatrix, CP.Distorsion,   imagePoints);
 //draw lines of different colours
   cv::line(Image,imagePoints[0],imagePoints[1],Scalar(0,0,255,255),2,CV_AA);
   cv::line(Image,imagePoints[0],imagePoints[2],Scalar(0,255,0,255),2,CV_AA);
@@ -155,7 +155,7 @@ void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Board &B,const CameraParameters &
 void CvDrawingUtils::draw3dCube(cv::Mat &Image,Board &B,const CameraParameters &CP)
 {
 
-  float cubeSize=B[0].ssize;
+    float cubeSize=B[0].getssize();
   float txz=-cubeSize/2;
   Mat objectPoints (8,3,CV_32FC1);
   objectPoints.at<float>(0,0)=txz;
@@ -185,7 +185,7 @@ void CvDrawingUtils::draw3dCube(cv::Mat &Image,Board &B,const CameraParameters &
   objectPoints.at<float>(7,2)=txz+cubeSize;
 
   vector<Point2f> imagePoints;
-  projectPoints( objectPoints,B.Rvec,B.Tvec, CP.CameraMatrix, CP.Distorsion,   imagePoints);
+  projectPoints( objectPoints,B.getRvec(),B.getTvec(), CP.CameraMatrix, CP.Distorsion,   imagePoints);
 //draw lines of different colours
   for (int i=0; i<4; i++)
     cv::line(Image,imagePoints[i],imagePoints[(i+1)%4],Scalar(0,0,255,255),1,CV_AA);

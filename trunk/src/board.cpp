@@ -62,7 +62,7 @@ BoardConfiguration & BoardConfiguration ::operator=(const BoardConfiguration  &T
 /*!
  *
  */
-void BoardConfiguration::saveToFile ( string sfile ) throw ( cv::Exception )
+void BoardConfiguration::saveToFile ( string sfile ) const throw ( cv::Exception )
 {
 
   cv::FileStorage fs ( sfile,cv::FileStorage::WRITE );
@@ -73,7 +73,7 @@ void BoardConfiguration::saveToFile ( string sfile ) throw ( cv::Exception )
 /*!
  *
  */
-void BoardConfiguration::saveToFile(cv::FileStorage &fs)throw (cv::Exception)
+void BoardConfiguration::saveToFile(cv::FileStorage &fs) const throw (cv::Exception)
 {
 //  fs<<"aruco_bc_nmarkers"<< ( int ) size();
 //  fs<<"aruco_bc_mInfoType"<< ( int ) mInfoType;
@@ -313,7 +313,7 @@ void Board::OgreGetPoseParameters (double position[3], double orientation[4]) th
 /*!
  *
  */
-void Board::saveToFile(string filePath)throw(cv::Exception)
+void Board::saveToFile(string filePath) const throw(cv::Exception)
 {
   cv::FileStorage fs ( filePath,cv::FileStorage::WRITE );
 
@@ -324,7 +324,7 @@ void Board::saveToFile(string filePath)throw(cv::Exception)
   fs<<"aruco_bo_markers"<< "[";
   for (size_t i=0; i<size(); i++ )
   {
-    fs << "{:" << "id" << at(i).id ;
+      fs << "{:" << "id" << at(i).getid() ;
     fs<<"corners"<< "[:";
     for (size_t c=0; c<at(i).size(); c++)
       fs<<at(i)[c];
@@ -356,7 +356,7 @@ void Board::readFromFile(string filePath)throw(cv::Exception)
   int i=0;
   for (FileNodeIterator it = markers.begin(); it!=markers.end(); ++it,i++)
   {
-    at(i).id=(*it)["id"];
+    at(i).setid((*it)["id"]);
     int ncorners=(*it)["ncorners"];
     at(i).resize(ncorners);
     FileNode FnCorners=(*it)["corners"];

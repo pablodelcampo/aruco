@@ -99,7 +99,7 @@ int main(int argc,char **argv)
         CvDrawingUtils::draw3dAxis(InImage,Markers[i],CamParam);
       }
       CvDrawingUtils::draw3dAxis(InImage,TheBoardDetected,CamParam);
-      std::cout<<TheBoardDetected.Rvec<<" "<<TheBoardDetected.Tvec<<std::endl;
+      std::cout<<TheBoardDetected.getRvec()<<" "<<TheBoardDetected.getTvec()<<std::endl;
     }
     //draw board axis
 

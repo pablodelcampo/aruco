@@ -34,9 +34,7 @@ using namespace cv;
 namespace aruco
 {
 
-/*!
- *
- */
+/// @brief Constructor
 Marker::Marker() : id(-1), ssize(-1)
 {
 //  id=-1;
@@ -224,7 +222,7 @@ void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) th
 /*!
  *
  */
-void Marker::draw(Mat &in, Scalar color, int lineWidth ,bool writeId)const
+void Marker::draw(Mat &in,const Scalar color,const int lineWidth ,const bool writeId)const
 {
   if (size()!=4)
     return;
@@ -261,8 +259,8 @@ void Marker::draw(Mat &in, Scalar color, int lineWidth ,bool writeId)const
  */
 //void Marker::calculateExtrinsics(float markerSize,const CameraParameters &CP,
 //  bool setYPerperdicular)throw(cv::Exception)
-void Marker::calculateExtrinsics(const float markerSize,const CameraParameters &CP,
-  bool setYPerperdicular)throw(cv::Exception)
+void Marker::calculateExtrinsics(const float markerSize, const CameraParameters &CP,
+  const bool setYPerperdicular)throw(cv::Exception)
 {
   if (!CP.isValid())
     throw cv::Exception(9004,"!CP.isValid(): invalid camera parameters. It is not possible to "
@@ -280,8 +278,8 @@ void Marker::calculateExtrinsics(const float markerSize,const CameraParameters &
  */
 //void Marker::calculateExtrinsics(float markerSizeMeters, cv::Mat camMatrix, cv::Mat distCoeff,
 //  bool setYPerperdicular)throw(cv::Exception)
-void Marker::calculateExtrinsics(const float markerSizeMeters,const Mat &camMatrix,const cv::Mat &distCoeff,
-  bool setYPerperdicular)throw(cv::Exception)
+void Marker::calculateExtrinsics(const float markerSizeMeters, const Mat &camMatrix, const cv::Mat &distCoeff,
+  const bool setYPerperdicular)throw(cv::Exception)
 {
   if (!isValid())
     throw cv::Exception(9004,"!isValid(): invalid marker. Not possible to calculate extrinsics",

@@ -195,7 +195,7 @@ void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarke
           // make LINES refinement before lose contour points
 
         detectedMarkers.push_back ( MarkerCanditates[i] );
-        detectedMarkers.back().id=id;
+        detectedMarkers.back().setid(id);
         //sort the points so that they are always in the same order no matter the camera orientation
         std::rotate (detectedMarkers.back().begin(), detectedMarkers.back().begin()+4-nRotations,
           detectedMarkers.back().end() );
@@ -236,7 +236,7 @@ void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarke
   //for ( int i=0; i<int ( detectedMarkers.size() )-1; i++ )
   for ( int i=0; i<static_cast<int>( detectedMarkers.size() )-1; i++ )
   {
-    if ( detectedMarkers[i].id==detectedMarkers[i+1].id && !toRemove[i+1] )
+      if ( detectedMarkers[i].getid()==detectedMarkers[i+1].getid() && !toRemove[i+1] )
     {
       //deletes the one with smaller perimeter
       if (perimeter(detectedMarkers[i]) > perimeter(detectedMarkers[i+1]))
