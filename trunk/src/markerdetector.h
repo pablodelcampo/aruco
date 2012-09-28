@@ -73,7 +73,7 @@ class ARUCO_EXPORTS  MarkerDetector
      */
     MarkerDetector();
 
-    /**
+    /** Destructor
      */
     ~MarkerDetector();
 
@@ -82,46 +82,47 @@ class ARUCO_EXPORTS  MarkerDetector
      * If you provide information about the camera parameters and the size of the marker, then,
      * the extrinsics of the markers are detected.
      *
-     * @param input input color image
-     * @param detectedMarkers output vector with the markers detected
-     * @param camMatrix intrinsic camera information.
-     * @param distCoeff camera distorsion coefficient. If it's Mat() -> no camera distortion
+     * @param[in] input input color image
+     * @param[out] detectedMarkers output vector with the markers detected
+     * @param[in] camMatrix intrinsic camera information.
+     * @param[in] distCoeff camera distorsion coefficient. If it's Mat() -> no camera distortion
      * @param markerSizeMeters size of the marker sides expressed in meters
-     * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
-     * Otherwise, it will be the Z axis.
+     * @param[in] setYPerperdicular If is true, set the Y axis will be perpendicular to the surface.
+     * Otherwise, it will be the Z axis (by default is true)
      */
     void detect(const cv::Mat &input, std::vector<Marker> &detectedMarkers,
-      cv::Mat camMatrix=cv::Mat(),cv::Mat distCoeff=cv::Mat(),float markerSizeMeters=-1,
-      bool setYPerperdicular=true) throw (cv::Exception);
+      const cv::Mat &camMatrix=cv::Mat(),const cv::Mat &distCoeff=cv::Mat(),float markerSizeMeters=-1,
+      const bool setYPerperdicular=true) throw (cv::Exception);
 
     /** @brief Detects the markers in the image passed.
      *
      * If you provide information about the camera parameters and the size of the marker, then,
      * the extrinsics of the markers are detected.
      *
-     * @param input input color image
-     * @param detectedMarkers output vector with the markers detected
-     * @param camParams Camera parameters
+     * @param[in] input input color image
+     * @param[out] detectedMarkers output vector with the markers detected
+     * @param[in] camParams Camera parameters
      * @param markerSizeMeters size of the marker sides expressed in meters
-     * @param setYPerperdicular If set the Y axis will be perpendicular to the surface.
-     * Otherwise, it will be the Z axis.
+     * @param[in] setYPerperdicular If is true, set the Y axis will be perpendicular to the surface.
+     * Otherwise, it will be the Z axis (by default is true)
      */
     void detect(const cv::Mat &input,std::vector<Marker> &detectedMarkers,
-      CameraParameters camParams, float markerSizeMeters=-1, bool setYPerperdicular=true)
+      const CameraParameters &camParams, float markerSizeMeters=-1,const bool setYPerperdicular=true)
       throw (cv::Exception);
 
-    /**This set the type of thresholding methods available
+    /** This set the type of thresholding methods available
      */
     enum ThresholdMethods {FIXED_THRES,ADPT_THRES,CANNY};
 
-    /**Sets the threshold method
+    /** @brief Sets the threshold method
+     *@param[in] m is the ThresholdMethods that will be used
      */
     void setThresholdMethod(ThresholdMethods m)
     {
       _thresMethod=m;
     }
 
-    /**Returns the current threshold method
+    /** @brief Returns the current threshold method
      */
     ThresholdMethods getThresholdMethod()const
     {
@@ -129,11 +130,12 @@ class ARUCO_EXPORTS  MarkerDetector
     }
 
     /**
-     * Set the parameters of the threshold method
-     * We are currently using the Adptive threshold ee opencv doc of adaptiveThreshold for more info
-     * @param param1 blockSize of the pixel neighborhood that is used to calculate a threshold
+     * @brief Set the parameters of the threshold method
+     *
+     * We are currently using the Adaptive threshold see opencv doc of adaptiveThreshold for more info
+     * @param[in] param1 blockSize of the pixel neighborhood that is used to calculate a threshold
      * value for the pixel
-     * @param param2 The constant subtracted from the mean or weighted mean
+     * @param[in] param2 The constant subtracted from the mean or weighted mean
      */
     void setThresholdParams(double param1,double param2)
     {
@@ -142,11 +144,11 @@ class ARUCO_EXPORTS  MarkerDetector
     }
 
     /**
-     * Set the parameters of the threshold method
-     * We are currently using the Adptive threshold ee opencv doc of adaptiveThreshold for more info
-     * param1: blockSize of the pixel neighborhood that is used to calculate a threshold value for
+     * @brief Get the parameters of the threshold method
+     * We are currently using the Aadptive threshold see opencv doc of adaptiveThreshold for more info
+     * @param[out] blockSize of the pixel neighborhood that is used to calculate a threshold value for
      * the pixel
-     * param2: The constant subtracted from the mean or weighted mean
+     * @param[out] The constant subtracted from the mean or weighted mean
      */
     void getThresholdParams(double &param1,double &param2)const
     {
@@ -154,42 +156,44 @@ class ARUCO_EXPORTS  MarkerDetector
       param2=_thresParam2;
     }
 
-    /** Returns a reference to the internal image thresholded. It is for visualization purposes
-     * and to adjust manually the parameters
+    /** @brief Returns a reference to the internal image thresholded.
+     *
+     *It is for visualization purpose and to adjust manually the parameters
      */
     const cv::Mat & getThresholdedImage()
     {
       return thres;
     }
 
-    /**Methods for corner refinement
+    /** Methods for corner refinement
      */
     enum CornerRefinementMethod {NONE,HARRIS,SUBPIX,LINES};
 
-    /**
+    /** @brief Is use to set the CornerRefinementMethod
+     *@param [in] method is the method for corner refinement
      */
     void setCornerRefinementMethod(CornerRefinementMethod method)
     {
       _cornerMethod=method;
     }
 
-    /**
+    /** @brief Returns the CornerRefinementMethod used
      */
     CornerRefinementMethod getCornerRefinementMethod()const
     {
       return _cornerMethod;
     }
 
-    /**Specifies the min and max sizes of the markers as a fraction of the image size. By size we
+    /** @brief Specifies the min and max sizes of the markers as a fraction of the image size. By size we
      * mean the maximum of cols and rows.
-     * @param min size of the contour to consider a possible marker as valid (0,1]
-     * @param max size of the contour to consider a possible marker as valid [0,1)
+     * @param[in] min size of the contour to consider a possible marker as valid (0,1]
+     * @param[in] max size of the contour to consider a possible marker as valid [0,1)
      */
-    void setMinMaxSize(float min=0.03,float max=0.5)throw(cv::Exception);
+    void setMinMaxSize(const float min=0.03,const float max=0.5)throw(cv::Exception);
 
-    /**reads the min and max sizes employed
-     * @param min output size of the contour to consider a possible marker as valid (0,1]
-     * @param max output size of the contour to consider a possible marker as valid [0,1)
+    /** @brief reads the min and max sizes employed
+     * @param[out] min output size of the contour to consider a possible marker as valid (0,1]
+     * @param[out] max output size of the contour to consider a possible marker as valid [0,1)
      *
      */
     void getMinMaxSize(float &min,float &max)
@@ -198,7 +202,7 @@ class ARUCO_EXPORTS  MarkerDetector
       max=_maxSize;
     }
 
-    /**Enables/Disables erosion process that is REQUIRED for chessboard like boards.
+    /** @brief Enables/Disables erosion process that is REQUIRED for chessboard like boards.
      * By default, this property is enabled
      */
     void enableErosion(bool enable)
@@ -206,9 +210,8 @@ class ARUCO_EXPORTS  MarkerDetector
       _doErosion=enable;
     }
 
-    /**
-     * Specifies a value to indicate the required speed for the internal processes. If you need
-     * maximum speed (at the cost of a lower detection rate), use the value 3, If you rather a
+    /** @brief Specifies a value to indicate the required speed for the internal processes.
+     *If you need maximum speed (at the cost of a lower detection rate), use the value 3, If you rather a
      * more precise and slow detection, set it to 0.
      *
      * Actually, the main differences are that in highspeed mode, we employ
@@ -216,9 +219,12 @@ class ARUCO_EXPORTS  MarkerDetector
      * the marker. In low speed mode, we use setCornerRefinementMethod(HARRIS) and a bigger size
      * for the canonical marker image
      */
+
+    /** \todo Pablo: Mejorar esta función para añadir mas modos de rendimiento, mejorar los existentes o autoseleccionamiento de modo
+     */
     void setDesiredSpeed(int val);
 
-    /**
+    /** @brief Returns the current speed for internal processes
      */
     int getDesiredSpeed()const
     {
@@ -255,7 +261,7 @@ class ARUCO_EXPORTS  MarkerDetector
      * @param level number of times the image size is divided by 2. Internally, we are performing a
      * pyrdown.
      */
-    void pyrDown(unsigned int level)
+    void pyrDown(const unsigned int level)
     {
       pyrdown_level=level;
     }
@@ -266,9 +272,11 @@ class ARUCO_EXPORTS  MarkerDetector
     ///-------------------------------------------------
 
     /**
-     * Thesholds the passed image with the specified method.
+     * @brief Thesholds the passed image with the specified method.
+     *@param[in] method is the method of thresholding
+     *@param[in]
      */
-    void thresHold(int method,const cv::Mat &grey,cv::Mat &thresImg,
+    void thresHold(const int method,const cv::Mat &grey,cv::Mat &thresImg,
       double param1=-1,double param2=-1)throw(cv::Exception);
 
     /**

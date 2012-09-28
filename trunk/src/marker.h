@@ -115,8 +115,8 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
     /** @brief Calculates the extrinsics (Rvec and Tvec) of the marker with respect to the camera
      * @param[in] markerSize size of the marker side expressed in meters
      * @param[in] CP parameters of the camera
-     * @param[in] setYPerperdicular If set the Y axis will be perpendicular to the surface.
-     * Otherwise, it will be the Z axis
+     * @param[in] setYPerperdicular If is true, set the Y axis will be perpendicular to the surface.
+     * Otherwise, it will be the Z axis (by default is true)
      */
 //    void calculateExtrinsics(float markerSize,const CameraParameters &CP,
 //      bool setYPerperdicular=true)throw(cv::Exception);

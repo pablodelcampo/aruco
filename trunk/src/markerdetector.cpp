@@ -31,6 +31,7 @@ or implied, of Rafael Muñoz Salinas.
 //#include <opencv/highgui.h>
 //#include <opencv2/highgui/highgui.hpp>
 //#include <iostream>
+#include "opencv2/imgproc/imgproc.hpp"
 #include <fstream>
 #include "arucofidmarkers.h"
 #include <valarray>
@@ -95,7 +96,7 @@ void MarkerDetector::setDesiredSpeed ( int val )
  *
  */
 void MarkerDetector::detect (const cv::Mat &input, std::vector<Marker> &detectedMarkers,
-  CameraParameters camParams ,float markerSizeMeters ,bool setYPerperdicular)
+  const CameraParameters &camParams , float markerSizeMeters , const bool setYPerperdicular)
   throw (cv::Exception)
 {
   detect (input, detectedMarkers, camParams.CameraMatrix, camParams.Distorsion,
@@ -105,8 +106,8 @@ void MarkerDetector::detect (const cv::Mat &input, std::vector<Marker> &detected
 /*!
  * Main detection function. Performs all steps
  */
-void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarkers, Mat camMatrix,
-  Mat distCoeff ,float markerSizeMeters ,bool setYPerperdicular) throw (cv::Exception)
+void MarkerDetector::detect (const cv::Mat &input, vector<Marker> &detectedMarkers, const Mat &camMatrix,
+  const Mat &distCoeff , float markerSizeMeters , const bool setYPerperdicular) throw (cv::Exception)
 {
   //it must be a 3 channel image
   if (input.type()==CV_8UC3)
@@ -429,7 +430,7 @@ void MarkerDetector::detectRectangles(const cv::Mat &thresImg,
 /*!
  *
  */
-void MarkerDetector::thresHold (int method, const Mat &grey, Mat &out, double param1, double param2)
+void MarkerDetector::thresHold (const int method, const Mat &grey, Mat &out, double param1, double param2)
   throw ( cv::Exception )
 {
   if (param1==-1)
@@ -458,6 +459,7 @@ void MarkerDetector::thresHold (int method, const Mat &grey, Mat &out, double pa
     break;
   case CANNY:
   {
+      /** \todo Pablo: tratar de arreglar el problema que se menciona en el metodo de canny */
     //this should be the best method, and generally it is.
     //However, some times there are small holes in the marker contour that makes
     //the contour detector not to find it properly
@@ -1059,7 +1061,7 @@ void MarkerDetector::glGetProjectionMatrix (CameraParameters &CamMatrix, cv::Siz
 /*!
  *
  */
-void MarkerDetector::setMinMaxSize(float min ,float max )throw(cv::Exception)
+void MarkerDetector::setMinMaxSize(const float min , const float max )throw(cv::Exception)
 {
   if (min<=0 || min>1)
     throw cv::Exception(1," min parameter out of range","MarkerDetector::setMinMaxSize",
