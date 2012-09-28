@@ -192,6 +192,8 @@ void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) th
     // |w| > 1/2, may as well choose w > 1/2
     fRoot = sqrt(fTrace + 1.0);  // 2w
     orientation[0] = 0.5*fRoot;
+    /** \todo Pablo: Mirar si cambiar divisiones por 2 por operador de bits
+     */
     fRoot = 0.5/fRoot;  // 1/(4w)
     orientation[1] = (axes[2][1]-axes[1][2])*fRoot;
     orientation[2] = (axes[0][2]-axes[2][0])*fRoot;
@@ -209,6 +211,8 @@ void Marker::OgreGetPoseParameters(double position[3], double orientation[4]) th
     unsigned int j = s_iNext[i];
     unsigned int k = s_iNext[j];
 
+    /** \todo Pablo: Mirar si cambiar divisiones por 2 por operador de bits
+     */
     fRoot = sqrt(axes[i][i]-axes[j][j]-axes[k][k] + 1.0);
     double* apkQuat[3] = { &orientation[1], &orientation[2], &orientation[3] };
     *apkQuat[i] = 0.5*fRoot;
@@ -247,6 +251,8 @@ void Marker::draw(Mat &in,const Scalar color,const int lineWidth ,const bool wri
       cent.x+=(*this)[i].x;
       cent.y+=(*this)[i].y;
     }
+    /** \todo Pablo: Mirar si poder cambiar divisiones por 4 por operador de bits
+     */
     cent.x/=4.;
     cent.y/=4.;
     putText(in,cad, cent,FONT_HERSHEY_SIMPLEX, 0.5,
@@ -336,6 +342,8 @@ void Marker::rotateXAxis(Mat &rotation)
   Rodrigues(rotation, R);
   //create a rotation matrix for x axis
   cv::Mat RX=cv::Mat::eye(3,3,CV_32F);
+  /** \todo Pablo: Mirar si cambiar division por 2 por operador de bits
+   */
   float angleRad=M_PI/2;
   RX.at<float>(1,1)=cos(angleRad);
   RX.at<float>(1,2)=-sin(angleRad);
@@ -378,6 +386,8 @@ float Marker::getArea()const
   cv::Point2f v21=(*this)[1]-(*this)[2];
   cv::Point2f v23=(*this)[3]-(*this)[2];
   float area2=fabs(v21.x*v23.y - v21.y*v23.x);
+  /** \todo Pablo: Mirar si cambiar division por 2 por operador de bits
+   */
   return (area2+area1)/2.;
 }
 

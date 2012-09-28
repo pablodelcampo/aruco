@@ -96,7 +96,7 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
         id = ide;
     }
 
-    /**Indicates if this object is valid
+    /** @brief Indicates if this object is valid
      */
     bool isValid()const
     {
@@ -137,7 +137,7 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
     const bool setYPerperdicular=true)throw(cv::Exception);
 
 
-    /**Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
+    /** @brief Given the extrinsic camera parameters returns the GL_MODELVIEW matrix for opengl.
      * Setting this matrix, the reference coordinate system will be set in this marker
      */
     void glGetModelViewMatrix(double modelview_matrix[16])throw(cv::Exception);
@@ -155,15 +155,15 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
      */
     void OgreGetPoseParameters(  double position[3], double orientation[4] )throw(cv::Exception);
 
-    /**Returns the centroid of the marker
+    /** @brief Returns the centroid of the marker
         */
     cv::Point2f getCenter()const;
 
-    /**Returns the perimeter of the marker
+    /** @brief Returns the perimeter of the marker
      */
     float getPerimeter()const;
 
-    /**Returns the area
+    /** @brief Returns the area
      */
     float getArea()const;
 
