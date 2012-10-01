@@ -101,7 +101,7 @@ cv::Mat FiducidalMarkers::createBoardImage(Size gridSize,int MarkerSize,int dist
   TInfo.resize(nMarkers);
   vector<int> ids=getListOfValidMarkersIds_random(nMarkers,excludedIds);
   for (int i=0; i<nMarkers; i++)
-    TInfo[i].id=ids[i];
+    TInfo[i].setid(ids[i]);
 
   int sizeY=gridSize.height*MarkerSize+(gridSize.height-1)*dist;
   int sizeX=gridSize.width*MarkerSize+(gridSize.width-1)*dist;
@@ -119,7 +119,7 @@ cv::Mat FiducidalMarkers::createBoardImage(Size gridSize,int MarkerSize,int dist
     {
       Mat subrect(tableImage,Rect(x*(dist+MarkerSize),y*(dist+MarkerSize),
         MarkerSize,MarkerSize));
-      Mat marker=createMarkerImage( TInfo[idp].id,MarkerSize);
+      Mat marker=createMarkerImage( TInfo[idp].getid(),MarkerSize);
       //set the location of the corners
       TInfo[idp].resize(4);
       TInfo[idp][0]=cv::Point3f(x*(dist+MarkerSize),y*(dist+MarkerSize),0);
@@ -172,7 +172,7 @@ cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int Marker
         TInfo.push_back( MarkerInfo(idsVector[CurMarkerIdx++]));
 
         Mat subrect(tableImage,Rect( x*MarkerSize,y*MarkerSize,MarkerSize,MarkerSize));
-        Mat marker=createMarkerImage( TInfo.back().id,MarkerSize);
+        Mat marker=createMarkerImage( TInfo.back().getid(),MarkerSize);
         //set the location of the corners
         TInfo.back().resize(4);
         TInfo.back()[0]=cv::Point3f( x*(MarkerSize),y*(MarkerSize),0);
@@ -221,7 +221,7 @@ cv::Mat FiducidalMarkers::createBoardImage_Frame(Size gridSize,int MarkerSize,in
       {
         TInfo.push_back(  MarkerInfo(idsVector[CurMarkerIdx++]));
         Mat subrect(tableImage,Rect( x*mSize,y*mSize,MarkerSize,MarkerSize));
-        Mat marker=createMarkerImage( TInfo.back().id,MarkerSize);
+        Mat marker=createMarkerImage( TInfo.back().getid(),MarkerSize);
         marker.copyTo(subrect);
         //set the location of the corners
         TInfo.back().resize(4);

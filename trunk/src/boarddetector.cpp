@@ -41,8 +41,6 @@ namespace aruco
  */
 BoardDetector::BoardDetector(bool  setYPerperdicular) : _setYPerperdicular(setYPerperdicular), _areParamsSet(false)
 {
-//  _setYPerperdicular=setYPerperdicular;
-//  _areParamsSet=false;
 }
 
 /*!
@@ -193,7 +191,6 @@ float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardC
 //      <<Bdetected.Tvec.at<float>(2,0)<<endl;
   }
 
-//  float prob=float( Bdetected.size() ) /double ( Bdetected.conf.size() );
   float prob=static_cast<float>( Bdetected.size() ) /static_cast<double>(                   Bdetected.getBoardConf().size() );
   return prob;
 }

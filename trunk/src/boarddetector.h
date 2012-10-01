@@ -80,26 +80,26 @@ class ARUCO_EXPORTS  BoardDetector
     void setParams(const BoardConfiguration &bc);
 
     /**
-     * Detect markers, and then, look for the board indicated in setParams()
+     * @brief Detect markers, and then, look for the board indicated in setParams()
      * @return value indicating  the  likelihood of having found the marker
      */
     float  detect(const cv::Mat &im)throw (cv::Exception);
 
-    /**Returns a reference to the board detected
+    /** @brief Returns a reference to the board detected
      */
     Board & getDetectedBoard()
     {
       return _boardDetected;
     }
 
-    /**Returns a reference to the internal marker detector
+    /** @brief Returns a reference to the internal marker detector
      */
     MarkerDetector &getMarkerDetector()
     {
       return _mdetector;
     }
 
-    /**Returns the vector of markers detected
+    /** @brief Returns the vector of markers detected
      */
     std::vector<Marker> &getDetectedMarkers()
     {
@@ -107,12 +107,13 @@ class ARUCO_EXPORTS  BoardDetector
     }
 
 
+
     //ALTERNATIVE DETECTION METHOD, BASED ON MARKERS PREVIOUSLY DETECTED
 
-    /** Given the markers detected, determines if there is the board passed
-    * @param detectedMarkers result provided by aruco::ArMarkerDetector
-    * @param BConf the board you want to see if is present
-    * @param Bdetected output information of the detected board
+    /** @brief Given the markers detected, determines if there is the board passed
+    * @param[in] detectedMarkers result provided by aruco::ArMarkerDetector
+    * @param[in] BConf the board you want to see if is present
+    * @param[in] Detected output information of the detected board
     * @param camMatrix camera matrix with intrinsics
     * @param distCoeff camera distorsion coeff
     * @param camMatrix intrinsic camera information.
@@ -120,6 +121,9 @@ class ARUCO_EXPORTS  BoardDetector
     * @param markerSizeMeters size of the marker sides expressed in meters
     * @return value indicating  the  likelihood of having found the marker
     */
+
+    /** \todo Pablo: Echar un ojo a esto
+     */
     float detect(const std::vector<Marker> &detectedMarkers,const  BoardConfiguration &BConf,
       Board &Bdetected, cv::Mat camMatrix=cv::Mat(),cv::Mat distCoeff=cv::Mat(),
       float markerSizeMeters=-1 )throw (cv::Exception);

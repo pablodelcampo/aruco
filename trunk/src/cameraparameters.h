@@ -140,7 +140,7 @@ class ARUCO_EXPORTS  CameraParameters
       double gnear,double gfar,bool invert=false   )throw(cv::Exception);
 
     /**
-     * setup camera for an Ogre project.
+     * @brief setup camera for an Ogre project.
      *  Use:
      * ...
      * Ogre::Matrix4 PM(proj_matrix[0], proj_matrix[1], ... , proj_matrix[15]);

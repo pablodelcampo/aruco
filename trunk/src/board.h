@@ -42,10 +42,12 @@ namespace aruco
  */
 struct ARUCO_EXPORTS MarkerInfo:public std::vector<cv::Point3f>
 {
+  /** @brief Constructor
+  */
   MarkerInfo() {}
-  MarkerInfo(int _id)
+  MarkerInfo(int _id) : id(_id)
   {
-    id=_id;
+    //id=_id;
   }
   MarkerInfo(const MarkerInfo&MI): std::vector<cv::Point3f>(MI)
   {
@@ -57,10 +59,21 @@ struct ARUCO_EXPORTS MarkerInfo:public std::vector<cv::Point3f>
     id=MI.id;
     return *this;
   }
+  /** @brief Returns id of the marker */
+  const int & getid() const
+  {
+      return id;
+  }
+  /** @brief Use it for set the valor of the id marker */
+  void setid(const int &ide)
+  {
+      id = ide;
+  }
+private:
   int id;//maker id
 };
 
-/**\brief This class defines a board with several markers.
+/** @brief This class defines a board with several markers.
  * A Board contains several markers so that they are more robustly detected.
  *
  * In general, a board is a set of markers. So BoardConfiguration is only a list
@@ -98,7 +111,7 @@ class ARUCO_EXPORTS  BoardConfiguration: public std::vector<MarkerInfo>
 
     int mInfoType; ///< indicates the type of data in MakersInfo (to do conversion internally)
 
-    /*!
+    /** @brief Constructor
      */
     BoardConfiguration();
 
@@ -112,36 +125,37 @@ class ARUCO_EXPORTS  BoardConfiguration: public std::vector<MarkerInfo>
 
     /*! @brief Saves the board info to a file.
     */
-    void saveToFile(std::string sfile) const throw (cv::Exception);
+    void saveToFile(const std::string &sfile) const throw (cv::Exception);
 
     /** @brief Reads board info from a file.
     */
-    void readFromFile(std::string sfile)throw (cv::Exception);
-    /**Indicates if the corners are expressed in meters
+    void readFromFile(const std::string &sfile)throw (cv::Exception);
+
+    /** @brief Indicates if the corners are expressed in meters
      */
     bool isExpressedInMeters()const
     {
       return mInfoType==METERS;
     }
-    /**Indicates if the corners are expressed in meters
+    /** @brief Indicates if the corners are expressed in pixels
      */
     bool isExpressedInPixels()const
     {
       return mInfoType==PIX;
     }
-    /**Returns the index of the marker with id indicated, if is in the list
+    /** @brief Returns the index of the marker with id indicated, if is in the list
      */
-    int getIndexOfMarkerId(int id)const;
-    /**Returns the Info of the marker with id specified. If not in the set, throws exception
+    int getIndexOfMarkerId(const int id)const;
+    /** @brief Returns the Info of the marker with id specified. If not in the set, throws exception
      */
     const MarkerInfo& getMarkerInfo(int id)const throw (cv::Exception);
 
-    /**@brief Set in the list passed the set of the ids.
+    /** @brief Set in the list passed the set of the ids.
      * @param[out] ids Output vector with ids.
      */
     void getIdList(vector<int> &ids,bool append=true)const;
   private:
-    /**Saves the board info to a file
+    /** @brief Saves the board info to a file
     */
     void saveToFile(cv::FileStorage &fs) const throw (cv::Exception);
     /**Reads board info from a file
@@ -165,34 +179,44 @@ class ARUCO_EXPORTS Board:public std::vector<Marker>
 
    /////////////// ACCESSORS //////////////////////
 
-    const cv::Mat & getRvec() const
+    /** @brief Returns Rvec (Rotation vector of the camera)
+     */
+    const cv::Mat &getRvec() const
     {
         return Rvec;
     }
 
-    cv::Mat & getRvec()
+    /** @brief Returns Rvec (Rotation vector of the camera)
+     */
+    cv::Mat &getRvec()
     {
         return Rvec;
     }
 
-    const cv::Mat & getTvec() const
+    /** @brief Returns Tvec (Translation vector of the camera)
+     */
+    const cv::Mat &getTvec() const
     {
         return Tvec;
     }
 
-    cv::Mat & getTvec()
+    /** @brief Returns Tvec (Translation vector of the camera)
+     */
+    cv::Mat &getTvec()
     {
         return Tvec;
     }
 
-    const BoardConfiguration & getBoardConf() const
+    /** @brief Returns BoardConfiguration
+     */
+    const BoardConfiguration &getBoardConf() const
     {
         return conf;
     }
 
-    /**Save this from a file
+    /** @brief Save this from a file
      */
-    void saveToFile(std::string filePath) const throw(cv::Exception);
+    void saveToFile(const std::string &filePath) const throw(cv::Exception);
 
     /////////////// MUTATORS //////////////////////
 
@@ -202,7 +226,7 @@ class ARUCO_EXPORTS Board:public std::vector<Marker>
     }
 
     /**
-     * Returns position vector and orientation quaternion for an Ogre scene node or entity.
+     * @brief Returns position vector and orientation quaternion for an Ogre scene node or entity.
      *  Use:
      * ...
      * Ogre::Vector3 ogrePos (position[0], position[1], position[2]);
@@ -222,9 +246,9 @@ class ARUCO_EXPORTS Board:public std::vector<Marker>
      */
     void glGetModelViewMatrix(double modelview_matrix[16])throw(cv::Exception);
 
-    /**Read  this from a file
+    /** @brief Read  this from a file
      */
-    void readFromFile(std::string filePath)throw(cv::Exception);
+    void readFromFile(const std::string &filePath)throw(cv::Exception);
 
   private:
     BoardConfiguration conf;

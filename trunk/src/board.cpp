@@ -36,7 +36,6 @@ namespace aruco
  */
 BoardConfiguration::BoardConfiguration() : mInfoType(NONE)
 {
-  //mInfoType=NONE;
 }
 
 /*!
@@ -44,8 +43,6 @@ BoardConfiguration::BoardConfiguration() : mInfoType(NONE)
  */
 BoardConfiguration::BoardConfiguration ( const BoardConfiguration  &T ): vector<MarkerInfo>(T), mInfoType(T.mInfoType)
 {
-//     MarkersInfo=T.MarkersInfo;
-//  mInfoType=T.mInfoType;
 }
 
 /*!
@@ -53,7 +50,6 @@ BoardConfiguration::BoardConfiguration ( const BoardConfiguration  &T ): vector<
  */
 BoardConfiguration & BoardConfiguration ::operator=(const BoardConfiguration  &T)
 {
-//     MarkersInfo=T.MarkersInfo;
   vector<MarkerInfo>::operator=(T);
   mInfoType=T.mInfoType;
   return *this;
@@ -62,7 +58,7 @@ BoardConfiguration & BoardConfiguration ::operator=(const BoardConfiguration  &T
 /*!
  *
  */
-void BoardConfiguration::saveToFile ( string sfile ) const throw ( cv::Exception )
+void BoardConfiguration::saveToFile (const std::string &sfile ) const throw ( cv::Exception )
 {
 
   cv::FileStorage fs ( sfile,cv::FileStorage::WRITE );
@@ -73,16 +69,15 @@ void BoardConfiguration::saveToFile ( string sfile ) const throw ( cv::Exception
 /*!
  *
  */
-void BoardConfiguration::saveToFile(cv::FileStorage &fs) const throw (cv::Exception)
+void BoardConfiguration::saveToFile(FileStorage &fs) const throw (cv::Exception)
 {
-//  fs<<"aruco_bc_nmarkers"<< ( int ) size();
-//  fs<<"aruco_bc_mInfoType"<< ( int ) mInfoType;
+
   fs<<"aruco_bc_nmarkers"<< static_cast<int>(size());
   fs<<"aruco_bc_mInfoType"<< static_cast<int>(mInfoType);
   fs<<"aruco_bc_markers"<<"[";
   for (size_t i=0; i<size(); i++ )
   {
-    fs << "{:" << "id" << at(i).id ;
+    fs << "{:" << "id" << at(i).getid() ;
 
     fs<<"corners"<< "[:";
     for (size_t c=0; c<at(i).size(); c++)
@@ -96,7 +91,7 @@ void BoardConfiguration::saveToFile(cv::FileStorage &fs) const throw (cv::Except
 /*!
  *
  */
-void BoardConfiguration::readFromFile ( string sfile ) throw ( cv::Exception )
+void BoardConfiguration::readFromFile (const std::string &sfile) throw ( cv::Exception )
 {
   cv::FileStorage fs ( sfile,cv::FileStorage::READ );
   readFromFile(fs);
@@ -121,7 +116,7 @@ void BoardConfiguration::readFromFile(cv::FileStorage &fs)throw (cv::Exception)
   int i=0;
   for (FileNodeIterator it = markers.begin(); it!=markers.end(); ++it,i++)
   {
-    at(i).id=(*it)["id"];
+    at(i).setid((*it)["id"]);
     FileNode FnCorners=(*it)["corners"];
     for (FileNodeIterator itc = FnCorners.begin(); itc!=FnCorners.end(); ++itc)
     {
@@ -143,7 +138,7 @@ int BoardConfiguration::getIndexOfMarkerId(int id)const
 {
 
   for (size_t i=0; i<size(); i++)
-    if ( at(i).id==id)return i;
+    if ( at(i).getid()==id)return i;
   return -1;
 }
 
@@ -153,7 +148,7 @@ int BoardConfiguration::getIndexOfMarkerId(int id)const
 const MarkerInfo& BoardConfiguration::getMarkerInfo(int id)const throw (cv::Exception)
 {
   for (size_t i=0; i<size(); i++)
-    if ( at(i).id ==id) return at(i);
+      if ( at(i).getid() ==id) return at(i);
   throw cv::Exception(111,"BoardConfiguration::getMarkerInfo",
     "Marker with the id given is not found",__FILE__,__LINE__);
 }
@@ -313,7 +308,7 @@ void Board::OgreGetPoseParameters (double position[3], double orientation[4]) th
 /*!
  *
  */
-void Board::saveToFile(string filePath) const throw(cv::Exception)
+void Board::saveToFile(const std::string &filePath) const throw(cv::Exception)
 {
   cv::FileStorage fs ( filePath,cv::FileStorage::WRITE );
 
@@ -339,7 +334,7 @@ void Board::saveToFile(string filePath) const throw(cv::Exception)
 /*!
  *
  */
-void Board::readFromFile(string filePath)throw(cv::Exception)
+void Board::readFromFile(const std::string &filePath)throw(cv::Exception)
 {
   cv::FileStorage fs ( filePath,cv::FileStorage::READ );
   if ( fs["aruco_bo_nmarkers"].name() !="aruco_bo_nmarkers" )
@@ -384,7 +379,7 @@ void BoardConfiguration::getIdList(std::vector< int >& ids, bool append) const
 {
   if (!append) ids.clear();
   for (size_t i=0; i<size(); i++)
-    ids.push_back(at(i).id);
+      ids.push_back(at(i).getid());
 }
 
 }
