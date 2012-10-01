@@ -281,9 +281,9 @@ void vIdle()
     //by deafult, opencv works in BGR, so we must convert to RGB because OpenGL in windows preffer
     cv::cvtColor(TheInputImage,TheInputImage,CV_BGR2RGB);
     //remove distorion in image
-    cv::undistort(TheInputImage,TheUndInputImage, TheCameraParams.CameraMatrix,TheCameraParams.Distorsion);
+    cv::undistort(TheInputImage,TheUndInputImage, TheCameraParams.getCamMatrix(),TheCameraParams.getDistor());
     //detect markers
-    MDetector.detect(TheUndInputImage,TheMarkers,TheCameraParams.CameraMatrix,Mat(),TheMarkerSize);
+    MDetector.detect(TheUndInputImage,TheMarkers,TheCameraParams.getCamMatrix(),Mat(),TheMarkerSize);
     //Detection of the board
     TheBoardDetected.second=TheBoardDetector.detect( TheMarkers, TheBoardConfig,TheBoardDetected.first, TheCameraParams,TheMarkerSize);
     //chekc the speed by calculating the mean speed of all iterations

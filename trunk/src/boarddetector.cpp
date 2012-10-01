@@ -76,7 +76,7 @@ float  BoardDetector::detect(const cv::Mat &im)throw (cv::Exception)
   float res;
 
   if (_camParams.isValid())
-    res=detect(_vmarkers,_bconf,_boardDetected,_camParams.CameraMatrix,_camParams.Distorsion,_markerSize);
+    res=detect(_vmarkers,_bconf,_boardDetected,_camParams.getCamMatrix(),_camParams.getDistor(),_markerSize);
   else res=detect(_vmarkers,_bconf,_boardDetected);
   return res;
 }
@@ -87,7 +87,7 @@ float  BoardDetector::detect(const cv::Mat &im)throw (cv::Exception)
 float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardConfiguration &BConf,
   Board &Bdetected,const CameraParameters &cp, float markerSizeMeters ) throw ( cv::Exception )
 {
-  return detect ( detectedMarkers, BConf,Bdetected,cp.CameraMatrix,cp.Distorsion,markerSizeMeters );
+  return detect ( detectedMarkers, BConf,Bdetected,cp.getCamMatrix(),cp.getDistor(),markerSizeMeters );
 }
 
 /*!

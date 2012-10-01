@@ -99,7 +99,7 @@ void MarkerDetector::detect (const cv::Mat &input, std::vector<Marker> &detected
   const CameraParameters &camParams , float markerSizeMeters , const bool setYPerperdicular)
   throw (cv::Exception)
 {
-  detect (input, detectedMarkers, camParams.CameraMatrix, camParams.Distorsion,
+  detect (input, detectedMarkers, camParams.getCamMatrix(), camParams.getDistor(),
     markerSizeMeters ,setYPerperdicular);
 }
 
@@ -478,7 +478,7 @@ void MarkerDetector::thresHold (const int method, const Mat &grey, Mat &out, dou
 /*!
  *
  */
-bool MarkerDetector::warp(Mat &in, Mat &out, Size size, vector<Point2f> points)
+bool MarkerDetector::warp(const Mat &in, Mat &out, Size size, vector<Point2f> points)
   throw (cv::Exception)
 {
 

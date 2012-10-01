@@ -67,19 +67,19 @@ class  ARUCO_EXPORTS Marker: public std::vector<cv::Point2f>
     }
 
     /// @brief Returns the valor of ssize (size of the markers sides in meters)
-    const float & getssize() const
+    const float &getssize() const
     {
         return ssize;
     }
 
     /// @brief Returns the matrix Rvec (matrix of rotation respect to the camera)
-    const cv::Mat & getRvec() const
+    const cv::Mat &getRvec() const
     {
         return Rvec;
     }
 
     /// @brief Returns the matrix Tvec (matrix of translation respect to the camera)
-    const cv::Mat & getTvec() const
+    const cv::Mat &getTvec() const
     {
         return Tvec;
     }

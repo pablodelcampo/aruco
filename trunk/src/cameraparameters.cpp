@@ -37,12 +37,9 @@ namespace aruco
 
 CameraParameters::CameraParameters() : CameraMatrix(cv::Mat()),Distorsion(cv::Mat()),CamSize(cv::Size(-1,-1))
 {
-  //CameraMatrix=cv::Mat();
-  //Distorsion=cv::Mat();
-  //CamSize=cv::Size(-1,-1);
 }
 
-CameraParameters::CameraParameters(cv::Mat cameraMatrix,cv::Mat distorsionCoeff,cv::Size size)
+CameraParameters::CameraParameters(cv::Mat &cameraMatrix, cv::Mat &distorsionCoeff, cv::Size &size)
 throw(cv::Exception)
 {
   setParams(cameraMatrix,distorsionCoeff,size);
@@ -52,7 +49,6 @@ CameraParameters::CameraParameters(const CameraParameters &CI) : CamSize(CI.CamS
 {
   CI.CameraMatrix.copyTo(CameraMatrix);
   CI.Distorsion.copyTo(Distorsion);
-  //CamSize=CI.CamSize;
 }
 
 CameraParameters & CameraParameters::operator=(const CameraParameters &CI)
@@ -63,7 +59,7 @@ CameraParameters & CameraParameters::operator=(const CameraParameters &CI)
   return *this;
 }
 
-void CameraParameters::setParams(cv::Mat cameraMatrix,cv::Mat distorsionCoeff,cv::Size size)
+void CameraParameters::setParams(cv::Mat &cameraMatrix, cv::Mat &distorsionCoeff, cv::Size &size)
   throw(cv::Exception)
 {
   if (cameraMatrix.rows!=3 || cameraMatrix.cols!=3)
@@ -87,7 +83,7 @@ void CameraParameters::setParams(cv::Mat cameraMatrix,cv::Mat distorsionCoeff,cv
 
 /**
 */
-cv::Point3f CameraParameters::getCameraLocation(cv::Mat Rvec,cv::Mat Tvec)
+cv::Point3f CameraParameters::getCameraLocation(const cv::Mat &Rvec, const cv::Mat &Tvec)
 {
   cv::Mat m33(3,3,CV_32FC1);
   cv::Rodrigues(Rvec, m33)  ;
@@ -108,7 +104,7 @@ cv::Point3f CameraParameters::getCameraLocation(cv::Mat Rvec,cv::Mat Tvec)
 
 /**Reads the camera parameters from file
  */
-void CameraParameters::readFromFile(std::string path)throw(cv::Exception)
+void CameraParameters::readFromFile(const std::string &path)throw(cv::Exception)
 {
 
   std::ifstream file(path.c_str());
@@ -141,7 +137,7 @@ void CameraParameters::readFromFile(std::string path)throw(cv::Exception)
   }
 }
 
-void CameraParameters::saveToFile(std::string path,bool inXML)throw(cv::Exception)
+void CameraParameters::saveToFile(const std::string &path, bool inXML)throw(cv::Exception)
 {
   if (!isValid())
     throw cv::Exception(9006,"invalid object","CameraParameters::saveToFile",__FILE__,__LINE__);
@@ -173,7 +169,7 @@ void CameraParameters::saveToFile(std::string path,bool inXML)throw(cv::Exceptio
   }
 }
 
-void CameraParameters::resize(cv::Size size)throw(cv::Exception)
+void CameraParameters::resize(const cv::Size &size)throw(cv::Exception)
 {
   if (!isValid())
     throw cv::Exception(9007,"invalid object","CameraParameters::resize",__FILE__,__LINE__);
@@ -181,8 +177,6 @@ void CameraParameters::resize(cv::Size size)throw(cv::Exception)
     return;
   //now, read the camera size
   //resize the camera parameters to fit this image size
-//  float AxFactor= float(size.width)/ float(CamSize.width);
-//  float AyFactor= float(size.height)/ float(CamSize.height);
   float AxFactor= static_cast<float>(size.width)/ static_cast<float>(CamSize.width);
   float AyFactor= static_cast<float>(size.height)/ static_cast<float>(CamSize.height);
   CameraMatrix.at<float>(0,0)*=AxFactor;
@@ -191,7 +185,7 @@ void CameraParameters::resize(cv::Size size)throw(cv::Exception)
   CameraMatrix.at<float>(1,2)*=AyFactor;
 }
 
-void CameraParameters::readFromXMLFile(std::string filePath)throw(cv::Exception)
+void CameraParameters::readFromXMLFile(const std::string &filePath)throw(cv::Exception)
 {
   cv::FileStorage fs(filePath, cv::FileStorage::READ);
   int w=-1,h=-1;
@@ -230,8 +224,8 @@ void CameraParameters::readFromXMLFile(std::string filePath)throw(cv::Exception)
   CamSize.height=h;
 }
 
-void CameraParameters::glGetProjectionMatrix(cv::Size orgImgSize, cv::Size size,
-  double proj_matrix[16], double gnear, double gfar, bool invert) throw(cv::Exception)
+void CameraParameters::glGetProjectionMatrix(const cv::Size &orgImgSize, cv::Size size,
+  double proj_matrix[], double gnear, double gfar, bool invert) throw(cv::Exception)
 {
   if (cv::countNonZero(Distorsion)!=0)
     std::cerr<< "CameraParameters::glGetProjectionMatrix - The camera has distortion coefficients "
@@ -242,8 +236,7 @@ void CameraParameters::glGetProjectionMatrix(cv::Size orgImgSize, cv::Size size,
       __FILE__,__LINE__);
 
   //Deterime the rsized info
-//  double Ax=double(size.width)/double(orgImgSize.width);
-//  double Ay=double(size.height)/double(orgImgSize.height);
+
   double Ax=static_cast<double>(size.width)/static_cast<double>(orgImgSize.width);
   double Ay=static_cast<double>(size.height)/static_cast<double>(orgImgSize.height);
   double _fx=CameraMatrix.at<float>(0,0)*Ax;
@@ -415,7 +408,7 @@ int CameraParameters::arParamDecompMat(double source[3][4], double cpara[3][4], 
   return 0;
 }
 
-void CameraParameters::OgreGetProjectionMatrix(cv::Size orgImgSize, cv::Size size,
+void CameraParameters::OgreGetProjectionMatrix(const cv::Size &orgImgSize, cv::Size size,
   double proj_matrix[16], double gnear, double gfar, bool invert) throw(cv::Exception)
 {
   double temp_matrix[16];

@@ -29,12 +29,13 @@ or implied, of Rafael Muñoz Salinas.
 using namespace cv;
 namespace aruco
 {
-/****
+/** @brief This function draws the reference system of coordinates for one mark
  *
- *
- *
+ *@param[in] Image Input image
+ *@param[in] m Input marker
+ *@param[in] CP Is the CameraParameters
  ****/
-void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Marker &m,const CameraParameters &CP)
+void CvDrawingUtils::draw3dAxis(cv::Mat &Image,const Marker &m,const CameraParameters &CP)
 {
 
   float size=m.getssize()*3;
@@ -53,7 +54,7 @@ void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Marker &m,const CameraParameters 
   objectPoints.at<float>(3,2)=size;
 
   vector<Point2f> imagePoints;
-  cv::projectPoints( objectPoints, m.getRvec(),m.getTvec(), CP.CameraMatrix,CP.Distorsion,   imagePoints);
+  cv::projectPoints( objectPoints,m.getRvec(),m.getTvec(), CP.getCamMatrix(), CP.getDistor(),   imagePoints);
 //draw lines of different colours
   cv::line(Image,imagePoints[0],imagePoints[1],Scalar(0,0,255,255),1,CV_AA);
   cv::line(Image,imagePoints[0],imagePoints[2],Scalar(0,255,0,255),1,CV_AA);
@@ -63,12 +64,16 @@ void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Marker &m,const CameraParameters 
   putText(Image,"z", imagePoints[3],FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255,0,0,255),2);
 }
 
-/****
+/** @brief This function draws a cube in one mark.
  *
+ *The lines of the mark are the base of the cube.
  *
+ *@param[in] Image Input image
+ *@param[in] m Input marker
+ *@param[in] CP Is the CameraParameters
  *
  ****/
-void CvDrawingUtils::draw3dCube(cv::Mat &Image,Marker &m,const CameraParameters &CP)
+void CvDrawingUtils::draw3dCube(cv::Mat &Image,const Marker &m,const CameraParameters &CP)
 {
   Mat objectPoints (8,3,CV_32FC1);
   double halfSize=m.getssize()/2;
@@ -99,7 +104,7 @@ void CvDrawingUtils::draw3dCube(cv::Mat &Image,Marker &m,const CameraParameters 
   objectPoints.at<float>(7,2)=halfSize;
 
   vector<Point2f> imagePoints;
-  projectPoints( objectPoints, m.getRvec(),m.getTvec(),  CP.CameraMatrix,CP.Distorsion,   imagePoints);
+  projectPoints( objectPoints, m.getRvec(),m.getTvec(),  CP.getCamMatrix(),CP.getDistor(),   imagePoints);
 //draw lines of different colours
   for (int i=0; i<4; i++)
     cv::line(Image,imagePoints[i],imagePoints[(i+1)%4],Scalar(0,0,255,255),1,CV_AA);
@@ -113,12 +118,15 @@ void CvDrawingUtils::draw3dCube(cv::Mat &Image,Marker &m,const CameraParameters 
 }
 
 
-/****
+/** @brief This function draws the reference system of coordinates for the board.
  *
+ *The system of coordinates is in the center of the board.
  *
- *
- ****/
-void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Board &B,const CameraParameters &CP)
+ *@param[in] Image Input image
+ *@param[in] B Input board
+ *@param[in] CP Is the CameraParameters
+ */
+void CvDrawingUtils::draw3dAxis(cv::Mat &Image,const Board &B,const CameraParameters &CP)
 {
   Mat objectPoints (4,3,CV_32FC1);
   objectPoints.at<float>(0,0)=0;
@@ -135,7 +143,7 @@ void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Board &B,const CameraParameters &
   objectPoints.at<float>(3,2)=2*B[0].getssize();
 
   vector<Point2f> imagePoints;
-  projectPoints( objectPoints, B.getRvec(),B.getTvec(), CP.CameraMatrix, CP.Distorsion,   imagePoints);
+  projectPoints( objectPoints, B.getRvec(),B.getTvec(), CP.getCamMatrix(), CP.getDistor(),   imagePoints);
 //draw lines of different colours
   cv::line(Image,imagePoints[0],imagePoints[1],Scalar(0,0,255,255),2,CV_AA);
   cv::line(Image,imagePoints[0],imagePoints[2],Scalar(0,255,0,255),2,CV_AA);
@@ -147,12 +155,14 @@ void CvDrawingUtils::draw3dAxis(cv::Mat &Image,Board &B,const CameraParameters &
 }
 
 
-/****
+/** @brief This function draws a cube in the center of the board
  *
- *
+ *@param[in] Image Input image
+ *@param[in] B Input board
+ *@param[in] CP Is the CameraParameters
  *
  ****/
-void CvDrawingUtils::draw3dCube(cv::Mat &Image,Board &B,const CameraParameters &CP)
+void CvDrawingUtils::draw3dCube(cv::Mat &Image,const Board &B,const CameraParameters &CP)
 {
 
     float cubeSize=B[0].getssize();
@@ -185,7 +195,7 @@ void CvDrawingUtils::draw3dCube(cv::Mat &Image,Board &B,const CameraParameters &
   objectPoints.at<float>(7,2)=txz+cubeSize;
 
   vector<Point2f> imagePoints;
-  projectPoints( objectPoints,B.getRvec(),B.getTvec(), CP.CameraMatrix, CP.Distorsion,   imagePoints);
+  projectPoints( objectPoints,B.getRvec(),B.getTvec(), CP.getCamMatrix(), CP.getDistor(),   imagePoints);
 //draw lines of different colours
   for (int i=0; i<4; i++)
     cv::line(Image,imagePoints[i],imagePoints[(i+1)%4],Scalar(0,0,255,255),1,CV_AA);

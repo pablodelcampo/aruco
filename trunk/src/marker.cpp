@@ -271,7 +271,7 @@ void Marker::calculateExtrinsics(const float markerSize, const CameraParameters 
   if (!CP.isValid())
     throw cv::Exception(9004,"!CP.isValid(): invalid camera parameters. It is not possible to "
       "calculate extrinsics","calculateExtrinsics",__FILE__,__LINE__);
-  calculateExtrinsics( markerSize,CP.CameraMatrix,CP.Distorsion,setYPerperdicular);
+  calculateExtrinsics( markerSize,CP.getCamMatrix(),CP.getDistor(),setYPerperdicular);
 }
 
 //void print(cv::Point3f p,string cad)

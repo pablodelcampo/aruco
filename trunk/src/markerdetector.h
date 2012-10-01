@@ -220,7 +220,7 @@ class ARUCO_EXPORTS  MarkerDetector
      * for the canonical marker image
      */
 
-    /** \todo Pablo: Mejorar esta función para añadir mas modos de rendimiento, mejorar los existentes o autoseleccionamiento de modo
+    /** \todo Pablo: Mejorar esta función para añadir mas modos de rendimiento, mejorar los existentes o autoseleccionamiento de modo (ajuste de rendimiento inicial realizando pruebas con cada modo, calculando tiempo de cómputo, y eligiendo la opción más óptima, la configuración elegida se puede guardar en un fichero de datos que luego se introduzca a la cámara, en ese caso omitirá los ajustes de rendimiento)
      */
     void setDesiredSpeed(int val);
 
@@ -232,8 +232,9 @@ class ARUCO_EXPORTS  MarkerDetector
     }
 
     /**
-     * Allows to specify the function that identifies a marker. Therefore, you can create your
-     * own type of markers different from these employed by default in the library.
+     * @brief Allows to specify the function that identifies a marker.
+     *
+     * Therefore, you can create your own type of markers different from these employed by default in the library.
      * The marker function must have the following structure:
      *
      * int myMarkerIdentifier(const cv::Mat &in,int &nRotations);
@@ -253,7 +254,8 @@ class ARUCO_EXPORTS  MarkerDetector
       markerIdDetector_ptrfunc=markerdetector_func;
     }
 
-    /** Use an smaller version of the input image for marker detection.
+    /** @brief Use an smaller version of the input image for marker detection.
+     *
      * If your marker is small enough, you can employ an smaller image to perform the detection
      * without noticeable reduction in the precision.
      * Internally, we are performing a pyrdown operation
@@ -274,7 +276,9 @@ class ARUCO_EXPORTS  MarkerDetector
     /**
      * @brief Thesholds the passed image with the specified method.
      *@param[in] method is the method of thresholding
-     *@param[in]
+     *@param[in] grey is the input grey image (type CV_8UC1)
+     *@param[out] thresImg is the output threshold image
+     *
      */
     void thresHold(const int method,const cv::Mat &grey,cv::Mat &thresImg,
       double param1=-1,double param2=-1)throw(cv::Exception);
@@ -300,7 +304,7 @@ class ARUCO_EXPORTS  MarkerDetector
      * @param points 4 corners of the marker in the image in
      * @return true if the operation succeed
      */
-    bool warp(cv::Mat &in,cv::Mat &out,cv::Size size, std::vector<cv::Point2f> points)
+    bool warp(const cv::Mat &in,cv::Mat &out,cv::Size size, std::vector<cv::Point2f> points)
       throw (cv::Exception);
 
     /** Refine MarkerCandidate Corner using LINES method

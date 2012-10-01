@@ -255,9 +255,9 @@ void vIdle()
     //transform color that by default is BGR to RGB because windows systems do not allow reading BGR images with opengl properly
     cv::cvtColor(TheInputImage,TheInputImage,CV_BGR2RGB);
     //remove distorion in image
-    cv::undistort(TheInputImage,TheUndInputImage, TheCameraParams.CameraMatrix, TheCameraParams.Distorsion);
+    cv::undistort(TheInputImage,TheUndInputImage, TheCameraParams.getCamMatrix(), TheCameraParams.getDistor());
     //detect markers
-    PPDetector.detect(TheUndInputImage,TheMarkers, TheCameraParams.CameraMatrix,Mat(),TheMarkerSize);
+    PPDetector.detect(TheUndInputImage,TheMarkers, TheCameraParams.getCamMatrix(),Mat(),TheMarkerSize);
     //resize the image to the size of the GL window
     cv::resize(TheUndInputImage,TheResizedImage,TheGlWindowSize);
   }

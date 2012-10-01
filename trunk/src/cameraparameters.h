@@ -36,41 +36,38 @@ or implied, of Rafael Muñoz Salinas.
 namespace aruco
 {
 
-/**\brief Parameters of the camera
+/** @brief Parameters of the camera
  */
 class ARUCO_EXPORTS  CameraParameters
 {
   public:
 
-    cv::Mat  CameraMatrix;  ///<  3x3 matrix (fx 0 cx, 0 fy cy, 0 0 1)
-    cv::Mat  Distorsion;    ///< 4x1 matrix (k1,k2,p1,p2)
-    cv::Size CamSize;       ///< size of the image
 
-    /**Empty constructor
+    /** @brief Empty constructor
      */
     CameraParameters() ;
 
-    /**Creates the object from the info passed
+    /** Creates the object from the info passed
      * @param cameraMatrix 3x3 matrix (fx 0 cx, 0 fy cy, 0 0 1)
      * @param distorsionCoeff 4x1 matrix (k1,k2,p1,p2)
      * @param size image size
      */
-    CameraParameters(cv::Mat cameraMatrix,cv::Mat distorsionCoeff,cv::Size size)
+    CameraParameters(cv::Mat &cameraMatrix,cv::Mat &distorsionCoeff,cv::Size &size)
       throw(cv::Exception);
 
-    /**Sets the parameters
+    /** @brief Sets the parameters
      * @param cameraMatrix 3x3 matrix (fx 0 cx, 0 fy cy, 0 0 1)
      * @param distorsionCoeff 4x1 matrix (k1,k2,p1,p2)
      * @param size image size
      */
-    void setParams(cv::Mat cameraMatrix,cv::Mat distorsionCoeff,cv::Size size)
+    void setParams(cv::Mat &cameraMatrix,cv::Mat &distorsionCoeff,cv::Size &size)
       throw(cv::Exception);
 
-    /**Copy constructor
+    /** @brief Copy constructor
      */
     CameraParameters(const CameraParameters &CI) ;
 
-    /**Indicates whether this object is valid
+    /** @brief Indicates whether this object is valid
      */
     bool isValid()const
     {
@@ -78,32 +75,56 @@ class ARUCO_EXPORTS  CameraParameters
              Distorsion.cols!=0 && CamSize.width!=-1 && CamSize.height!=-1;
     }
 
-    /**Assign operator
+    /** @brief Assign operator
     */
     CameraParameters & operator=(const CameraParameters &CI);
 
-    /**Reads the camera parameters from a file generated using saveToFile.
+    /** @brief Reads the camera parameters from a file generated using saveToFile.
+     *@param[in] path String that specified the directory of the CameraParametres file
      */
-    void readFromFile(std::string path)throw(cv::Exception);
+    void readFromFile(const std::string &path)throw(cv::Exception);
 
-    /**Saves this to a file
+    /** @brief Returns the CameraMatrix (private variable)
+    */
+    const cv::Mat &getCamMatrix() const
+    {
+        return CameraMatrix;
+    }
+
+    /** @brief Returns the Distorsion (private variable)
+    */
+    const cv::Mat &getDistor() const
+    {
+        return Distorsion;
+    }
+
+    /** @brief Returns the CamSize (private variable)
+    */
+    const cv::Size &getsize() const
+    {
+        return CamSize;
+    }
+
+
+    /** @brief Saves this to a file
+     *@param[in] path String that specified the directory where the file will be saved
      */
-    void saveToFile(std::string path,bool inXML=true)throw(cv::Exception);
+    void saveToFile(const std::string &path,bool inXML=true)throw(cv::Exception);
 
-    /**Reads from a YAML file generated with the opencv2.2 calibration utility
+    /** @brief Reads from a YAML file generated with the opencv2.2 calibration utility
      */
-    void readFromXMLFile(std::string filePath)throw(cv::Exception);
+    void readFromXMLFile(const std::string &filePath)throw(cv::Exception);
 
-    /**Adjust the parameters to the size of the image indicated
+    /** @brief Adjust the parameters to the size of the image indicated
      */
-    void resize(cv::Size size)throw(cv::Exception);
+    void resize(const cv::Size &size)throw(cv::Exception);
 
-    /**Returns the location of the camera in the reference system given by the rotation and
+    /** @briefReturns the location of the camera in the reference system given by the rotation and
      * translation vectors passed NOT TESTED
      */
-    static cv::Point3f getCameraLocation(cv::Mat Rvec,cv::Mat Tvec);
+    static cv::Point3f getCameraLocation(const cv::Mat &Rvec,const cv::Mat &Tvec);
 
-    /**Given the intrinsic camera parameters returns the GL_PROJECTION matrix for opengl.
+    /** @brief Given the intrinsic camera parameters returns the GL_PROJECTION matrix for opengl.
     * PLease NOTE that when using OpenGL, it is assumed no camera distorsion! So, if it is not true,
     * you should have undistor image
     *
@@ -115,7 +136,7 @@ class ARUCO_EXPORTS  CameraParameters
     * @param invert: indicates if the output projection matrix has to yield a horizontally inverted
     * image because image data has not been stored in the order of glDrawPixels: bottom-to-top.
     */
-    void glGetProjectionMatrix( cv::Size orgImgSize, cv::Size size,double proj_matrix[16],
+    void glGetProjectionMatrix(const cv::Size &orgImgSize, cv::Size size,double proj_matrix[16],
       double gnear,double gfar,bool invert=false   )throw(cv::Exception);
 
     /**
@@ -128,7 +149,7 @@ class ARUCO_EXPORTS  CameraParameters
      * ...
      * As in OpenGL, it assumes no camera distorsion
      */
-    void OgreGetProjectionMatrix(cv::Size orgImgSize, cv::Size size,double proj_matrix[16],
+    void OgreGetProjectionMatrix(const cv::Size &orgImgSize, cv::Size size,double proj_matrix[16],
       double gnear,double gfar,bool invert=false)throw(cv::Exception);
 
 
@@ -141,6 +162,10 @@ class ARUCO_EXPORTS  CameraParameters
     static double norm(double a, double b, double c );
     static double dot(double a1, double a2, double a3,
                       double b1, double b2, double b3);
+
+    cv::Mat  CameraMatrix;  ///<  3x3 matrix (fx 0 cx, 0 fy cy, 0 0 1)
+    cv::Mat  Distorsion;    ///< 4x1 matrix (k1,k2,p1,p2)
+    cv::Size CamSize;       ///< size of the image
 };
 
 }
