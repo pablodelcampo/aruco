@@ -36,7 +36,7 @@ namespace aruco
 /*!
  *
  */
-Mat FiducidalMarkers::createMarkerImage(int id,int size) throw (cv::Exception)
+Mat FiducidalMarkers::createMarkerImage(const int id, const int size) throw (cv::Exception)
 {
   Mat marker(size,size, CV_8UC1);
   marker.setTo(Scalar(0));
@@ -93,8 +93,8 @@ cv::Mat FiducidalMarkers::getMarkerMat(int id) throw (cv::Exception)
 /*!
  *
  */
-cv::Mat FiducidalMarkers::createBoardImage(Size gridSize,int MarkerSize,int dist,
-  BoardConfiguration& TInfo  ,vector<int> *excludedIds) throw (cv::Exception)
+cv::Mat FiducidalMarkers::createBoardImage(const Size &gridSize, const int MarkerSize, const int dist,
+  BoardConfiguration& TInfo  , vector<int> *excludedIds) throw (cv::Exception)
 {
   srand(cv::getTickCount());
   int nMarkers=gridSize.height*gridSize.width;
@@ -136,8 +136,8 @@ cv::Mat FiducidalMarkers::createBoardImage(Size gridSize,int MarkerSize,int dist
 /*!
  *
  */
-cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int MarkerSize,
-  BoardConfiguration& TInfo ,bool centerData ,vector<int> *excludedIds) throw (cv::Exception)
+cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard(const Size &gridSize, const int MarkerSize,
+  BoardConfiguration& TInfo , const bool centerData , vector<int> *excludedIds) throw (cv::Exception)
 {
   srand(cv::getTickCount());
 
@@ -195,8 +195,8 @@ cv::Mat  FiducidalMarkers::createBoardImage_ChessBoard( Size gridSize,int Marker
 /*!
  *
  */
-cv::Mat FiducidalMarkers::createBoardImage_Frame(Size gridSize,int MarkerSize,int dist,
-  BoardConfiguration& TInfo ,bool centerData,vector<int> *excludedIds ) throw (cv::Exception)
+cv::Mat FiducidalMarkers::createBoardImage_Frame(const Size &gridSize, const int MarkerSize, const int dist,
+  BoardConfiguration& TInfo , const bool centerData, vector<int> *excludedIds ) throw (cv::Exception)
 {
   srand(cv::getTickCount());
   int nMarkers=2*gridSize.height*2*gridSize.width;
