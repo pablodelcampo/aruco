@@ -95,11 +95,12 @@ cv::Point3f CameraParameters::getCameraLocation(const cv::Mat &Rvec, const cv::M
 
   //now, add translation information
   for (int i=0; i<3; i++)
-    m44.at<float>(i,3)=Tvec.at<float>(0,i);
+    m44.at<float>(i,3)=Tvec.at<float>(i,0);
   //invert the matrix
-  m44.inv();
-  return  cv::Point3f( m44.at<float>(0,0),m44.at<float>(0,1),m44.at<float>(0,2));
-
+  cv::Mat cam0(4, 1, CV_32FC1, cv::Scalar(0.f));
+  cam0.at<float>(3,0) = 1.f;
+  cv::Mat pos = m44.inv() * cam0;
+  return  cv::Point3f(pos.at<float>(0,0),pos.at<float>(1,0), pos.at<float>(2,0));
 }
 
 /**Reads the camera parameters from file
@@ -166,9 +167,12 @@ void CameraParameters::saveToFile(const std::string &path, bool inXML)throw(cv::
     fs<<"image_height" << CamSize.height;
     fs<<"camera_matrix" << CameraMatrix;
     fs<<"distortion_coefficients" <<Distorsion;
+
   }
 }
 
+/**Adjust the parameters to the size of the image indicated
+ */
 void CameraParameters::resize(const cv::Size &size)throw(cv::Exception)
 {
   if (!isValid())

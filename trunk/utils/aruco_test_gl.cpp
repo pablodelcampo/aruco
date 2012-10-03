@@ -99,7 +99,19 @@ int main(int argc,char **argv)
   {//parse arguments
     if (readArguments (argc,argv)==false) return 0;
     //read from camera
-    if (TheInputVideo=="live") TheVideoCapturer.open(0);
+    if (TheInputVideo=="live") {
+        TheVideoCapturer.open(0);
+
+        //------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------
+        TheVideoCapturer.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
+        TheVideoCapturer.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
+        int val = CV_FOURCC('M', 'P', 'E', 'G');
+        TheVideoCapturer.set(CV_CAP_PROP_FOURCC, val);
+        //------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------
+
+    }
     else TheVideoCapturer.open(TheInputVideo);
     if (!TheVideoCapturer.isOpened())
     {

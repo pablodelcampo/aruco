@@ -35,8 +35,11 @@ or implied, of Rafael Muñoz Salinas.
 #include <sstream>
 //#include <opencv2/opencv.hpp>
 #include "aruco.h"
+
 using namespace cv;
 using namespace aruco;
+using std::cout;
+using std::endl;
 
 string TheInputVideo;
 string TheIntrinsicFile;
@@ -128,6 +131,16 @@ int main(int argc,char **argv)
     {
       TheVideoCapturer.open(0);
       waitTime=10;
+
+      //---------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------
+      TheVideoCapturer.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
+      TheVideoCapturer.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
+      int val = CV_FOURCC('M', 'P', 'E', 'G');
+      TheVideoCapturer.set(CV_CAP_PROP_FOURCC, val);
+      //---------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------
+
     }
     else TheVideoCapturer.open(TheInputVideo);
     //check video is open
@@ -137,6 +150,7 @@ int main(int argc,char **argv)
       return -1;
 
     }
+
 
     //read first image to get the dimensions
     TheVideoCapturer>>TheInputImage;
@@ -177,7 +191,7 @@ int main(int argc,char **argv)
       float probDetect=TheBoardDetector.detect(TheInputImage);
       //chekc the speed by calculating the mean speed of all iterations
       tick=(static_cast<double>(getTickCount())-tick)/getTickFrequency();
-      std::cout<<"\rTime detection="<<1000*tick<<" milliseconds"<<std::flush;
+      //std::cout<<"\rTime detection="<<1000*tick<<" milliseconds"<<std::flush;
       //print marker borders
       for (unsigned int i=0; i<TheBoardDetector.getDetectedMarkers().size(); i++)
         TheBoardDetector.getDetectedMarkers()[i].draw(TheInputImageCopy,Scalar(0,0,255),1);
@@ -189,6 +203,9 @@ int main(int argc,char **argv)
         {
           CvDrawingUtils::draw3dAxis( TheInputImageCopy,TheBoardDetector.getDetectedBoard(),TheCameraParameters);
           //draw3dBoardCube( TheInputImageCopy,TheBoardDetected,TheIntriscCameraMatrix,TheDistorsionCameraParams);
+          const Board & boardCenter = TheBoardDetector.getDetectedBoard();
+          cv::Point3f camLoc = TheCameraParameters.getCameraLocation(boardCenter.getRvec(), boardCenter.getTvec());
+          cout << "Camera location: " << camLoc << endl;
         }
       }
       //DONE! Easy, right?

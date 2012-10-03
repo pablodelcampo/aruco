@@ -99,6 +99,16 @@ int main(int argc,char **argv)
     {
       TheVideoCapturer.open(0);
       waitTime=10;
+
+      //---------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------
+      TheVideoCapturer.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
+      TheVideoCapturer.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
+      int val = CV_FOURCC('M', 'P', 'E', 'G');
+      TheVideoCapturer.set(CV_CAP_PROP_FOURCC, val);
+      //---------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------
+
     }
     else  TheVideoCapturer.open(TheInputVideo);
     //check video is open
@@ -108,6 +118,10 @@ int main(int argc,char **argv)
       return -1;
 
     }
+
+
+
+
 
     //read first image to get the dimensions
     TheVideoCapturer>>TheInputImage;

@@ -112,8 +112,20 @@ int main(int argc,char **argv)
     TheBoardConfig.readFromFile(TheBoardConfigFile);
 
     //Open video input source
-    if (TheInputVideo=="")  //read from camera
+    if (TheInputVideo=="live")
+    {  //read from camera
       TheVideoCapturer.open(0);
+
+      //--------------------------------------------------------------------------------------------
+      //--------------------------------------------------------------------------------------------
+      TheVideoCapturer.set(CV_CAP_PROP_FRAME_WIDTH, 1280);
+      TheVideoCapturer.set(CV_CAP_PROP_FRAME_HEIGHT, 720);
+      int val = CV_FOURCC('M', 'P', 'E', 'G');
+      TheVideoCapturer.set(CV_CAP_PROP_FOURCC, val);
+      //--------------------------------------------------------------------------------------------
+      //--------------------------------------------------------------------------------------------
+
+    }
     else TheVideoCapturer.open(TheInputVideo);
     if (!TheVideoCapturer.isOpened())
     {
@@ -121,6 +133,8 @@ int main(int argc,char **argv)
       return -1;
 
     }
+
+
 
     //read first image
     TheVideoCapturer>>TheInputImage;

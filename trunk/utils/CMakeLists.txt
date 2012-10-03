@@ -9,6 +9,7 @@ ADD_EXECUTABLE(aruco_selectoptimalmarkers aruco_selectoptimalmarkers.cpp)
 ADD_EXECUTABLE(aruco_simple_board aruco_simple_board.cpp)
 ADD_EXECUTABLE(aruco_test_board aruco_test_board.cpp)
 ADD_EXECUTABLE(aruco_board_pix2meters aruco_board_pix2meters.cpp)
+#ADD_EXECUTABLE(mi_aruco.cpp)
 #ADD_EXECUTABLE(aruco_test_board_stability aruco_test_board_stability.cpp)
 
 #INSTALL(TARGETS aruco_test aruco_simple aruco_create_marker RUNTIME DESTINATION bin)

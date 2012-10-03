@@ -179,16 +179,39 @@ float BoardDetector::detect (const vector<Marker> &detectedMarkers, const BoardC
     if (distCoeff.total()==0) distCoeff=cv::Mat::zeros(1,4,CV_32FC1 );
 
     cv::Mat rvec,tvec;
-    cv::solvePnP(objPoints,imagePoints,camMatrix,distCoeff,rvec,tvec );
+    cv::solvePnP(objPoints,imagePoints,camMatrix,distCoeff,rvec,tvec,false,CV_ITERATIVE);
+    std::cout<<"\r"<<tvec<<std::flush;
     rvec.convertTo(Bdetected.getRvec(),CV_32FC1);
     tvec.convertTo(Bdetected.getTvec(),CV_32FC1);
     //now, rotate 90 deg in X so that Y axis points up
     if (_setYPerperdicular)
         rotateXAxis (Bdetected.getRvec() );
-//    cout<<Bdetected.Rvec.at<float>(0,0)<<" "<<Bdetected.Rvec.at<float>(1,0)<<" "
-//      <<Bdetected.Rvec.at<float>(2,0)<<endl;
-//    cout<<Bdetected.Tvec.at<float>(0,0)<<" "<<Bdetected.Tvec.at<float>(1,0)<<" "
-//      <<Bdetected.Tvec.at<float>(2,0)<<endl;
+  //  std::cout<<"\r"<<Bdetected.getRvec().at<float>(0,0)<<" "<<Bdetected.getRvec().at<float>(1,0)<<" "
+  //    <<Bdetected.getRvec().at<float>(2,0)<<std::flush;
+//    std::cout<<"\r"<<Bdetected.getTvec().at<float>(0,0)<<" "<<Bdetected.getTvec().at<float>(1,0)<<" "
+//      <<Bdetected.getTvec().at<float>(2,0)<<std::flush;
+
+    /** \todo Pablo: QUitar esto, es solo prueba
+     **/
+    //----------------------------------------------------------------------------------------------
+//    cv::Mat m33(3,3,CV_32FC1);
+//    cv::Rodrigues(Bdetected.getRvec(), m33)  ;
+
+//    cv::Mat m44=cv::Mat::eye(4,4,CV_32FC1);
+//    for (int i=0; i<3; i++)
+//      for (int j=0; j<3; j++)
+//        m44.at<float>(i,j)=m33.at<float>(i,j);
+
+//    //now, add translation information
+//    for (int i=0; i<3; i++)
+//      m44.at<float>(i,3)=Bdetected.getTvec().at<float>(i,0);
+//    //invert the matrix
+//    m44.inv();
+//    cv::Point3f( m44.at<float>(0,0),m44.at<float>(0,1),m44.at<float>(0,2));
+
+//    std::cout<<"\r"<<m44.at<float>(0,0)<<" "<<m44.at<float>(0,1)<<" "
+//        <<m44.at<float>(0,2)<<std::flush;
+   //-----------------------------------------------------------------------------------------------
   }
 
   float prob=static_cast<float>( Bdetected.size() ) /static_cast<double>(                   Bdetected.getBoardConf().size() );
